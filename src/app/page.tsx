@@ -400,7 +400,7 @@ const staticReleases: Release[] = [
   },
   { id: 'v3', name: 'Steam Deck Pro', description: 'High-end refresh with better performance', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'valve', type: 'handheld', priceRange: '$699',
   },
-  { id: 'v4', name: 'Steam Frame', description: 'Valve next-gen handheld/console, potentially OLED 90Hz', date: 'H1 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'valve', type: 'other', priceRange: '$599-$699',
+  { id: 'v4', name: 'Steam Frame', description: 'Valve VR headset/handheld with OLED 90Hz display', date: 'H1 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'valve', type: 'vr', priceRange: '$599-$699',
     sources: [
       { label: 'Valve Steam Deck', url: 'https://www.steamdeck.com/', type: 'official' },
       { label: 'The Verge', url: 'https://www.theverge.com/valve-steam-deck-2', type: 'rumor' },
@@ -419,13 +419,27 @@ export default function Home() {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>('upcoming');
   const [timeFilter, setTimeFilter] = useState<string>('all');
+  const [currency, setCurrency] = useState<string>('USD');
   const [releases, setReleases] = useState<Release[]>([]);
   const [now, setNow] = useState(Date.now());
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
   const [compareList, setCompareList] = useState<string[]>([]);
   const [showCompare, setShowCompare] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-    useEffect(() => {
+
+  // Currency conversion
+  const currencyRates: Record<string, number> = { USD: 1, GBP: 0.79, EUR: 0.92, JPY: 149, CAD: 1.36, AUD: 1.53 };
+  const currencySymbols: Record<string, string> = { USD: '$', GBP: '£', EUR: '€', JPY: '¥', CAD: 'C$', AUD: 'A$' };
+  const convertPrice = (price: string | undefined) => {
+    if (!price) return '';
+    const match = price.match(/[\d,]+/);
+    if (!match) return price;
+    const num = parseFloat(match[0].replace(/,/g, ''));
+    const converted = Math.round(num * currencyRates[currency]);
+    return `${currencySymbols[currency]}${converted.toLocaleString()}`;
+  };
+
+  useEffect(() => {
     setReleases(staticReleases);
     const interval = setInterval(() => setNow(Date.now()), 60000);
     return () => clearInterval(interval);
@@ -603,7 +617,7 @@ export default function Home() {
               <div className={`mb-6 p-4 rounded-xl ${isDark ? "bg-green-900/30 border border-green-700" : "bg-green-50 border border-green-200"}`}>
                 <div className="flex items-center gap-2">
                   <span className={`font-bold text-xl ${isDark ? "text-green-400" : "text-green-700"}`}>
-                    {selectedRelease.price || selectedRelease.priceRange}
+                    {convertPrice(selectedRelease.price || selectedRelease.priceRange)}
                   </span>
                   {selectedRelease.priceRange && (
                     <span className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>estimated</span>
@@ -753,6 +767,20 @@ export default function Home() {
         </div>
       </div>
 
+      <div className={`mb-4 p-4 rounded-xl ${isDark ? "glass-card glass-card-dark" : "glass-card glass-card-light"}`}>
+        <span className={`text-sm ${isDark ? "text-gray-300" : "text-gray-500"} mb-2 block`}>Currency:</span>
+        <div className="flex flex-wrap gap-2">
+          {[{ id: 'USD', label: 'USD ($)' }, { id: 'GBP', label: 'GBP (£)' }, { id: 'EUR', label: 'EUR (€)' }, { id: 'JPY', label: 'JPY (¥)' }, { id: 'CAD', label: 'CAD (C$)' }, { id: 'AUD', label: 'AUD (A$)' }].map(c => (
+            <button key={c.id} onClick={() => setCurrency(c.id)}
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                currency === c.id ? 'bg-purple-500 text-white' : 'bg-gray-800 text-gray-200 hover:bg-gray-700 border border-gray-700'
+              }`}>
+              {c.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {compareList.length > 0 && (
         <div className={`mb-4 p-4 rounded-xl flex items-center justify-between ${isDark ? "bg-purple-900/30 border border-purple-500/30" : "bg-purple-100 border border-purple-300"}`}>
           <div className={`flex items-center gap-2 ${isDark ? "text-purple-300" : "text-purple-700"}`}>
@@ -810,7 +838,7 @@ export default function Home() {
                   </div>
                   {(release.price || release.priceRange) && (
                     <p className={`text-sm font-semibold mb-1 ${isDark ? "text-green-400" : "text-green-600"}`}>
-                      {release.price || release.priceRange}{release.priceRange ? ' est.' : ''}
+                      {convertPrice(release.price || release.priceRange)}{release.priceRange ? ' est.' : ''}
                     </p>
                   )}
                   <p className={`text-sm ${isDark ? "text-gray-300" : "text-gray-600"}`}>{release.description}</p>
