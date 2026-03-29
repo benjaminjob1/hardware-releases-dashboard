@@ -249,7 +249,7 @@ const staticReleases: Release[] = [
   },
   { id: '33', name: 'NVIDIA GB200 NVL72', description: 'Datacenter rack with 72 Blackwell GPUs', date: '2024', dateObj: new Date('2024-12-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu', price: '$1.8M+',
   },
-  { id: '34', name: 'NVIDIA RTX 5060', description: 'Budget GPU expected mid-2026', date: 'TBD 2026', dateObj: new Date('2026-05-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'nvidia', type: 'gpu', priceRange: '$299-$399',
+  { id: '34', name: 'NVIDIA RTX 5060', description: 'Budget GPU with Blackwell architecture', date: 'Mar 2026', dateObj: new Date('2026-03-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu', price: '$299',
   },
 
   // AMD
@@ -355,15 +355,36 @@ const staticReleases: Release[] = [
   },
   { id: 'ar2', name: 'Microsoft HoloLens 3', description: 'Next gen AR headset for enterprise', date: 'TBD', dateObj: new Date('2027-01-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'ar', type: 'ar', priceRange: '$3,000+',
   },
-  { id: 'ar3', name: 'Xreal Air 3 Pro', description: 'AR glasses with spatial display', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'ar', price: '$449',
+  // Xreal
+  { id: 'xr1', name: 'Xreal Air 3 Pro', description: 'AR glasses with spatial display', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'xreal', type: 'ar', price: '$449',
   },
-  { id: 'ar4', name: 'Xreal One Pro', description: 'Latest AR glasses with improved FOV', date: 'Mar 2026', dateObj: new Date('2026-03-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'ar', price: '$599',
+  { id: 'xr2', name: 'Xreal One Pro', description: 'Latest AR glasses with improved FOV', date: 'Mar 2026', dateObj: new Date('2026-03-01'), status: 'Released', confirmationLevel: 'official', category: 'xreal', type: 'ar', price: '$599',
   },
-  { id: 'ar5', name: 'Rokid Max Pro 2', description: 'AR glasses with gesture control', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'ar', type: 'ar', priceRange: '$499',
+  { id: 'xr3', name: 'Xreal Air 2 Ultra', description: 'Premium AR glasses with depth sensors', date: 'Jan 2024', dateObj: new Date('2024-01-01'), status: 'Released', confirmationLevel: 'official', category: 'xreal', type: 'ar', price: '$699',
   },
-  { id: 'ar6', name: 'Snap Spectacles 6', description: 'AR glasses with Snap OS, developer focused', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'ar', type: 'ar', priceRange: '$380',
+  { id: 'xr4', name: 'Xreal Glasses 2', description: 'Lightweight AR glasses, standard edition', date: '2023', dateObj: new Date('2023-09-01'), status: 'Released', confirmationLevel: 'official', category: 'xreal', type: 'ar', price: '$299',
   },
-  { id: 'ar7', name: 'Magic Leap 3', description: 'Enterprise AR headset, improved field of view', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'other', price: '$1,999',
+
+  // Rokid
+  { id: 'rk1', name: 'Rokid Max Pro 2', description: 'AR glasses with gesture control', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'rokid', type: 'ar', priceRange: '$499',
+  },
+  { id: 'rk2', name: 'Rokid Air Pro', description: 'AR glasses with speaker system', date: '2024', dateObj: new Date('2024-03-01'), status: 'Released', confirmationLevel: 'official', category: 'rokid', type: 'ar', price: '$299',
+  },
+  { id: 'rk3', name: 'Rokid Studio', description: 'All-in-one AR headset for developers', date: '2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'rokid', type: 'ar', price: '$1,499',
+  },
+
+  // Snap
+  { id: 'sn1', name: 'Snap Spectacles 6', description: 'AR glasses with Snap OS, developer focused', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'snap', type: 'ar', priceRange: '$380',
+  },
+  { id: 'sn2', name: 'Snap Spectacles 5', description: 'AR glasses with dual 3D waveguide displays', date: '2024', dateObj: new Date('2024-05-01'), status: 'Released', confirmationLevel: 'official', category: 'snap', type: 'ar', price: '$380',
+  },
+
+  // Magic Leap
+  { id: 'ml1', name: 'Magic Leap 3', description: 'Enterprise AR headset, improved field of view', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'magicleap', type: 'ar', price: '$1,999',
+  },
+  { id: 'ml2', name: 'Magic Leap 2', description: 'Enterprise AR headset, compact design', date: '2022', dateObj: new Date('2022-09-01'), status: 'Released', confirmationLevel: 'official', category: 'magicleap', type: 'ar', price: '$1,299',
+  },
+  { id: 'ml3', name: 'Magic Leap One', description: 'Original Magic Leap developer headset', date: '2018', dateObj: new Date('2018-08-01'), status: 'Released', confirmationLevel: 'official', category: 'magicleap', type: 'ar', price: '$2,295',
   },
   { id: 'v1', name: 'Steam Deck', description: 'Valve handheld gaming PC, AMD APU', date: 'Feb 2022', dateObj: new Date('2022-02-01'), status: 'Released', confirmationLevel: 'official', category: 'valve', type: 'handheld', price: '$399',
     sources: [
@@ -379,7 +400,7 @@ const staticReleases: Release[] = [
   },
   { id: 'v3', name: 'Steam Deck Pro', description: 'High-end refresh with better performance', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'valve', type: 'handheld', priceRange: '$699',
   },
-  { id: 'v4', name: 'Steam Frame', description: 'Valve next-gen handheld, potentially OLED 90Hz', date: 'H1 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'valve', type: 'handheld', priceRange: '$599-$699',
+  { id: 'v4', name: 'Steam Frame', description: 'Valve next-gen handheld/console, potentially OLED 90Hz', date: 'H1 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'valve', type: 'other', priceRange: '$599-$699',
     sources: [
       { label: 'Valve Steam Deck', url: 'https://www.steamdeck.com/', type: 'official' },
       { label: 'The Verge', url: 'https://www.theverge.com/valve-steam-deck-2', type: 'rumor' },
@@ -567,9 +588,13 @@ export default function Home() {
                   <span className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>• {selectedRelease.date}</span>
                 </div>
               </div>
-              <button onClick={() => setSelectedRelease(null)} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`}>
-                <X size={24} />
-              </button>
+              <div className="flex items-center gap-2">
+                <button onClick={() => { const url = `https://hardware.benjob.me?item=${selectedRelease.id}`; navigator.clipboard.writeText(url); }} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Copy Link"><Copy size={20} /></button>
+                <button onClick={() => { const url = `https://hardware.benjob.me?item=${selectedRelease.id}`; const text = `${selectedRelease.name} - ${selectedRelease.description} (${selectedRelease.status}, ${selectedRelease.date})`; navigator.clipboard.writeText(`${text}\n${url}`); }} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Share"><Share2 size={20} /></button>
+                <button onClick={() => setSelectedRelease(null)} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`}>
+                  <X size={24} />
+                </button>
+              </div>
             </div>
 
             <p className={`text-lg mb-4 ${isDark ? "text-gray-300" : "text-gray-600"}`}>{selectedRelease.description}</p>
@@ -652,7 +677,8 @@ export default function Home() {
               </table>
             </div>
             <div className="mt-4 flex gap-2">
-              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; let shareText = items.length <= 3 ? items.map(i => i.name).join(' vs ') : `${items.length} hardware products`; navigator.clipboard.writeText(`${shareText}\n${compareUrl}`); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}><Share2 size={16} className="inline mr-2" />Share</button>
+              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; navigator.clipboard.writeText(compareUrl); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}><Copy size={16} className="inline mr-2" />Copy Link</button>
+              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; let shareText = items.length <= 3 ? items.map(i => i.name).join(' vs ') : `${items.length} hardware products`; navigator.clipboard.writeText(`${shareText}\n${compareUrl}`); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}><Share2 size={16} className="inline mr-2" />Share Text</button>
             </div>
           </motion.div>
         </div>
