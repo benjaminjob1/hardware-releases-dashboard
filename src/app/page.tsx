@@ -64,6 +64,7 @@ const allTypes = [
   { id: 'audio', label: 'Audio' },
   { id: 'console', label: 'Consoles' },
   { id: 'handheld', label: 'Handhelds' },
+  { id: 'controller', label: 'Controllers' },
 ];
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -308,7 +309,15 @@ const staticReleases: Release[] = [
     specs: { 'Display': '7 inch 1280x800 OLED HDR', 'CPU': 'AMD Zen 2 6-core', 'RAM': '16GB LPDDR5', 'Battery': '50Wh (larger)' }
   },
   { id: 'v3', name: 'Steam Deck Pro', description: 'High-end refresh with better performance', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'valve', type: 'handheld' },
-  { id: 'v4', name: 'Steam Frame', description: 'Valve next-gen handheld, potentially OLED 90Hz', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'valve', type: 'handheld' },
+  { id: 'v4', name: 'Steam Frame', description: 'Valve next-gen handheld, potentially OLED 90Hz', date: 'H1 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'valve', type: 'handheld',
+    sources: [
+      { label: 'Valve Steam Deck', url: 'https://www.steamdeck.com/', type: 'official' },
+      { label: 'The Verge', url: 'https://www.theverge.com/valve-steam-deck-2', type: 'rumor' },
+    ],
+    specs: { 'Display': 'OLED 90Hz (rumored)', 'Chip': 'AMD Phoenix 2 (rumored)', 'Release': 'First half 2026' }
+  },
+  { id: 'v5', name: 'Steam Machine', description: 'Valve living room console PC', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'console' },
+  { id: 'v6', name: 'Steam Controller 2', description: 'Next-gen Steam Controller with haptic feedback', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'controller' },
 ];
 
 export default function Home() {
@@ -339,8 +348,15 @@ export default function Home() {
         setCompareList(ids);
         setShowCompare(true);
       }
+      const itemId = params.get('item');
+      if (itemId && releases.length > 0) {
+        const release = releases.find(r => r.id === itemId);
+        if (release) {
+          setSelectedRelease(release);
+        }
+      }
     }
-  }, []);
+  }, [releases]);
 
   const getCountdown = (dateStr: string, dateObj: Date): string => {
     if (dateStr === 'TBD' || dateStr.startsWith('TBD') || !dateStr) return '';
@@ -371,7 +387,7 @@ export default function Home() {
 
   const shareProduct = async (release: Release) => {
     const text = `${release.name} - ${release.description} (${release.status}, ${release.date})`;
-    const url = `https://hardware.benjob.me?utm_source=share&utm_content=${encodeURIComponent(release.id)}`;
+    const url = `https://hardware.benjob.me?item=${encodeURIComponent(release.id)}`;
     if (navigator.share) {
       await navigator.share({ title: release.name, text, url });
     } else {
