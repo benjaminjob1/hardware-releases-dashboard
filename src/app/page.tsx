@@ -30,6 +30,8 @@ const allCategories = [
   { id: 'intel', label: 'Intel' },
   { id: 'sony', label: 'Sony' },
   { id: 'meta', label: 'Meta' },
+  { id: 'nintendo', label: 'Nintendo' },
+  { id: 'microsoft', label: 'Microsoft' },
   { id: 'inmo', label: 'INMO' },
   { id: 'xreal', label: 'Xreal' },
   { id: 'rokid', label: 'Rokid' },
@@ -63,6 +65,8 @@ const categoryIcons: Record<string, React.ReactNode> = {
   amd: <Cpu size={14} />,
   intel: <Cpu size={14} />,
   sony: <Tv size={14} />,
+  nintendo: <Tv size={14} />,
+  microsoft: <Tv size={14} />,
   meta: <Glasses size={14} />,
   inmo: <Glasses size={14} />,
   xreal: <Glasses size={14} />,
@@ -174,7 +178,10 @@ const staticReleases: Release[] = [
   { id: '45', name: 'Intel Panther Lake', description: 'Next generation mobile CPUs expected 2025-2026', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'intel', type: 'cpu' },
 
   // Sony
-  { id: '46', name: 'Sony PlayStation 5 Pro', description: 'Enhanced PS5 with improved GPU and faster SSD', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'console' },
+  { id: 's1', name: 'PlayStation 5 Pro', description: 'Enhanced PS5 with improved GPU and faster SSD', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'console' },
+  { id: 's2', name: 'PlayStation 5 Slim', description: 'Slimmer PS5 with detachable disc drive', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'console' },
+  { id: 's3', name: 'PlayStation 6', description: 'Next generation PlayStation, expected 2028', date: 'TBD 2028', dateObj: new Date('2028-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'sony', type: 'console' },
+  { id: 's4', name: 'PlayStation VR3', description: 'Third generation PS VR headset', date: 'TBD 2027', dateObj: new Date('2027-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'sony', type: 'vr' },
   { id: '47', name: 'Sony WH-1000XM6', description: 'Next generation noise cancelling headphones', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'sony', type: 'audio' },
   { id: '48', name: 'Sony A9 IV', description: 'Professional mirrorless camera with stacked sensor', date: 'Feb 2025', dateObj: new Date('2025-02-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'camera' },
   { id: '49', name: 'Sony XR Headset', description: 'Spatial content headset for creators', date: '2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'other' },
@@ -187,6 +194,17 @@ const staticReleases: Release[] = [
   { id: 'm4', name: 'Meta Ray-Ban Smart Glasses (Gen 3)', description: 'Meta AI, camera, audio, improved design', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'ar' },
   { id: 'm5', name: 'Meta Ray-Ban Smart Glasses (Gen 4)', description: 'Next gen with display, expected 2026', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'ar' },
   { id: 'm6', name: 'Meta Orion AR Glasses', description: 'True AR glasses, holographic display', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'ar' },
+  { id: 'm7', name: 'Meta Quest 4', description: 'Next generation Quest with improved passthrough', date: 'TBD 2027', dateObj: new Date('2027-09-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'vr' },
+
+  // Nintendo
+  { id: 'n1', name: 'Nintendo Switch 2', description: 'Next Nintendo console, 8-inch LCD, DLSS support', date: 'Jun 2025', dateObj: new Date('2025-06-01'), status: 'Released', confirmationLevel: 'official', category: 'nintendo', type: 'console' },
+  { id: 'n2', name: 'Nintendo Switch 2 Pro', description: 'Enhanced Switch 2 with OLED display', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'nintendo', type: 'console' },
+
+  // Microsoft
+  { id: 'x1', name: 'Xbox Series X', description: 'Current Xbox flagship, 12 teraflops', date: 'Nov 2020', dateObj: new Date('2020-11-01'), status: 'Released', confirmationLevel: 'official', category: 'microsoft', type: 'console' },
+  { id: 'x2', name: 'Xbox Series S', description: 'Digital-only console, 4 teraflops', date: 'Nov 2020', dateObj: new Date('2020-11-01'), status: 'Released', confirmationLevel: 'official', category: 'microsoft', type: 'console' },
+  { id: 'x3', name: 'Xbox Series X Refresh', description: 'Mid-gen refresh with more storage', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'microsoft', type: 'console' },
+  { id: 'x4', name: 'Next Xbox (Project Scarlett)', description: 'Next generation Xbox, expected 2028', date: 'TBD 2028', dateObj: new Date('2028-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'microsoft', type: 'console' },
 
   // INMO
   { id: 'in1', name: 'INMO Go', description: 'Lightweight AR glasses, monocular display', date: 'Mar 2024', dateObj: new Date('2024-03-01'), status: 'Released', confirmationLevel: 'official', category: 'inmo', type: 'ar' },
