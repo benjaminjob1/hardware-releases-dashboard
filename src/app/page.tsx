@@ -307,11 +307,23 @@ export default function Home() {
   const [compareList, setCompareList] = useState<string[]>([]);
   const [showCompare, setShowCompare] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-
-  useEffect(() => {
+    useEffect(() => {
     setReleases(staticReleases);
     const interval = setInterval(() => setNow(Date.now()), 60000);
     return () => clearInterval(interval);
+  }, []);
+
+  // Handle compare URL params
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const compareIds = params.get('compare');
+      if (compareIds) {
+        const ids = compareIds.split(',').filter(id => id.trim());
+        setCompareList(ids);
+        setShowCompare(true);
+      }
+    }
   }, []);
 
   const getCountdown = (dateStr: string, dateObj: Date): string => {
@@ -523,8 +535,8 @@ export default function Home() {
               </table>
             </div>
             <div className="mt-4 flex gap-2">
-              <button onClick={() => { const text = getCompareItems().map(i => i.name).join(', '); navigator.clipboard.writeText(text); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}><Copy size={16} className="inline mr-2" />Copy Names</button>
-              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Comparing hardware releases')}&url=${encodeURIComponent('https://hardware.benjob.me')}`} target="_blank" rel="noopener" className={`px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white`}><Twitter size={16} className="inline mr-2" />Share on X</a>
+              <button onClick={() => { const compareUrl = `https://hardware.benjob.me?compare=${getCompareItems().map(i => i.id).join(',')}`; navigator.clipboard.writeText(compareUrl); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}><Copy size={16} className="inline mr-2" />Copy Link</button>
+              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Comparing: ' + getCompareItems().map(i => i.name).join(' vs '))}&url=${encodeURIComponent('https://hardware.benjob.me?compare=' + getCompareItems().map(i => i.id).join(','))}`} target="_blank" rel="noopener" className={`px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white`}><Twitter size={16} className="inline mr-2" />Share on X</a>
             </div>
           </motion.div>
         </div>
