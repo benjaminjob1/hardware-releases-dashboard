@@ -175,8 +175,8 @@ const staticReleases: Release[] = [
   { id: '16', name: 'Samsung Galaxy Tab S10', description: 'Premium Android tablet with S Pen support', date: 'Aug 2024', dateObj: new Date('2024-08-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'tablet' },
 
   // Google
-  { id: '17', name: 'Google Pixel 9 Pro', description: 'Pixel 9 Pro with Tensor G4 chip, advanced AI features', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other' },
-  { id: '18', name: 'Google Pixel 9 Pro Fold', description: 'Google first foldable Pixel with Tensor G4', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'smartphone' },
+  { id: '17', name: 'Google Pixel 9 Pro', description: 'Pixel 9 Pro with Tensor G4 chip, advanced AI features', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other', sources: [{ label: 'Google Store', url: 'https://store.google.com/pixel-9-pro', type: 'official' }], specs: { 'Chip': 'Tensor G4', 'Display': '6.3 inch OLED', 'RAM': '16GB', 'Camera': '50MP main' } },
+  { id: '18', name: 'Google Pixel 9 Pro Fold', description: 'Google first foldable Pixel with Tensor G4', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'smartphone', sources: [{ label: 'Google Store', url: 'https://store.google.com/pixel-9-pro-fold', type: 'official' }], specs: { 'Chip': 'Tensor G4', 'Display': '6.3 inch (outer), 8 inch (inner)', 'RAM': '16GB' } },
   { id: '19', name: 'Google Pixel 10', description: 'Expected with Tensor G5 chip, advanced on-device AI', date: 'Oct 2025', dateObj: new Date('2025-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other' },
   { id: '20', name: 'Google Pixel 10 Pro', description: 'Pro variant with enhanced camera and AI capabilities', date: 'Oct 2025', dateObj: new Date('2025-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other' },
   { id: '21', name: 'Google Pixel 9a', description: 'Budget Pixel with solid camera and AI features', date: 'May 2024', dateObj: new Date('2024-05-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other' },
@@ -185,8 +185,8 @@ const staticReleases: Release[] = [
   // Tesla
   { id: '23', name: 'Tesla Cybertruck', description: 'All-electric pickup truck with stainless steel exoskeleton', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'tesla', type: 'car',
     sources: [
-      { label: 'Tesla', url: 'https://www.tesla.com/cybertruck', type: 'official' },
-      { label: 'Tesla Fans', url: 'https://www.teslamotors.com/', type: 'review' },
+      { label: 'Tesla Cybertruck', url: 'https://www.tesla.com/cybertruck', type: 'official' },
+      { label: 'Tesla Review', url: 'https://www.motortrend.com/tesla-cybertruck-review', type: 'review' },
     ],
     specs: { 'Range': '340-470 miles', '0-60': '2.6s (Tri Motor)', 'Payload': '2,500 lbs', 'Towing': '11,000 lbs' }
   },
@@ -213,21 +213,21 @@ const staticReleases: Release[] = [
   // AMD
   { id: '35', name: 'AMD Ryzen 9000', description: 'Desktop CPUs with Zen 5 architecture', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu' },
   { id: '36', name: 'AMD Ryzen AI 300', description: 'Mobile APUs with integrated AI capabilities', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu' },
-  { id: '37', name: 'AMD RX 9070 XT', description: 'RDNA 4 flagship GPU, competitive with NVIDIA RTX 5070', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'gpu' },
-  { id: '38', name: 'AMD RX 9070', description: 'RDNA 4 mainstream GPU with strong value', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'gpu' },
+  { id: '37', name: 'AMD RX 9070 XT', description: 'RDNA 4 flagship GPU, competitive with NVIDIA RTX 5070', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'gpu', sources: [{ label: 'AMD', url: 'https://www.amd.com/en/products/graphics-cards/radeon-rx-9070-xt.html', type: 'official' }], specs: { 'Architecture': 'RDNA 4', 'VRAM': '16GB GDDR6', 'Stream Processors': '4096' } },
+  { id: '38', name: 'AMD RX 9070', description: 'RDNA 4 mainstream GPU with strong value', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'gpu', sources: [{ label: 'AMD', url: 'https://www.amd.com/en/products/graphics-cards/radeon-rx-9070.html', type: 'official' }], specs: { 'Architecture': 'RDNA 4', 'VRAM': '16GB GDDR6', 'Stream Processors': '3584' } },
   { id: '39', name: 'AMD Ryzen 9000X3D', description: 'Gaming CPUs with 3D V-Cache technology', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu' },
   { id: '40', name: 'AMD EPYC Turin', description: 'Server CPUs with Zen 5 architecture', date: '2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu' },
 
   // Intel
-  { id: '41', name: 'Intel Core Ultra 200', description: 'Arrow Lake desktop CPUs with AI acceleration', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu' },
-  { id: '42', name: 'Intel Core Ultra 200V', description: 'Lunar Lake mobile CPUs with improved efficiency', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu' },
+  { id: '41', name: 'Intel Core Ultra 200', description: 'Arrow Lake desktop CPUs with AI acceleration', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu', sources: [{ label: 'Intel', url: 'https://www.intel.com/coreultra', type: 'official' }], specs: { 'Architecture': 'Arrow Lake', 'Process': 'Intel 20A', 'Cores': 'Up to 24 cores' } },
+  { id: '42', name: 'Intel Core Ultra 200V', description: 'Lunar Lake mobile CPUs with improved efficiency', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu', sources: [{ label: 'Intel', url: 'https://www.intel.com/coreultra', type: 'official' }], specs: { 'Architecture': 'Lunar Lake', 'Process': 'Intel 18A', 'Efficiency': 'Low power design' } },
   { id: '43', name: 'Intel Core i9-14900K', description: 'Raptor Lake refresh flagship CPU', date: 'Oct 2023', dateObj: new Date('2023-10-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu' },
   { id: '44', name: 'Intel Gaudi 3', description: 'AI accelerator for data centers', date: '2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu' },
   { id: '45', name: 'Intel Panther Lake', description: 'Next generation mobile CPUs expected 2025-2026', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'intel', type: 'cpu' },
 
   // Sony
-  { id: 's1', name: 'PlayStation 5 Pro', description: 'Enhanced PS5 with improved GPU and faster SSD', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'console' },
-  { id: 's2', name: 'PlayStation 5 Slim', description: 'Slimmer PS5 with detachable disc drive', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'console' },
+  { id: 's1', name: 'PlayStation 5 Pro', description: 'Enhanced PS5 with improved GPU and faster SSD', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'console', sources: [{ label: 'PlayStation', url: 'https://www.playstation.com/ps5/ps5-pro/', type: 'official' }], specs: { 'GPU': '16.7 TFLOPS RDNA 3', 'Storage': '2TB SSD', 'RAM': '16GB GDDR6' } },
+  { id: 's2', name: 'PlayStation 5 Slim', description: 'Slimmer PS5 with detachable disc drive', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'console', sources: [{ label: 'PlayStation', url: 'https://www.playstation.com/ps5/', type: 'official' }], specs: { 'GPU': '10.3 TFLOPS RDNA 2', 'Storage': '1TB SSD', 'Disc': 'Detachable' } },
   { id: 's3', name: 'PlayStation 6', description: 'Next generation PlayStation, expected 2028', date: 'TBD 2028', dateObj: new Date('2028-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'sony', type: 'console' },
   { id: 's4', name: 'PlayStation VR3', description: 'Third generation PS VR headset', date: 'TBD 2027', dateObj: new Date('2027-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'sony', type: 'vr' },
   { id: '47', name: 'Sony WH-1000XM6', description: 'Next generation noise cancelling headphones', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'sony', type: 'audio' },
@@ -238,7 +238,8 @@ const staticReleases: Release[] = [
   // Meta
   { id: 'm1', name: 'Meta Quest 3', description: 'Mixed reality headset, Snapdragon XR2 Gen 2', date: 'Oct 2023', dateObj: new Date('2023-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr',
     sources: [
-      { label: 'Meta', url: 'https://www.meta.com/quest/quest-3/', type: 'official' },
+      { label: 'Meta Quest 3', url: 'https://www.meta.com/quest/quest-3/', type: 'official' },
+      { label: 'Tom\'s Hardware Review', url: 'https://www.tomshardware.com/meta-quest-3', type: 'review' },
     ],
     specs: { 'Chip': 'Snapdragon XR2 Gen 2', 'Resolution': '2064x2208 per eye', 'FOV': '110°', 'Storage': '128GB-512GB' }
   },
@@ -252,16 +253,16 @@ const staticReleases: Release[] = [
   // Nintendo
   { id: 'n1', name: 'Nintendo Switch 2', description: 'Next Nintendo console, 8-inch LCD, DLSS support', date: 'Jun 2025', dateObj: new Date('2025-06-01'), status: 'Released', confirmationLevel: 'official', category: 'nintendo', type: 'console',
     sources: [
-      { label: 'Nintendo', url: 'https://www.nintendo.com/', type: 'official' },
-      { label: 'IGN', url: 'https://www.ign.com/', type: 'review' },
+      { label: 'Nintendo Switch 2', url: 'https://www.nintendo.com/switch-2/', type: 'official' },
+      { label: 'IGN Review', url: 'https://www.ign.com/articles/nintendo-switch-2-review', type: 'review' },
     ],
     specs: { 'Display': '8 inch LCD', 'Processor': 'Tegra T239', 'Storage': '256GB', 'Output': '4K TV, 1080p handheld' }
   },
   { id: 'n2', name: 'Nintendo Switch 2 Pro', description: 'Enhanced Switch 2 with OLED display', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'nintendo', type: 'console' },
 
   // Microsoft
-  { id: 'x1', name: 'Xbox Series X', description: 'Current Xbox flagship, 12 teraflops', date: 'Nov 2020', dateObj: new Date('2020-11-01'), status: 'Released', confirmationLevel: 'official', category: 'microsoft', type: 'console' },
-  { id: 'x2', name: 'Xbox Series S', description: 'Digital-only console, 4 teraflops', date: 'Nov 2020', dateObj: new Date('2020-11-01'), status: 'Released', confirmationLevel: 'official', category: 'microsoft', type: 'console' },
+  { id: 'x1', name: 'Xbox Series X', description: 'Current Xbox flagship, 12 teraflops', date: 'Nov 2020', dateObj: new Date('2020-11-01'), status: 'Released', confirmationLevel: 'official', category: 'microsoft', type: 'console', sources: [{ label: 'Microsoft Xbox', url: 'https://www.xbox.com/consoles/series-x', type: 'official' }], specs: { 'GPU': '12 TFLOPS RDNA 2', 'Storage': '1TB SSD', 'RAM': '16GB GDDR6' } },
+  { id: 'x2', name: 'Xbox Series S', description: 'Digital-only console, 4 teraflops', date: 'Nov 2020', dateObj: new Date('2020-11-01'), status: 'Released', confirmationLevel: 'official', category: 'microsoft', type: 'console', sources: [{ label: 'Microsoft Xbox', url: 'https://www.xbox.com/consoles/series-s', type: 'official' }], specs: { 'GPU': '4 TFLOPS RDNA 2', 'Storage': '512GB SSD', 'RAM': '10GB GDDR6' } },
   { id: 'x3', name: 'Xbox Series X Refresh', description: 'Mid-gen refresh with more storage', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'microsoft', type: 'console' },
   { id: 'x4', name: 'Next Xbox (Project Scarlett)', description: 'Next generation Xbox, expected 2028', date: 'TBD 2028', dateObj: new Date('2028-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'microsoft', type: 'console' },
 
