@@ -552,7 +552,6 @@ export default function Home() {
             </div>
             <div className="mt-4 flex gap-2">
               <button onClick={() => { const compareUrl = `https://hardware.benjob.me?compare=${getCompareItems().map(i => i.id).join(',')}`; navigator.clipboard.writeText(compareUrl); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}><Copy size={16} className="inline mr-2" />Copy Link</button>
-              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Comparing: ' + getCompareItems().map(i => i.name).join(' vs '))}&url=${encodeURIComponent('https://hardware.benjob.me?compare=' + getCompareItems().map(i => i.id).join(','))}`} target="_blank" rel="noopener" className={`px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white`}><Twitter size={16} className="inline mr-2" />Share on X</a>
             </div>
           </motion.div>
         </div>
