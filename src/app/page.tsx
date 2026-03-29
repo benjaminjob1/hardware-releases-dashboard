@@ -567,7 +567,7 @@ export default function Home() {
               </table>
             </div>
             <div className="mt-4 flex gap-2">
-              <button onClick={() => { const compareUrl = `https://hardware.benjob.me?compare=${getCompareItems().map(i => i.id).join(',')}`; navigator.clipboard.writeText(compareUrl); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}><Copy size={16} className="inline mr-2" />Copy Link</button>
+              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; let shareText = items.length <= 3 ? items.map(i => i.name).join(' vs ') : `${items.length} hardware products`; navigator.clipboard.writeText(`${shareText}\n${compareUrl}`); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}><Share2 size={16} className="inline mr-2" />Share</button>
             </div>
           </motion.div>
         </div>
