@@ -179,7 +179,15 @@ const staticReleases: Release[] = [
   },
   { id: '10k', name: 'Apple Watch SE 3', description: 'Budget Apple Watch, A15 chip, essential health features', date: 'Sep 2025', dateObj: new Date('2025-09-19'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'wearable', price: '$249',
   },
-  { id: '10l', name: 'MacBook Pro M5', description: 'Base M5 chip, 14/16 inch, released October 2025', date: 'Oct 2025', dateObj: new Date('2025-10-15'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$1,999',
+  { id: '10l', name: 'MacBook Pro M5', description: 'Base M5 chip, 14/16 inch, Oct 2025', date: 'Oct 2025', dateObj: new Date('2025-10-15'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$1,999',
+  },
+  { id: '10lpro', name: 'MacBook Pro M5 Pro 14"', description: 'M5 Pro chip, 14-inch, Thunderbolt 5, Wi-Fi 7, up to 24hr battery', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$2,199',
+  },
+  { id: '10lprom16', name: 'MacBook Pro M5 Pro 16"', description: 'M5 Pro chip, 16-inch, Thunderbolt 5, Wi-Fi 7, up to 24hr battery', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$2,699',
+  },
+  { id: '10lmax', name: 'MacBook Pro M5 Max 16"', description: 'M5 Max chip, 16-inch, up to 40-core GPU, 8x AI performance', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$3,899',
+  },
+  { id: '10lmba', name: 'MacBook Air M5', description: 'M5 chip, 13/15 inch, Wi-Fi 7, Bluetooth 6, 18hr battery, 512GB start storage', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$1,099',
   },
   { id: '10m', name: 'Mac Studio M5 Max', description: 'Mac Studio with M5 Max chip, expected at WWDC 2026', date: 'Jun 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'laptop', priceRange: '$2,000-$4,000',
   },
@@ -426,6 +434,7 @@ export default function Home() {
   const [compareList, setCompareList] = useState<string[]>([]);
   const [showCompare, setShowCompare] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedModalLink, setCopiedModalLink] = useState(false);
 
   // Currency conversion
   const currencyRates: Record<string, number> = { USD: 1, GBP: 0.79, EUR: 0.92, JPY: 149, CAD: 1.36, AUD: 1.53 };
@@ -603,8 +612,8 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <button onClick={() => { const url = `https://hardware.benjob.me?item=${selectedRelease.id}`; navigator.clipboard.writeText(url); }} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Copy Link"><Copy size={20} /></button>
-                <button onClick={() => { const url = `https://hardware.benjob.me?item=${selectedRelease.id}`; const text = `${selectedRelease.name} - ${selectedRelease.description} (${selectedRelease.status}, ${selectedRelease.date})`; navigator.clipboard.writeText(`${text}\n${url}`); }} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Share"><Share2 size={20} /></button>
+                <button onClick={() => { const url = `https://hardware.benjob.me?item=${selectedRelease.id}`; navigator.clipboard.writeText(url); setCopiedModalLink(true); setTimeout(() => setCopiedModalLink(false), 2000); }} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Copy Link">{copiedModalLink ? <Check size={20} className="text-green-400" /> : <Copy size={20} />}</button>
+                <button onClick={async () => { const url = `https://hardware.benjob.me?item=${selectedRelease.id}`; const text = `${selectedRelease.name} - ${selectedRelease.description} (${selectedRelease.status}, ${selectedRelease.date})`; if (navigator.share) { await navigator.share({ title: selectedRelease.name, text, url }); } else { await navigator.clipboard.writeText(`${text}\n${url}`); setCopiedModalLink(true); setTimeout(() => setCopiedModalLink(false), 2000); } }} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Share">{copiedModalLink ? <Check size={20} className="text-green-400" /> : <Share2 size={20} />}</button>
                 <button onClick={() => setSelectedRelease(null)} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`}>
                   <X size={24} />
                 </button>
