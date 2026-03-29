@@ -23,6 +23,8 @@ interface Release {
   category: string;
   type: string;
   url?: string;
+  price?: string;
+  priceRange?: string;
   sources?: Source[];
   specs?: Record<string, string>;
 }
@@ -117,207 +119,277 @@ const confirmationColors = {
 
 const staticReleases: Release[] = [
   // Apple
-  { id: '1', name: 'iPhone 17 Pro Max', description: 'Latest iPhone with A19 Pro chip, titanium frame, enhanced camera system', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone',
+  { id: '1', name: 'iPhone 17 Pro Max', description: 'Latest iPhone with A19 Pro chip, titanium frame, enhanced camera system', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone', price: '$1,199',
     sources: [
       { label: 'Apple Newsroom', url: 'https://www.apple.com/newsroom/', type: 'official' },
       { label: 'MacRumors', url: 'https://www.macrumors.com/', type: 'review' },
     ],
     specs: { 'Chip': 'A19 Pro', 'Display': '6.9 inch OLED', 'Storage': '256GB-1TB', 'Camera': '48MP main' }
   },
-  { id: '2', name: 'iPhone 17 Air', description: 'Ultra-thin iPhone model, the thinnest ever at ~5.5mm', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone',
+  { id: '2', name: 'iPhone 17 Air', description: 'Ultra-thin iPhone model, the thinnest ever at ~5.5mm', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone', price: '$899',
     sources: [
       { label: 'Apple Newsroom', url: 'https://www.apple.com/newsroom/', type: 'official' },
     ],
     specs: { 'Thickness': '~5.5mm', 'Chip': 'A19', 'Display': '6.6 inch OLED' }
   },
-  { id: '2b', name: 'iPhone 17e', description: 'Budget iPhone 17, A18 chip, 256GB start storage', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone',
+  { id: '2b', name: 'iPhone 17e', description: 'Budget iPhone 17, A18 chip, 256GB start storage', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone', price: '$599',
     sources: [
       { label: 'Apple Newsroom', url: 'https://www.apple.com/newsroom/2026/03/apple-introduces-iphone-17e/', type: 'official' },
     ],
     specs: { 'Chip': 'A18', 'Storage': '256GB-512GB', 'Display': '6.1 inch OLED' }
   },
-  { id: '3', name: 'iPad Pro M4', description: 'iPad Pro with M4 chip, OLED display, thinner design', date: 'May 2024', dateObj: new Date('2024-05-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'tablet' },
-  { id: '4', name: 'MacBook Pro M4', description: 'MacBook Pro with M4/M4 Pro/M4 Max chips, enhanced battery life', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop' },
-  { id: '5', name: 'Apple Watch Series 10', description: 'Thinner design,血压 monitoring, enhanced health features', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'wearable' },
-  { id: '6', name: 'AirPods Pro 3', description: 'Next generation AirPods Pro with improved ANC and sound quality', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'wearable' },
-  { id: '7', name: 'Vision Pro 2', description: 'Second generation Vision Pro with lighter weight and lower price', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'vr' },
-  { id: '8', name: 'MacBook Air M4', description: 'MacBook Air with M4 chip, expected early 2025', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop' },
-  { id: '9', name: 'iPhone 18 Pro', description: 'Next iPhone with A20 chip, expected September 2026', date: 'Sep 2026', dateObj: new Date('2026-09-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'smartphone' },
-  { id: '10', name: 'iPad Air M3', description: 'iPad Air with M3 chip, expected March 2025', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'tablet' },
-  { id: '10b', name: 'MacBook Neo', description: 'Budget MacBook, A18 chip, 13.6 inch display, from $599', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop',
+  { id: '3', name: 'iPad Pro M4', description: 'iPad Pro with M4 chip, OLED display, thinner design', date: 'May 2024', dateObj: new Date('2024-05-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'tablet', price: '$999',
+  },
+  { id: '4', name: 'MacBook Pro M4', description: 'MacBook Pro with M4/M4 Pro/M4 Max chips, enhanced battery life', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$1,999',
+  },
+  { id: '5', name: 'Apple Watch Series 10', description: 'Thinner design,血压 monitoring, enhanced health features', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'wearable', price: '$399',
+  },
+  { id: '6', name: 'AirPods Pro 3', description: 'Next generation AirPods Pro with improved ANC and sound quality', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'wearable', priceRange: '$249',
+  },
+  { id: '7', name: 'Vision Pro 2', description: 'Second generation Vision Pro with lighter weight and lower price', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'vr', priceRange: '$2,000-$2,500',
+  },
+  { id: '8', name: 'MacBook Air M4', description: 'MacBook Air with M4 chip, expected early 2025', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$999',
+  },
+  { id: '9', name: 'iPhone 18 Pro', description: 'Next iPhone with A20 chip, expected September 2026', date: 'Sep 2026', dateObj: new Date('2026-09-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'smartphone', priceRange: '$1,199',
+  },
+  { id: '10', name: 'iPad Air M3', description: 'iPad Air with M3 chip, expected March 2025', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'tablet', price: '$599',
+  },
+  { id: '10b', name: 'MacBook Neo', description: 'Budget MacBook, A18 chip, 13.6 inch display', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$599',
     sources: [
       { label: 'Apple Newsroom', url: 'https://www.apple.com/newsroom/2026/03/say-hello-to-macbook-neo/', type: 'official' },
       { label: 'CNN Business', url: 'https://www.cnn.com/2026/03/04/tech/apple-event-macbook-neo-release', type: 'review' },
     ],
-    specs: { 'Chip': 'A18 Pro', 'CPU': '6-core', 'GPU': '5-core', 'Memory': '8GB', 'Storage': '256GB-512GB', 'Price': 'From $599' }
+    specs: { 'Chip': 'A18 Pro', 'CPU': '6-core', 'GPU': '5-core', 'Memory': '8GB', 'Storage': '256GB-512GB' }
   },
-  { id: '10c', name: 'MacBook Air M3', description: 'MacBook Air with M3 chip, fanless design', date: 'Mar 2024', dateObj: new Date('2024-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop' },
-  { id: '10d', name: 'iPhone 17', description: 'Standard iPhone 17 model with A19 chip', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone' },
-  { id: '10e', name: 'iPhone Fold', description: 'Apple first foldable iPhone with ~8 inch display', date: 'Late 2026', dateObj: new Date('2026-09-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'smartphone' },
-  { id: '10f', name: 'iPad mini 8', description: 'Next iPad mini with OLED display and M4 chip', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'apple', type: 'tablet' },
-  { id: '10g', name: 'iPad Air M4', description: 'iPad Air with M4 chip, thinner design', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'tablet' },
-  { id: '10h', name: 'Apple Watch Ultra 3', description: 'Third gen Ultra, satellite comms, titanium case', date: 'Sep 2025', dateObj: new Date('2025-09-19'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'wearable' },
-  { id: '10i', name: 'AirPods 4', description: 'Standard AirPods 4th gen with USB-C, improved fit', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'wearable' },
-  { id: '10j', name: 'HomePod 4', description: 'New HomePod with improved audio and AI', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'apple', type: 'audio' },
-  { id: '10k', name: 'Apple Watch SE 3', description: 'Budget Apple Watch, A15 chip, essential health features', date: 'Sep 2025', dateObj: new Date('2025-09-19'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'wearable' },
-  { id: '10l', name: 'MacBook Pro M5', description: 'Base M5 chip, 14/16 inch, released October 2025', date: 'Oct 2025', dateObj: new Date('2025-10-15'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop' },
-  { id: '10m', name: 'Mac Studio M5 Max', description: 'Mac Studio with M5 Max chip, expected at WWDC 2026', date: 'Jun 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'laptop' },
-  { id: '10n', name: 'Mac Pro M5', description: 'Mac Pro with M5 chip, ultimate performance', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'apple', type: 'laptop' },
+  { id: '10c', name: 'MacBook Air M3', description: 'MacBook Air with M3 chip, fanless design', date: 'Mar 2024', dateObj: new Date('2024-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$1,099',
+  },
+  { id: '10d', name: 'iPhone 17', description: 'Standard iPhone 17 model with A19 chip', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone', price: '$799',
+  },
+  { id: '10e', name: 'iPhone Fold', description: 'Apple first foldable iPhone with ~8 inch display', date: 'Late 2026', dateObj: new Date('2026-09-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'smartphone', priceRange: '$1,800-$2,200',
+  },
+  { id: '10f', name: 'iPad mini 8', description: 'Next iPad mini with OLED display and M4 chip', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'apple', type: 'tablet', priceRange: '$499',
+  },
+  { id: '10g', name: 'iPad Air M4', description: 'iPad Air with M4 chip, thinner design', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'tablet', price: '$599',
+  },
+  { id: '10h', name: 'Apple Watch Ultra 3', description: 'Third gen Ultra, satellite comms, titanium case', date: 'Sep 2025', dateObj: new Date('2025-09-19'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'wearable', price: '$799',
+  },
+  { id: '10i', name: 'AirPods 4', description: 'Standard AirPods 4th gen with USB-C, improved fit', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'wearable', price: '$179',
+  },
+  { id: '10j', name: 'HomePod 4', description: 'New HomePod with improved audio and AI', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'apple', type: 'audio', priceRange: '$299',
+  },
+  { id: '10k', name: 'Apple Watch SE 3', description: 'Budget Apple Watch, A15 chip, essential health features', date: 'Sep 2025', dateObj: new Date('2025-09-19'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'wearable', price: '$249',
+  },
+  { id: '10l', name: 'MacBook Pro M5', description: 'Base M5 chip, 14/16 inch, released October 2025', date: 'Oct 2025', dateObj: new Date('2025-10-15'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$1,999',
+  },
+  { id: '10m', name: 'Mac Studio M5 Max', description: 'Mac Studio with M5 Max chip, expected at WWDC 2026', date: 'Jun 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'laptop', priceRange: '$2,000-$4,000',
+  },
+  { id: '10n', name: 'Mac Pro M5', description: 'Mac Pro with M5 chip, ultimate performance', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'apple', type: 'laptop', priceRange: '$6,999-$14,999',
+  },
 
   // Samsung
-  { id: '11', name: 'Samsung Galaxy S25 Ultra', description: 'Latest Samsung flagship with Snapdragon 8 Elite, 200MP camera', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone',
+  { id: '11', name: 'Samsung Galaxy S25 Ultra', description: 'Latest Samsung flagship with Snapdragon 8 Elite, 200MP camera', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone', price: '$1,299',
     sources: [
       { label: 'Samsung Galaxy S25 Ultra', url: 'https://www.samsung.com/smartphones/galaxy-s25-ultra/', type: 'official' },
       { label: 'Tom\'s Hardware Review', url: 'https://www.tomshardware.com/samsung-galaxy-s25-ultra', type: 'review' },
     ],
     specs: { 'Chip': 'Snapdragon 8 Elite', 'Display': '6.9 inch AMOLED', 'Camera': '200MP main', 'RAM': '16GB', 'Storage': '256GB-1TB' }
   },
-  { id: '12', name: 'Samsung Galaxy Z Fold 6', description: 'Latest foldable with improved hinge and durability', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone' },
-  { id: '13', name: 'Samsung Galaxy Z Flip 6', description: 'Compact foldable with larger cover screen', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone' },
-  { id: '14', name: 'Samsung Galaxy S26 Ultra', description: 'Expected with Snapdragon 8 Gen 5, improved AI features', date: 'Jan 2026', dateObj: new Date('2026-01-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone' },
-  { id: '15', name: 'Samsung Galaxy Ring 2', description: 'Next generation smart ring with health tracking improvements', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'samsung', type: 'wearable' },
-  { id: '16', name: 'Samsung Galaxy Tab S10', description: 'Premium Android tablet with S Pen support', date: 'Aug 2024', dateObj: new Date('2024-08-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'tablet' },
+  { id: '12', name: 'Samsung Galaxy Z Fold 6', description: 'Latest foldable with improved hinge and durability', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone', price: '$1,899',
+  },
+  { id: '13', name: 'Samsung Galaxy Z Flip 6', description: 'Compact foldable with larger cover screen', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone', price: '$999',
+  },
+  { id: '14', name: 'Samsung Galaxy S26 Ultra', description: 'Expected with Snapdragon 8 Gen 5, improved AI features', date: 'Jan 2026', dateObj: new Date('2026-01-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone', priceRange: '$1,299-$1,419',
+  },
+  { id: '15', name: 'Samsung Galaxy Ring 2', description: 'Next generation smart ring with health tracking improvements', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'samsung', type: 'wearable', priceRange: '$299',
+  },
+  { id: '16', name: 'Samsung Galaxy Tab S10', description: 'Premium Android tablet with S Pen support', date: 'Aug 2024', dateObj: new Date('2024-08-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'tablet', price: '$799' },
 
   // Google
-  { id: '17', name: 'Google Pixel 9 Pro', description: 'Pixel 9 Pro with Tensor G4 chip, advanced AI features', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other', sources: [{ label: 'Google Store', url: 'https://store.google.com/pixel-9-pro', type: 'official' }], specs: { 'Chip': 'Tensor G4', 'Display': '6.3 inch OLED', 'RAM': '16GB', 'Camera': '50MP main' } },
-  { id: '18', name: 'Google Pixel 9 Pro Fold', description: 'Google first foldable Pixel with Tensor G4', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'smartphone', sources: [{ label: 'Google Store', url: 'https://store.google.com/pixel-9-pro-fold', type: 'official' }], specs: { 'Chip': 'Tensor G4', 'Display': '6.3 inch (outer), 8 inch (inner)', 'RAM': '16GB' } },
-  { id: '19', name: 'Google Pixel 10', description: 'Expected with Tensor G5 chip, advanced on-device AI', date: 'Oct 2025', dateObj: new Date('2025-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other' },
-  { id: '20', name: 'Google Pixel 10 Pro', description: 'Pro variant with enhanced camera and AI capabilities', date: 'Oct 2025', dateObj: new Date('2025-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other' },
-  { id: '21', name: 'Google Pixel 9a', description: 'Budget Pixel with solid camera and AI features', date: 'May 2024', dateObj: new Date('2024-05-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other', sources: [{ label: 'Google Store', url: 'https://store.google.com/pixel-9a', type: 'official' }], specs: { 'Chip': 'Tensor G4', 'Display': '6.24 inch OLED', 'RAM': '8GB', 'Camera': '48MP main' } },
-  { id: '22', name: 'Google Pixel Tablet 2', description: 'Second generation Pixel Tablet with charging speaker dock', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'google', type: 'tablet' },
+  { id: '17', name: 'Google Pixel 9 Pro', description: 'Pixel 9 Pro with Tensor G4 chip, advanced AI features', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other', price: '$999', sources: [{ label: 'Google Store', url: 'https://store.google.com/pixel-9-pro', type: 'official' }], specs: { 'Chip': 'Tensor G4', 'Display': '6.3 inch OLED', 'RAM': '16GB', 'Camera': '50MP main' } },
+  { id: '18', name: 'Google Pixel 9 Pro Fold', description: 'Google first foldable Pixel with Tensor G4', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'smartphone', price: '$1,799', sources: [{ label: 'Google Store', url: 'https://store.google.com/pixel-9-pro-fold', type: 'official' }], specs: { 'Chip': 'Tensor G4', 'Display': '6.3 inch (outer), 8 inch (inner)', 'RAM': '16GB' } },
+  { id: '19', name: 'Google Pixel 10', description: 'Expected with Tensor G5 chip, advanced on-device AI', date: 'Oct 2025', dateObj: new Date('2025-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other', priceRange: '$799-$999' },
+  { id: '20', name: 'Google Pixel 10 Pro', description: 'Pro variant with enhanced camera and AI capabilities', date: 'Oct 2025', dateObj: new Date('2025-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other', priceRange: '$999-$1,099',
+  },
+  { id: '21', name: 'Google Pixel 9a', description: 'Budget Pixel with solid camera and AI features', date: 'May 2024', dateObj: new Date('2024-05-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other', price: '$499', sources: [{ label: 'Google Store', url: 'https://store.google.com/pixel-9a', type: 'official' }], specs: { 'Chip': 'Tensor G4', 'Display': '6.24 inch OLED', 'RAM': '8GB', 'Camera': '48MP main' } },
+  { id: '22', name: 'Google Pixel Tablet 2', description: 'Second generation Pixel Tablet with charging speaker dock', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'google', type: 'tablet', priceRange: '$399-$499',
+  },
 
   // Tesla
-  { id: '23', name: 'Tesla Cybertruck', description: 'All-electric pickup truck with stainless steel exoskeleton', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'tesla', type: 'car',
+  { id: '23', name: 'Tesla Cybertruck', description: 'All-electric pickup truck with stainless steel exoskeleton', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'tesla', type: 'car', price: '$79,990',
     sources: [
       { label: 'Tesla Cybertruck', url: 'https://www.tesla.com/cybertruck', type: 'official' },
       { label: 'Tesla Review', url: 'https://www.motortrend.com/tesla-cybertruck-review', type: 'review' },
     ],
     specs: { 'Range': '340-470 miles', '0-60': '2.6s (Tri Motor)', 'Payload': '2,500 lbs', 'Towing': '11,000 lbs' }
   },
-  { id: '24', name: 'Tesla Robotaxi (Cybercab)', description: 'Autonomous taxi with no steering wheel or pedals', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'tesla', type: 'robot' },
-  { id: '25', name: 'Tesla Optimus Gen 3', description: 'Third generation humanoid robot with enhanced dexterity', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'tesla', type: 'robot' },
-  { id: '26', name: 'Tesla Model Q', description: 'Affordable compact EV expected under $30,000', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'tesla', type: 'car' },
-  { id: '27', name: 'Tesla Model Y Juniper', description: 'Refreshed Model Y with new design and features', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'tesla', type: 'car' },
-  { id: '28', name: 'Tesla Roadster 2', description: 'Next generation sports car with SpaceX thrusters', date: 'TBD', dateObj: new Date('2027-01-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'tesla', type: 'other' },
+  { id: '24', name: 'Tesla Robotaxi (Cybercab)', description: 'Autonomous taxi with no steering wheel or pedals', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'tesla', type: 'robot', priceRange: '~$30,000',
+  },
+  { id: '25', name: 'Tesla Optimus Gen 3', description: 'Third generation humanoid robot with enhanced dexterity', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'tesla', type: 'robot', priceRange: '$25,000-$50,000',
+  },
+  { id: '26', name: 'Tesla Model Q', description: 'Affordable compact EV expected under $30,000', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'tesla', type: 'car', priceRange: '$25,000-$30,000',
+  },
+  { id: '27', name: 'Tesla Model Y Juniper', description: 'Refreshed Model Y with new design and features', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'tesla', type: 'car', price: '$44,990',
+  },
+  { id: '28', name: 'Tesla Roadster 2', description: 'Next generation sports car with SpaceX thrusters', date: 'TBD', dateObj: new Date('2027-01-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'tesla', type: 'other', priceRange: '$200,000+',
+  },
 
   // NVIDIA
-  { id: '29', name: 'NVIDIA RTX 5090', description: 'Flagship GPU with Blackwell architecture, massive performance gains', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu',
+  { id: '29', name: 'NVIDIA RTX 5090', description: 'Flagship GPU with Blackwell architecture, massive performance gains', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu', price: '$1,999',
     sources: [
       { label: 'NVIDIA RTX 5090', url: 'https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/', type: 'official' },
       { label: 'Tom\'s Hardware Review', url: 'https://www.tomshardware.com/nvidia-geforce-rtx-5090', type: 'review' },
     ],
     specs: { 'Architecture': 'Blackwell', 'VRAM': '32GB GDDR7', 'CUDA Cores': '21760', 'Boost Clock': '2.4 GHz' }
   },
-  { id: '30', name: 'NVIDIA RTX 5080', description: 'High-end GPU for enthusiasts and creators', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu' },
-  { id: '31', name: 'NVIDIA RTX 5070 Ti', description: 'Mid-high GPU with excellent price/performance', date: 'Feb 2025', dateObj: new Date('2025-02-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu' },
-  { id: '32', name: 'NVIDIA RTX 5070', description: 'Mainstream GPU for gamers', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu' },
-  { id: '33', name: 'NVIDIA GB200 NVL72', description: 'Datacenter rack with 72 Blackwell GPUs', date: '2024', dateObj: new Date('2024-12-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu' },
-  { id: '34', name: 'NVIDIA RTX 5060', description: 'Budget GPU expected mid-2026', date: 'TBD 2026', dateObj: new Date('2026-05-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'nvidia', type: 'gpu' },
+  { id: '30', name: 'NVIDIA RTX 5080', description: 'High-end GPU for enthusiasts and creators', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu', price: '$999',
+  },
+  { id: '31', name: 'NVIDIA RTX 5070 Ti', description: 'Mid-high GPU with excellent price/performance', date: 'Feb 2025', dateObj: new Date('2025-02-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu', price: '$749',
+  },
+  { id: '32', name: 'NVIDIA RTX 5070', description: 'Mainstream GPU for gamers', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu', price: '$549',
+  },
+  { id: '33', name: 'NVIDIA GB200 NVL72', description: 'Datacenter rack with 72 Blackwell GPUs', date: '2024', dateObj: new Date('2024-12-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu', price: '$1.8M+',
+  },
+  { id: '34', name: 'NVIDIA RTX 5060', description: 'Budget GPU expected mid-2026', date: 'TBD 2026', dateObj: new Date('2026-05-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'nvidia', type: 'gpu', priceRange: '$299-$399',
+  },
 
   // AMD
-  { id: '35', name: 'AMD Ryzen 9000', description: 'Desktop CPUs with Zen 5 architecture', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu' },
-  { id: '36', name: 'AMD Ryzen AI 300', description: 'Mobile APUs with integrated AI capabilities', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu' },
-  { id: '37', name: 'AMD RX 9070 XT', description: 'RDNA 4 flagship GPU, competitive with NVIDIA RTX 5070', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'gpu', sources: [{ label: 'AMD', url: 'https://www.amd.com/en/products/graphics-cards/radeon-rx-9070-xt.html', type: 'official' }], specs: { 'Architecture': 'RDNA 4', 'VRAM': '16GB GDDR6', 'Stream Processors': '4096' } },
-  { id: '38', name: 'AMD RX 9070', description: 'RDNA 4 mainstream GPU with strong value', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'gpu', sources: [{ label: 'AMD', url: 'https://www.amd.com/en/products/graphics-cards/radeon-rx-9070.html', type: 'official' }], specs: { 'Architecture': 'RDNA 4', 'VRAM': '16GB GDDR6', 'Stream Processors': '3584' } },
-  { id: '39', name: 'AMD Ryzen 9000X3D', description: 'Gaming CPUs with 3D V-Cache technology', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu' },
-  { id: '40', name: 'AMD EPYC Turin', description: 'Server CPUs with Zen 5 architecture', date: '2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu' },
+  { id: '35', name: 'AMD Ryzen 9000', description: 'Desktop CPUs with Zen 5 architecture', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu', price: '$279-$549',
+  },
+  { id: '36', name: 'AMD Ryzen AI 300', description: 'Mobile APUs with integrated AI capabilities', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu', price: '$999+',
+  },
+  { id: '37', name: 'AMD RX 9070 XT', description: 'RDNA 4 flagship GPU, competitive with NVIDIA RTX 5070', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'gpu', price: '$549', sources: [{ label: 'AMD', url: 'https://www.amd.com/en/products/graphics-cards/radeon-rx-9070-xt.html', type: 'official' }], specs: { 'Architecture': 'RDNA 4', 'VRAM': '16GB GDDR6', 'Stream Processors': '4096' } },
+  { id: '38', name: 'AMD RX 9070', description: 'RDNA 4 mainstream GPU with strong value', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'gpu', price: '$449', sources: [{ label: 'AMD', url: 'https://www.amd.com/en/products/graphics-cards/radeon-rx-9070.html', type: 'official' }], specs: { 'Architecture': 'RDNA 4', 'VRAM': '16GB GDDR6', 'Stream Processors': '3584' } },
+  { id: '39', name: 'AMD Ryzen 9000X3D', description: 'Gaming CPUs with 3D V-Cache technology', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu', price: '$449-$599',
+  },
+  { id: '40', name: 'AMD EPYC Turin', description: 'Server CPUs with Zen 5 architecture', date: '2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'amd', type: 'cpu', priceRange: '$2,000-$10,000',
+  },
 
   // Intel
-  { id: '41', name: 'Intel Core Ultra 200', description: 'Arrow Lake desktop CPUs with AI acceleration', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu', sources: [{ label: 'Intel', url: 'https://www.intel.com/coreultra', type: 'official' }], specs: { 'Architecture': 'Arrow Lake', 'Process': 'Intel 20A', 'Cores': 'Up to 24 cores' } },
-  { id: '42', name: 'Intel Core Ultra 200V', description: 'Lunar Lake mobile CPUs with improved efficiency', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu', sources: [{ label: 'Intel', url: 'https://www.intel.com/coreultra', type: 'official' }], specs: { 'Architecture': 'Lunar Lake', 'Process': 'Intel 18A', 'Efficiency': 'Low power design' } },
-  { id: '43', name: 'Intel Core i9-14900K', description: 'Raptor Lake refresh flagship CPU', date: 'Oct 2023', dateObj: new Date('2023-10-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu' },
-  { id: '44', name: 'Intel Gaudi 3', description: 'AI accelerator for data centers', date: '2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu' },
-  { id: '45', name: 'Intel Panther Lake', description: 'Next generation mobile CPUs expected 2025-2026', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'intel', type: 'cpu' },
+  { id: '41', name: 'Intel Core Ultra 200', description: 'Arrow Lake desktop CPUs with AI acceleration', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu', price: '$394-$589', sources: [{ label: 'Intel', url: 'https://www.intel.com/coreultra', type: 'official' }], specs: { 'Architecture': 'Arrow Lake', 'Process': 'Intel 20A', 'Cores': 'Up to 24 cores' } },
+  { id: '42', name: 'Intel Core Ultra 200V', description: 'Lunar Lake mobile CPUs with improved efficiency', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu', price: '$999+', sources: [{ label: 'Intel', url: 'https://www.intel.com/coreultra', type: 'official' }], specs: { 'Architecture': 'Lunar Lake', 'Process': 'Intel 18A', 'Efficiency': 'Low power design' } },
+  { id: '43', name: 'Intel Core i9-14900K', description: 'Raptor Lake refresh flagship CPU', date: 'Oct 2023', dateObj: new Date('2023-10-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu', price: '$549',
+  },
+  { id: '44', name: 'Intel Gaudi 3', description: 'AI accelerator for data centers', date: '2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'intel', type: 'cpu', priceRange: '$25,000-$30,000',
+  },
+  { id: '45', name: 'Intel Panther Lake', description: 'Next generation mobile CPUs expected 2025-2026', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'intel', type: 'cpu', priceRange: '$400-$600',
+  },
 
   // Sony
-  { id: 's1', name: 'PlayStation 5 Pro', description: 'Enhanced PS5 with improved GPU and faster SSD', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'console', sources: [{ label: 'PlayStation', url: 'https://www.playstation.com/ps5/ps5-pro/', type: 'official' }], specs: { 'GPU': '16.7 TFLOPS RDNA 3', 'Storage': '2TB SSD', 'RAM': '16GB GDDR6' } },
-  { id: 's2', name: 'PlayStation 5 Slim', description: 'Slimmer PS5 with detachable disc drive', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'console', sources: [{ label: 'PlayStation', url: 'https://www.playstation.com/ps5/', type: 'official' }], specs: { 'GPU': '10.3 TFLOPS RDNA 2', 'Storage': '1TB SSD', 'Disc': 'Detachable' } },
-  { id: 's3', name: 'PlayStation 6', description: 'Next generation PlayStation, expected 2028', date: 'TBD 2028', dateObj: new Date('2028-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'sony', type: 'console' },
-  { id: 's4', name: 'PlayStation VR3', description: 'Third generation PS VR headset', date: 'TBD 2027', dateObj: new Date('2027-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'sony', type: 'vr' },
-  { id: '47', name: 'Sony WH-1000XM6', description: 'Next generation noise cancelling headphones', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'sony', type: 'audio' },
-  { id: '48', name: 'Sony A9 IV', description: 'Professional mirrorless camera with stacked sensor', date: 'Feb 2025', dateObj: new Date('2025-02-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'camera' },
-  { id: '49', name: 'Sony XR Headset', description: 'Spatial content headset for creators', date: '2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'other' },
-  { id: '50', name: 'Sony Walkman Signature', description: 'Premium audiophile music player', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'audio' },
+  { id: 's1', name: 'PlayStation 5 Pro', description: 'Enhanced PS5 with improved GPU and faster SSD', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'console', price: '$699', sources: [{ label: 'PlayStation', url: 'https://www.playstation.com/ps5/ps5-pro/', type: 'official' }], specs: { 'GPU': '16.7 TFLOPS RDNA 3', 'Storage': '2TB SSD', 'RAM': '16GB GDDR6' } },
+  { id: 's2', name: 'PlayStation 5 Slim', description: 'Slimmer PS5 with detachable disc drive', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'console', price: '$449', sources: [{ label: 'PlayStation', url: 'https://www.playstation.com/ps5/', type: 'official' }], specs: { 'GPU': '10.3 TFLOPS RDNA 2', 'Storage': '1TB SSD', 'Disc': 'Detachable' } },
+  { id: 's3', name: 'PlayStation 6', description: 'Next generation PlayStation, expected 2028', date: 'TBD 2028', dateObj: new Date('2028-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'sony', type: 'console', priceRange: '$499-$599',
+  },
+  { id: 's4', name: 'PlayStation VR3', description: 'Third generation PS VR headset', date: 'TBD 2027', dateObj: new Date('2027-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'sony', type: 'vr', priceRange: '$499',
+  },
+  { id: '47', name: 'Sony WH-1000XM6', description: 'Next generation noise cancelling headphones', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'sony', type: 'audio', priceRange: '$399',
+  },
+  { id: '48', name: 'Sony A9 IV', description: 'Professional mirrorless camera with stacked sensor', date: 'Feb 2025', dateObj: new Date('2025-02-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'camera', price: '$4,498',
+  },
+  { id: '49', name: 'Sony XR Headset', description: 'Spatial content headset for creators', date: '2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'other', price: '$3,499',
+  },
+  { id: '50', name: 'Sony Walkman Signature', description: 'Premium audiophile music player', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'audio', price: '$3,199',
+  },
 
   // Meta
-  { id: 'm1', name: 'Meta Quest 3', description: 'Mixed reality headset, Snapdragon XR2 Gen 2', date: 'Oct 2023', dateObj: new Date('2023-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr',
+  { id: 'm1', name: 'Meta Quest 3', description: 'Mixed reality headset, Snapdragon XR2 Gen 2', date: 'Oct 2023', dateObj: new Date('2023-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr', price: '$499',
     sources: [
       { label: 'Meta Quest 3', url: 'https://www.meta.com/quest/quest-3/', type: 'official' },
       { label: 'Tom\'s Hardware Review', url: 'https://www.tomshardware.com/meta-quest-3', type: 'review' },
     ],
     specs: { 'Chip': 'Snapdragon XR2 Gen 2', 'Resolution': '2064x2208 per eye', 'FOV': '110°', 'Storage': '128GB-512GB' }
   },
-  { id: 'm2', name: 'Meta Quest 3S', description: 'Budget mixed reality, same chip as Quest 3', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr' },
-  { id: 'm3', name: 'Meta Quest Pro 2', description: 'High-end MR for professionals', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'vr' },
-  { id: 'm4', name: 'Meta Ray-Ban Smart Glasses (Gen 3)', description: 'Meta AI, camera, audio, improved design', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'ar' },
-  { id: 'm5', name: 'Meta Ray-Ban Smart Glasses (Gen 4)', description: 'Next gen with display, expected 2026', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'ar' },
-  { id: 'm6', name: 'Meta Orion AR Glasses', description: 'True AR glasses, holographic display', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'ar' },
-  { id: 'm7', name: 'Meta Quest 4', description: 'Next generation Quest with improved passthrough', date: 'TBD 2027', dateObj: new Date('2027-09-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'vr' },
+  { id: 'm2', name: 'Meta Quest 3S', description: 'Budget mixed reality, same chip as Quest 3', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr', price: '$299',
+  },
+  { id: 'm3', name: 'Meta Quest Pro 2', description: 'High-end MR for professionals', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'vr', priceRange: '$999-$1,499',
+  },
+  { id: 'm4', name: 'Meta Ray-Ban Smart Glasses (Gen 3)', description: 'Meta AI, camera, audio, improved design', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'ar', price: '$299',
+  },
+  { id: 'm5', name: 'Meta Ray-Ban Smart Glasses (Gen 4)', description: 'Next gen with display, expected 2026', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'ar', priceRange: '$399-$499',
+  },
+  { id: 'm6', name: 'Meta Orion AR Glasses', description: 'True AR glasses, holographic display', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'ar', priceRange: '$1,000+',
+  },
+  { id: 'm7', name: 'Meta Quest 4', description: 'Next generation Quest with improved passthrough', date: 'TBD 2027', dateObj: new Date('2027-09-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'vr', priceRange: '$499-$699',
+  },
 
   // Nintendo
-  { id: 'n1', name: 'Nintendo Switch 2', description: 'Next Nintendo console, 8-inch LCD, DLSS support', date: 'Jun 2025', dateObj: new Date('2025-06-01'), status: 'Released', confirmationLevel: 'official', category: 'nintendo', type: 'console',
+  { id: 'n1', name: 'Nintendo Switch 2', description: 'Next Nintendo console, 8-inch LCD, DLSS support', date: 'Jun 2025', dateObj: new Date('2025-06-01'), status: 'Released', confirmationLevel: 'official', category: 'nintendo', type: 'console', price: '$349',
     sources: [
       { label: 'Nintendo Switch 2', url: 'https://www.nintendo.com/switch-2/', type: 'official' },
       { label: 'IGN Review', url: 'https://www.ign.com/articles/nintendo-switch-2-review', type: 'review' },
     ],
     specs: { 'Display': '8 inch LCD', 'Processor': 'Tegra T239', 'Storage': '256GB', 'Output': '4K TV, 1080p handheld' }
   },
-  { id: 'n2', name: 'Nintendo Switch 2 Pro', description: 'Enhanced Switch 2 with OLED display', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'nintendo', type: 'console' },
+  { id: 'n2', name: 'Nintendo Switch 2 Pro', description: 'Enhanced Switch 2 with OLED display', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'nintendo', type: 'console', priceRange: '$399',
+  },
 
   // Microsoft
-  { id: 'x1', name: 'Xbox Series X', description: 'Current Xbox flagship, 12 teraflops', date: 'Nov 2020', dateObj: new Date('2020-11-01'), status: 'Released', confirmationLevel: 'official', category: 'microsoft', type: 'console', sources: [{ label: 'Microsoft Xbox', url: 'https://www.xbox.com/consoles/series-x', type: 'official' }], specs: { 'GPU': '12 TFLOPS RDNA 2', 'Storage': '1TB SSD', 'RAM': '16GB GDDR6' } },
-  { id: 'x2', name: 'Xbox Series S', description: 'Digital-only console, 4 teraflops', date: 'Nov 2020', dateObj: new Date('2020-11-01'), status: 'Released', confirmationLevel: 'official', category: 'microsoft', type: 'console', sources: [{ label: 'Microsoft Xbox', url: 'https://www.xbox.com/consoles/series-s', type: 'official' }], specs: { 'GPU': '4 TFLOPS RDNA 2', 'Storage': '512GB SSD', 'RAM': '10GB GDDR6' } },
-  { id: 'x3', name: 'Xbox Series X Refresh', description: 'Mid-gen refresh with more storage', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'microsoft', type: 'console' },
-  { id: 'x4', name: 'Next Xbox (Project Scarlett)', description: 'Next generation Xbox, expected 2028', date: 'TBD 2028', dateObj: new Date('2028-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'microsoft', type: 'console' },
+  { id: 'x1', name: 'Xbox Series X', description: 'Current Xbox flagship, 12 teraflops', date: 'Nov 2020', dateObj: new Date('2020-11-01'), status: 'Released', confirmationLevel: 'official', category: 'microsoft', type: 'console', price: '$499', sources: [{ label: 'Microsoft Xbox', url: 'https://www.xbox.com/consoles/series-x', type: 'official' }], specs: { 'GPU': '12 TFLOPS RDNA 2', 'Storage': '1TB SSD', 'RAM': '16GB GDDR6' } },
+  { id: 'x2', name: 'Xbox Series S', description: 'Digital-only console, 4 teraflops', date: 'Nov 2020', dateObj: new Date('2020-11-01'), status: 'Released', confirmationLevel: 'official', category: 'microsoft', type: 'console', price: '$299', sources: [{ label: 'Microsoft Xbox', url: 'https://www.xbox.com/consoles/series-s', type: 'official' }], specs: { 'GPU': '4 TFLOPS RDNA 2', 'Storage': '512GB SSD', 'RAM': '10GB GDDR6' } },
+  { id: 'x3', name: 'Xbox Series X Refresh', description: 'Mid-gen refresh with more storage', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'microsoft', type: 'console', priceRange: '$499',
+  },
+  { id: 'x4', name: 'Next Xbox (Project Scarlett)', description: 'Next generation Xbox, expected 2028', date: 'TBD 2028', dateObj: new Date('2028-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'microsoft', type: 'console', priceRange: '$499-$599',
+  },
 
   // INMO
-  { id: 'in1', name: 'INMO Go', description: 'Original lightweight AR glasses, monocular display', date: 'Mar 2024', dateObj: new Date('2024-03-01'), status: 'Released', confirmationLevel: 'official', category: 'inmo', type: 'ar' },
+  { id: 'in1', name: 'INMO Go', description: 'Original lightweight AR glasses, monocular display', date: 'Mar 2024', dateObj: new Date('2024-03-01'), status: 'Released', confirmationLevel: 'official', category: 'inmo', type: 'ar', price: '$399',
+  },
   { id: 'in2', name: 'INMO Air 3', description: 'Binocular AR glasses, Android apps, camera - Kickstarter', date: 'Jun 2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'inmo', type: 'ar' },
-  { id: 'in3', name: 'INMO Go 3', description: 'New gen with camera privacy cover, Kickstarter mid-April 2026', date: 'Apr 2026', dateObj: new Date('2026-04-15'), status: 'Upcoming', confirmationLevel: 'official', category: 'inmo', type: 'ar',
+  { id: 'in3', name: 'INMO Go 3', description: 'New gen with camera privacy cover, Kickstarter mid-April 2026', date: 'Apr 2026', dateObj: new Date('2026-04-15'), status: 'Upcoming', confirmationLevel: 'official', category: 'inmo', type: 'ar', priceRange: '$399-$499',
     sources: [
       { label: 'INMO Kickstarter', url: 'https://www.inmoxr.com/pages/go3-crowdfunding', type: 'official' },
       { label: 'PetaPixel Review', url: 'https://petapixel.com/2026/03/24/these-smart-glasses-come-with-a-cover-for-the-camera-inmo-go-3/', type: 'review' },
     ],
     specs: { 'Display': 'Waveguide', 'Camera': 'With privacy cover', 'Platform': 'AI-enabled' }
   },
-  { id: 'in4', name: 'INMO Air 4', description: 'Latest gen, improved display, longer battery', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'inmo', type: 'ar' },
-  { id: 'in5', name: 'INMO X', description: 'Premium AR glasses with enhanced FOV', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'inmo', type: 'ar' },
+  { id: 'in4', name: 'INMO Air 4', description: 'Latest gen, improved display, longer battery', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'inmo', type: 'ar', priceRange: '$699-$999',
+  },
+  { id: 'in5', name: 'INMO X', description: 'Premium AR glasses with enhanced FOV', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'inmo', type: 'ar', priceRange: '$999-$1,499',
+  },
 
   // AR/MR
-  { id: 'ar1', name: 'Apple Vision Pro', description: 'Spatial computing headset, micro-OLED displays', date: 'Feb 2024', dateObj: new Date('2024-02-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'vr',
+  { id: 'ar1', name: 'Apple Vision Pro', description: 'Spatial computing headset, micro-OLED displays', date: 'Feb 2024', dateObj: new Date('2024-02-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'vr', price: '$3,499',
     sources: [
       { label: 'Apple Vision Pro', url: 'https://www.apple.com/apple-vision-pro/', type: 'official' },
     ],
     specs: { 'Display': 'Micro-OLED', 'Resolution': '23MP per eye', 'Chip': 'M2 + R2', 'Storage': '256GB-1TB', 'Weight': '453g' }
   },
-  { id: 'ar2', name: 'Microsoft HoloLens 3', description: 'Next gen AR headset for enterprise', date: 'TBD', dateObj: new Date('2027-01-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'ar', type: 'ar' },
-  { id: 'ar3', name: 'Xreal Air 3 Pro', description: 'AR glasses with spatial display', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'ar' },
-  { id: 'ar4', name: 'Xreal One Pro', description: 'Latest AR glasses with improved FOV', date: 'Mar 2026', dateObj: new Date('2026-03-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'ar' },
-  { id: 'ar5', name: 'Rokid Max Pro 2', description: 'AR glasses with gesture control', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'ar', type: 'ar' },
-  { id: 'ar6', name: 'Snap Spectacles 6', description: 'AR glasses with Snap OS, developer focused', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'ar', type: 'ar' },
-  { id: 'ar7', name: 'Magic Leap 3', description: 'Enterprise AR headset, improved field of view', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'other' },
-  { id: 'v1', name: 'Steam Deck', description: 'Valve handheld gaming PC, AMD APU', date: 'Feb 2022', dateObj: new Date('2022-02-01'), status: 'Released', confirmationLevel: 'official', category: 'valve', type: 'handheld',
+  { id: 'ar2', name: 'Microsoft HoloLens 3', description: 'Next gen AR headset for enterprise', date: 'TBD', dateObj: new Date('2027-01-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'ar', type: 'ar', priceRange: '$3,000+',
+  },
+  { id: 'ar3', name: 'Xreal Air 3 Pro', description: 'AR glasses with spatial display', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'ar', price: '$449',
+  },
+  { id: 'ar4', name: 'Xreal One Pro', description: 'Latest AR glasses with improved FOV', date: 'Mar 2026', dateObj: new Date('2026-03-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'ar', price: '$599',
+  },
+  { id: 'ar5', name: 'Rokid Max Pro 2', description: 'AR glasses with gesture control', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'ar', type: 'ar', priceRange: '$499',
+  },
+  { id: 'ar6', name: 'Snap Spectacles 6', description: 'AR glasses with Snap OS, developer focused', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'ar', type: 'ar', priceRange: '$380',
+  },
+  { id: 'ar7', name: 'Magic Leap 3', description: 'Enterprise AR headset, improved field of view', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'other', price: '$1,999',
+  },
+  { id: 'v1', name: 'Steam Deck', description: 'Valve handheld gaming PC, AMD APU', date: 'Feb 2022', dateObj: new Date('2022-02-01'), status: 'Released', confirmationLevel: 'official', category: 'valve', type: 'handheld', price: '$399',
     sources: [
       { label: 'Valve Steam Deck', url: 'https://www.steamdeck.com/', type: 'official' },
     ],
     specs: { 'Display': '7 inch 1280x800 LCD', 'CPU': 'AMD Zen 2 4-core', 'RAM': '16GB LPDDR5', 'Storage': '64GB-512GB' }
   },
-  { id: 'v2', name: 'Steam Deck OLED', description: 'Steam Deck with OLED display, better battery', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'valve', type: 'handheld',
+  { id: 'v2', name: 'Steam Deck OLED', description: 'Steam Deck with OLED display, better battery', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'valve', type: 'handheld', price: '$549',
     sources: [
       { label: 'Valve Steam Deck OLED', url: 'https://www.steamdeck.com/oled', type: 'official' },
     ],
     specs: { 'Display': '7 inch 1280x800 OLED HDR', 'CPU': 'AMD Zen 2 6-core', 'RAM': '16GB LPDDR5', 'Battery': '50Wh (larger)' }
   },
-  { id: 'v3', name: 'Steam Deck Pro', description: 'High-end refresh with better performance', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'valve', type: 'handheld' },
-  { id: 'v4', name: 'Steam Frame', description: 'Valve next-gen handheld, potentially OLED 90Hz', date: 'H1 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'valve', type: 'handheld',
+  { id: 'v3', name: 'Steam Deck Pro', description: 'High-end refresh with better performance', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'valve', type: 'handheld', priceRange: '$699',
+  },
+  { id: 'v4', name: 'Steam Frame', description: 'Valve next-gen handheld, potentially OLED 90Hz', date: 'H1 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'valve', type: 'handheld', priceRange: '$599-$699',
     sources: [
       { label: 'Valve Steam Deck', url: 'https://www.steamdeck.com/', type: 'official' },
       { label: 'The Verge', url: 'https://www.theverge.com/valve-steam-deck-2', type: 'rumor' },
     ],
     specs: { 'Display': 'OLED 90Hz (rumored)', 'Chip': 'AMD Phoenix 2 (rumored)', 'Release': 'First half 2026' }
   },
-  { id: 'v5', name: 'Steam Machine', description: 'Valve living room console PC', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'console' },
-  { id: 'v6', name: 'Steam Controller 2', description: 'Next-gen Steam Controller with haptic feedback', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'controller' },
+  { id: 'v5', name: 'Steam Machine', description: 'Valve living room console PC', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'console', priceRange: '$500-$1,000',
+  },
+  { id: 'v6', name: 'Steam Controller 2', description: 'Next-gen Steam Controller with haptic feedback', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'controller', priceRange: '$79',
+  },
 ];
 
 export default function Home() {
@@ -500,7 +572,20 @@ export default function Home() {
               </button>
             </div>
 
-            <p className={`text-lg mb-6 ${isDark ? "text-gray-300" : "text-gray-600"}`}>{selectedRelease.description}</p>
+            <p className={`text-lg mb-4 ${isDark ? "text-gray-300" : "text-gray-600"}`}>{selectedRelease.description}</p>
+
+            {(selectedRelease.price || selectedRelease.priceRange) && (
+              <div className={`mb-6 p-4 rounded-xl ${isDark ? "bg-green-900/30 border border-green-700" : "bg-green-50 border border-green-200"}`}>
+                <div className="flex items-center gap-2">
+                  <span className={`font-bold text-xl ${isDark ? "text-green-400" : "text-green-700"}`}>
+                    {selectedRelease.price || selectedRelease.priceRange}
+                  </span>
+                  {selectedRelease.priceRange && (
+                    <span className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>estimated</span>
+                  )}
+                </div>
+              </div>
+            )}
 
             {selectedRelease.specs && Object.keys(selectedRelease.specs).length > 0 && (
               <div className={`mb-6 p-4 rounded-xl ${isDark ? "bg-gray-800" : "bg-gray-100"}`}>
@@ -697,6 +782,11 @@ export default function Home() {
                       </span>
                     )}
                   </div>
+                  {(release.price || release.priceRange) && (
+                    <p className={`text-sm font-semibold mb-1 ${isDark ? "text-green-400" : "text-green-600"}`}>
+                      {release.price || release.priceRange}{release.priceRange ? ' est.' : ''}
+                    </p>
+                  )}
                   <p className={`text-sm ${isDark ? "text-gray-300" : "text-gray-600"}`}>{release.description}</p>
                 </div>
                 <div className="text-right">
