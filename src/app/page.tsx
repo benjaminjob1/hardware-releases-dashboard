@@ -40,6 +40,7 @@ const allCategories = [
   { id: 'meta', label: 'Meta' },
   { id: 'nintendo', label: 'Nintendo' },
   { id: 'microsoft', label: 'Microsoft' },
+  { id: 'valve', label: 'Valve' },
   { id: 'inmo', label: 'INMO' },
   { id: 'xreal', label: 'Xreal' },
   { id: 'rokid', label: 'Rokid' },
@@ -62,6 +63,7 @@ const allTypes = [
   { id: 'camera', label: 'Cameras' },
   { id: 'audio', label: 'Audio' },
   { id: 'console', label: 'Consoles' },
+  { id: 'handheld', label: 'Handhelds' },
 ];
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -293,6 +295,20 @@ const staticReleases: Release[] = [
   { id: 'ar5', name: 'Rokid Max Pro 2', description: 'AR glasses with gesture control', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'ar', type: 'ar' },
   { id: 'ar6', name: 'Snap Spectacles 6', description: 'AR glasses with Snap OS, developer focused', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'ar', type: 'ar' },
   { id: 'ar7', name: 'Magic Leap 3', description: 'Enterprise AR headset, improved field of view', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'other' },
+  { id: 'v1', name: 'Steam Deck', description: 'Valve handheld gaming PC, AMD APU', date: 'Feb 2022', dateObj: new Date('2022-02-01'), status: 'Released', confirmationLevel: 'official', category: 'valve', type: 'handheld',
+    sources: [
+      { label: 'Valve Steam Deck', url: 'https://www.steamdeck.com/', type: 'official' },
+    ],
+    specs: { 'Display': '7 inch 1280x800 LCD', 'CPU': 'AMD Zen 2 4-core', 'RAM': '16GB LPDDR5', 'Storage': '64GB-512GB' }
+  },
+  { id: 'v2', name: 'Steam Deck OLED', description: 'Steam Deck with OLED display, better battery', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'valve', type: 'handheld',
+    sources: [
+      { label: 'Valve Steam Deck OLED', url: 'https://www.steamdeck.com/oled', type: 'official' },
+    ],
+    specs: { 'Display': '7 inch 1280x800 OLED HDR', 'CPU': 'AMD Zen 2 6-core', 'RAM': '16GB LPDDR5', 'Battery': '50Wh (larger)' }
+  },
+  { id: 'v3', name: 'Steam Deck Pro', description: 'High-end refresh with better performance', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'valve', type: 'handheld' },
+  { id: 'v4', name: 'Steam Frame', description: 'Valve next-gen handheld, potentially OLED 90Hz', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'valve', type: 'handheld' },
 ];
 
 export default function Home() {
