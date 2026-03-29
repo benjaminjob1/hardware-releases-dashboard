@@ -164,7 +164,8 @@ const staticReleases: Release[] = [
   // Samsung
   { id: '11', name: 'Samsung Galaxy S25 Ultra', description: 'Latest Samsung flagship with Snapdragon 8 Elite, 200MP camera', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone',
     sources: [
-      { label: 'Samsung', url: 'https://www.samsung.com/', type: 'official' },
+      { label: 'Samsung Galaxy S25 Ultra', url: 'https://www.samsung.com/smartphones/galaxy-s25-ultra/', type: 'official' },
+      { label: 'Tom\'s Hardware Review', url: 'https://www.tomshardware.com/samsung-galaxy-s25-ultra', type: 'review' },
     ],
     specs: { 'Chip': 'Snapdragon 8 Elite', 'Display': '6.9 inch AMOLED', 'Camera': '200MP main', 'RAM': '16GB', 'Storage': '256GB-1TB' }
   },
@@ -179,7 +180,7 @@ const staticReleases: Release[] = [
   { id: '18', name: 'Google Pixel 9 Pro Fold', description: 'Google first foldable Pixel with Tensor G4', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'smartphone', sources: [{ label: 'Google Store', url: 'https://store.google.com/pixel-9-pro-fold', type: 'official' }], specs: { 'Chip': 'Tensor G4', 'Display': '6.3 inch (outer), 8 inch (inner)', 'RAM': '16GB' } },
   { id: '19', name: 'Google Pixel 10', description: 'Expected with Tensor G5 chip, advanced on-device AI', date: 'Oct 2025', dateObj: new Date('2025-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other' },
   { id: '20', name: 'Google Pixel 10 Pro', description: 'Pro variant with enhanced camera and AI capabilities', date: 'Oct 2025', dateObj: new Date('2025-10-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other' },
-  { id: '21', name: 'Google Pixel 9a', description: 'Budget Pixel with solid camera and AI features', date: 'May 2024', dateObj: new Date('2024-05-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other' },
+  { id: '21', name: 'Google Pixel 9a', description: 'Budget Pixel with solid camera and AI features', date: 'May 2024', dateObj: new Date('2024-05-01'), status: 'Released', confirmationLevel: 'official', category: 'google', type: 'other', sources: [{ label: 'Google Store', url: 'https://store.google.com/pixel-9a', type: 'official' }], specs: { 'Chip': 'Tensor G4', 'Display': '6.24 inch OLED', 'RAM': '8GB', 'Camera': '48MP main' } },
   { id: '22', name: 'Google Pixel Tablet 2', description: 'Second generation Pixel Tablet with charging speaker dock', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'google', type: 'tablet' },
 
   // Tesla
@@ -199,8 +200,8 @@ const staticReleases: Release[] = [
   // NVIDIA
   { id: '29', name: 'NVIDIA RTX 5090', description: 'Flagship GPU with Blackwell architecture, massive performance gains', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu',
     sources: [
-      { label: 'NVIDIA', url: 'https://www.nvidia.com/', type: 'official' },
-      { label: 'Tom\'s Hardware', url: 'https://www.tomshardware.com/', type: 'review' },
+      { label: 'NVIDIA RTX 5090', url: 'https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/', type: 'official' },
+      { label: 'Tom\'s Hardware Review', url: 'https://www.tomshardware.com/nvidia-geforce-rtx-5090', type: 'review' },
     ],
     specs: { 'Architecture': 'Blackwell', 'VRAM': '32GB GDDR7', 'CUDA Cores': '21760', 'Boost Clock': '2.4 GHz' }
   },
