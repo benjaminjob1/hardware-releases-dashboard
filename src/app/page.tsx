@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Layout from "../components/Layout";
 import { useTheme } from "../components/Layout";
-import { Clock, Cpu, Smartphone, Watch, Laptop, Monitor, Tablet, Headphones, Car, Tv, Glasses, X, ExternalLink, Info } from "lucide-react";
+import { Clock, Cpu, Smartphone, Watch, Laptop, Monitor, Tablet, Headphones, Car, Tv, Glasses, X, ExternalLink, Info, Share2, GitCompare, Copy, Check, Twitter } from "lucide-react";
 
 interface Source {
   label: string;
@@ -302,6 +302,9 @@ export default function Home() {
   const [releases, setReleases] = useState<Release[]>([]);
   const [now, setNow] = useState(Date.now());
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
+  const [compareList, setCompareList] = useState<string[]>([]);
+  const [showCompare, setShowCompare] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
     setReleases(staticReleases);
@@ -331,6 +334,24 @@ export default function Home() {
       return '';
     }
   };
+
+  const toggleCompare = (id: string) => {
+    setCompareList(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const shareProduct = async (release: Release) => {
+    const text = `${release.name} - ${release.description} (${release.status}, ${release.date})`;
+    const url = `https://hardware.benjob.me?utm_source=share&utm_content=${encodeURIComponent(release.id)}`;
+    if (navigator.share) {
+      await navigator.share({ title: release.name, text, url });
+    } else {
+      await navigator.clipboard.writeText(`${text}\n${url}`);
+      setCopiedId(release.id);
+      setTimeout(() => setCopiedId(null), 2000);
+    }
+  };
+
+  const getCompareItems = () => releases.filter(r => compareList.includes(r.id));
 
   const getTimeSince = (dateObj: Date): string => {
     const diff = now - dateObj.getTime();
@@ -477,6 +498,36 @@ export default function Home() {
         </div>
       )}
 
+      {showCompare && compareList.length > 0 && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowCompare(false)}>
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className={`max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-2xl p-6 ${isDark ? "bg-gray-900" : "bg-white"} shadow-2xl`} onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>Compare ({compareList.length})</h2>
+              <button onClick={() => setShowCompare(false)} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`}><X size={24} /></button>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead><tr className={`border-b ${isDark ? "border-gray-700" : "border-gray-200"}`}><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Product</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Status</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Date</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Specs</th></tr></thead>
+                <tbody>
+                  {getCompareItems().map(item => (
+                    <tr key={item.id} className={`border-b ${isDark ? "border-gray-800" : "border-gray-100"}`}>
+                      <td className="p-3"><div className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>{item.name}</div><div className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>{item.description}</div></td>
+                      <td className="p-3"><span className={`px-2 py-1 rounded-full text-xs font-medium border ${statusColors[item.status]}`}>{item.status}</span></td>
+                      <td className={`p-3 ${isDark ? "text-gray-300" : "text-gray-700"}`}>{item.date}</td>
+                      <td className="p-3">{item.specs && Object.entries(item.specs).slice(0,3).map(([k,v]) => <div key={k} className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}><span className="font-medium">{k}:</span> {v}</div>)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 flex gap-2">
+              <button onClick={() => { const text = getCompareItems().map(i => i.name).join(', '); navigator.clipboard.writeText(text); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}><Copy size={16} className="inline mr-2" />Copy Names</button>
+              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Comparing hardware releases')}&url=${encodeURIComponent('https://hardware.benjob.me')}`} target="_blank" rel="noopener" className={`px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white`}><Twitter size={16} className="inline mr-2" />Share on X</a>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       <Layout title="Hardware Releases" subtitle={`${releases.length} releases • ${recentCount} recent (last 90d)`}>
       <div className={`mb-4 p-4 rounded-xl ${isDark ? "glass-card glass-card-dark" : "glass-card glass-card-light"}`}>
         <div className="flex items-center justify-between mb-2">
@@ -546,6 +597,19 @@ export default function Home() {
         </div>
       </div>
 
+      {compareList.length > 0 && (
+        <div className={`mb-4 p-4 rounded-xl flex items-center justify-between ${isDark ? "bg-purple-900/30 border border-purple-500/30" : "bg-purple-100 border border-purple-300"}`}>
+          <div className={`flex items-center gap-2 ${isDark ? "text-purple-300" : "text-purple-700"}`}>
+            <GitCompare size={20} />
+            <span className="font-medium">{compareList.length} selected for comparison</span>
+          </div>
+          <div className="flex gap-2">
+            <button onClick={() => setCompareList([])} className={`px-3 py-1.5 rounded-lg text-sm ${isDark ? "bg-gray-700 hover:bg-gray-600 text-gray-300" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>Clear</button>
+            <button onClick={() => setShowCompare(true)} className="px-3 py-1.5 rounded-lg text-sm bg-purple-600 hover:bg-purple-500 text-white">Compare</button>
+          </div>
+        </div>
+      )}
+
       <div className={`mb-4 p-3 rounded-xl text-sm ${isDark ? "glass-card glass-card-dark" : "glass-card glass-card-light"}`}>
         <span className={isDark ? "text-gray-300" : "text-gray-600"}>
           Showing {filtered.length} releases • {releasedCount} released • {upcomingCount} upcoming
@@ -565,6 +629,9 @@ export default function Home() {
               whileHover={{ scale: 1.01 }}
             >
               <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" checked={compareList.includes(release.id)} onChange={() => toggleCompare(release.id)} className="w-5 h-5 rounded accent-purple-500 cursor-pointer" onClick={(e) => e.stopPropagation()} />
+                </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <h3 className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>{release.name}</h3>
@@ -596,6 +663,9 @@ export default function Home() {
                   <span className={`text-xs block ${confirmationColors[release.confirmationLevel]}`}>
                     {release.confirmationLevel}
                   </span>
+                  <button onClick={(e) => { e.stopPropagation(); shareProduct(release); }} className={`p-1.5 rounded-lg mt-1 ${isDark ? "hover:bg-gray-700 text-gray-400" : "hover:bg-gray-200 text-gray-500"}`} title="Share">
+                    {copiedId === release.id ? <Check size={14} className="text-green-400" /> : <Share2 size={14} />}
+                  </button>
                 </div>
               </div>
             </motion.div>
