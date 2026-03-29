@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Layout from "../components/Layout";
 import { useTheme } from "../components/Layout";
-import { Clock, Cpu, Smartphone, Watch, Laptop, Monitor, Tablet, Headphones, Car, Tv, Glasses } from "lucide-react";
+import { Clock, Cpu, Smartphone, Watch, Laptop, Monitor, Tablet, Headphones, Car, Tv, Glasses, X, ExternalLink, Info } from "lucide-react";
+
+interface Source {
+  label: string;
+  url: string;
+  type: 'official' | 'review' | 'rumor' | 'specs';
+}
 
 interface Release {
   id: string;
@@ -17,6 +23,8 @@ interface Release {
   category: string;
   type: string;
   url?: string;
+  sources?: Source[];
+  specs?: Record<string, string>;
 }
 
 const allCategories = [
@@ -106,9 +114,25 @@ const confirmationColors = {
 
 const staticReleases: Release[] = [
   // Apple
-  { id: '1', name: 'iPhone 17 Pro Max', description: 'Latest iPhone with A19 Pro chip, titanium frame, enhanced camera system', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone' },
-  { id: '2', name: 'iPhone 17 Air', description: 'Ultra-thin iPhone model, the thinnest ever at ~5.5mm', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone' },
-  { id: '2b', name: 'iPhone 17e', description: 'Budget iPhone 17, A18 chip, 256GB start storage', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone' },
+  { id: '1', name: 'iPhone 17 Pro Max', description: 'Latest iPhone with A19 Pro chip, titanium frame, enhanced camera system', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone',
+    sources: [
+      { label: 'Apple Newsroom', url: 'https://www.apple.com/newsroom/', type: 'official' },
+      { label: 'MacRumors', url: 'https://www.macrumors.com/', type: 'review' },
+    ],
+    specs: { 'Chip': 'A19 Pro', 'Display': '6.9 inch OLED', 'Storage': '256GB-1TB', 'Camera': '48MP main' }
+  },
+  { id: '2', name: 'iPhone 17 Air', description: 'Ultra-thin iPhone model, the thinnest ever at ~5.5mm', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone',
+    sources: [
+      { label: 'Apple Newsroom', url: 'https://www.apple.com/newsroom/', type: 'official' },
+    ],
+    specs: { 'Thickness': '~5.5mm', 'Chip': 'A19', 'Display': '6.6 inch OLED' }
+  },
+  { id: '2b', name: 'iPhone 17e', description: 'Budget iPhone 17, A18 chip, 256GB start storage', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone',
+    sources: [
+      { label: 'Apple Newsroom', url: 'https://www.apple.com/newsroom/2026/03/apple-introduces-iphone-17e/', type: 'official' },
+    ],
+    specs: { 'Chip': 'A18', 'Storage': '256GB-512GB', 'Display': '6.1 inch OLED' }
+  },
   { id: '3', name: 'iPad Pro M4', description: 'iPad Pro with M4 chip, OLED display, thinner design', date: 'May 2024', dateObj: new Date('2024-05-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'tablet' },
   { id: '4', name: 'MacBook Pro M4', description: 'MacBook Pro with M4/M4 Pro/M4 Max chips, enhanced battery life', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop' },
   { id: '5', name: 'Apple Watch Series 10', description: 'Thinner design,血压 monitoring, enhanced health features', date: 'Sep 2024', dateObj: new Date('2024-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'wearable' },
@@ -117,7 +141,13 @@ const staticReleases: Release[] = [
   { id: '8', name: 'MacBook Air M4', description: 'MacBook Air with M4 chip, expected early 2025', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop' },
   { id: '9', name: 'iPhone 18 Pro', description: 'Next iPhone with A20 chip, expected September 2026', date: 'Sep 2026', dateObj: new Date('2026-09-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'smartphone' },
   { id: '10', name: 'iPad Air M3', description: 'iPad Air with M3 chip, expected March 2025', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'tablet' },
-  { id: '10b', name: 'MacBook Neo', description: 'Budget MacBook, A18 chip, 13.6 inch display, from $599', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop' },
+  { id: '10b', name: 'MacBook Neo', description: 'Budget MacBook, A18 chip, 13.6 inch display, from $599', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop',
+    sources: [
+      { label: 'Apple Newsroom', url: 'https://www.apple.com/newsroom/2026/03/say-hello-to-macbook-neo/', type: 'official' },
+      { label: 'CNN Business', url: 'https://www.cnn.com/2026/03/04/tech/apple-event-macbook-neo-release', type: 'review' },
+    ],
+    specs: { 'Chip': 'A18 Pro', 'CPU': '6-core', 'GPU': '5-core', 'Memory': '8GB', 'Storage': '256GB-512GB', 'Price': 'From $599' }
+  },
   { id: '10c', name: 'MacBook Air M3', description: 'MacBook Air with M3 chip, fanless design', date: 'Mar 2024', dateObj: new Date('2024-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop' },
   { id: '10d', name: 'iPhone 17', description: 'Standard iPhone 17 model with A19 chip', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'smartphone' },
   { id: '10e', name: 'iPhone Fold', description: 'Apple first foldable iPhone with ~8 inch display', date: 'Late 2026', dateObj: new Date('2026-09-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'smartphone' },
@@ -132,7 +162,12 @@ const staticReleases: Release[] = [
   { id: '10n', name: 'Mac Pro M5', description: 'Mac Pro with M5 chip, ultimate performance', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'apple', type: 'laptop' },
 
   // Samsung
-  { id: '11', name: 'Samsung Galaxy S25 Ultra', description: 'Latest Samsung flagship with Snapdragon 8 Elite, 200MP camera', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone' },
+  { id: '11', name: 'Samsung Galaxy S25 Ultra', description: 'Latest Samsung flagship with Snapdragon 8 Elite, 200MP camera', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone',
+    sources: [
+      { label: 'Samsung', url: 'https://www.samsung.com/', type: 'official' },
+    ],
+    specs: { 'Chip': 'Snapdragon 8 Elite', 'Display': '6.9 inch AMOLED', 'Camera': '200MP main', 'RAM': '16GB', 'Storage': '256GB-1TB' }
+  },
   { id: '12', name: 'Samsung Galaxy Z Fold 6', description: 'Latest foldable with improved hinge and durability', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone' },
   { id: '13', name: 'Samsung Galaxy Z Flip 6', description: 'Compact foldable with larger cover screen', date: 'Jul 2024', dateObj: new Date('2024-07-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone' },
   { id: '14', name: 'Samsung Galaxy S26 Ultra', description: 'Expected with Snapdragon 8 Gen 5, improved AI features', date: 'Jan 2026', dateObj: new Date('2026-01-01'), status: 'Released', confirmationLevel: 'official', category: 'samsung', type: 'smartphone' },
@@ -148,7 +183,13 @@ const staticReleases: Release[] = [
   { id: '22', name: 'Google Pixel Tablet 2', description: 'Second generation Pixel Tablet with charging speaker dock', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'google', type: 'tablet' },
 
   // Tesla
-  { id: '23', name: 'Tesla Cybertruck', description: 'All-electric pickup truck with stainless steel exoskeleton', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'tesla', type: 'car' },
+  { id: '23', name: 'Tesla Cybertruck', description: 'All-electric pickup truck with stainless steel exoskeleton', date: 'Nov 2023', dateObj: new Date('2023-11-01'), status: 'Released', confirmationLevel: 'official', category: 'tesla', type: 'car',
+    sources: [
+      { label: 'Tesla', url: 'https://www.tesla.com/cybertruck', type: 'official' },
+      { label: 'Tesla Fans', url: 'https://www.teslamotors.com/', type: 'review' },
+    ],
+    specs: { 'Range': '340-470 miles', '0-60': '2.6s (Tri Motor)', 'Payload': '2,500 lbs', 'Towing': '11,000 lbs' }
+  },
   { id: '24', name: 'Tesla Robotaxi (Cybercab)', description: 'Autonomous taxi with no steering wheel or pedals', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'tesla', type: 'robot' },
   { id: '25', name: 'Tesla Optimus Gen 3', description: 'Third generation humanoid robot with enhanced dexterity', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'tesla', type: 'robot' },
   { id: '26', name: 'Tesla Model Q', description: 'Affordable compact EV expected under $30,000', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'tesla', type: 'car' },
@@ -156,7 +197,13 @@ const staticReleases: Release[] = [
   { id: '28', name: 'Tesla Roadster 2', description: 'Next generation sports car with SpaceX thrusters', date: 'TBD', dateObj: new Date('2027-01-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'tesla', type: 'other' },
 
   // NVIDIA
-  { id: '29', name: 'NVIDIA RTX 5090', description: 'Flagship GPU with Blackwell architecture, massive performance gains', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu' },
+  { id: '29', name: 'NVIDIA RTX 5090', description: 'Flagship GPU with Blackwell architecture, massive performance gains', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu',
+    sources: [
+      { label: 'NVIDIA', url: 'https://www.nvidia.com/', type: 'official' },
+      { label: 'Tom\'s Hardware', url: 'https://www.tomshardware.com/', type: 'review' },
+    ],
+    specs: { 'Architecture': 'Blackwell', 'VRAM': '32GB GDDR7', 'CUDA Cores': '21760', 'Boost Clock': '2.4 GHz' }
+  },
   { id: '30', name: 'NVIDIA RTX 5080', description: 'High-end GPU for enthusiasts and creators', date: 'Jan 2025', dateObj: new Date('2025-01-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu' },
   { id: '31', name: 'NVIDIA RTX 5070 Ti', description: 'Mid-high GPU with excellent price/performance', date: 'Feb 2025', dateObj: new Date('2025-02-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu' },
   { id: '32', name: 'NVIDIA RTX 5070', description: 'Mainstream GPU for gamers', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'nvidia', type: 'gpu' },
@@ -189,7 +236,12 @@ const staticReleases: Release[] = [
   { id: '50', name: 'Sony Walkman Signature', description: 'Premium audiophile music player', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'sony', type: 'audio' },
 
   // Meta
-  { id: 'm1', name: 'Meta Quest 3', description: 'Mixed reality headset, Snapdragon XR2 Gen 2', date: 'Oct 2023', dateObj: new Date('2023-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr' },
+  { id: 'm1', name: 'Meta Quest 3', description: 'Mixed reality headset, Snapdragon XR2 Gen 2', date: 'Oct 2023', dateObj: new Date('2023-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr',
+    sources: [
+      { label: 'Meta', url: 'https://www.meta.com/quest/quest-3/', type: 'official' },
+    ],
+    specs: { 'Chip': 'Snapdragon XR2 Gen 2', 'Resolution': '2064x2208 per eye', 'FOV': '110°', 'Storage': '128GB-512GB' }
+  },
   { id: 'm2', name: 'Meta Quest 3S', description: 'Budget mixed reality, same chip as Quest 3', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr' },
   { id: 'm3', name: 'Meta Quest Pro 2', description: 'High-end MR for professionals', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'vr' },
   { id: 'm4', name: 'Meta Ray-Ban Smart Glasses (Gen 3)', description: 'Meta AI, camera, audio, improved design', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'ar' },
@@ -198,7 +250,13 @@ const staticReleases: Release[] = [
   { id: 'm7', name: 'Meta Quest 4', description: 'Next generation Quest with improved passthrough', date: 'TBD 2027', dateObj: new Date('2027-09-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'meta', type: 'vr' },
 
   // Nintendo
-  { id: 'n1', name: 'Nintendo Switch 2', description: 'Next Nintendo console, 8-inch LCD, DLSS support', date: 'Jun 2025', dateObj: new Date('2025-06-01'), status: 'Released', confirmationLevel: 'official', category: 'nintendo', type: 'console' },
+  { id: 'n1', name: 'Nintendo Switch 2', description: 'Next Nintendo console, 8-inch LCD, DLSS support', date: 'Jun 2025', dateObj: new Date('2025-06-01'), status: 'Released', confirmationLevel: 'official', category: 'nintendo', type: 'console',
+    sources: [
+      { label: 'Nintendo', url: 'https://www.nintendo.com/', type: 'official' },
+      { label: 'IGN', url: 'https://www.ign.com/', type: 'review' },
+    ],
+    specs: { 'Display': '8 inch LCD', 'Processor': 'Tegra T239', 'Storage': '256GB', 'Output': '4K TV, 1080p handheld' }
+  },
   { id: 'n2', name: 'Nintendo Switch 2 Pro', description: 'Enhanced Switch 2 with OLED display', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'nintendo', type: 'console' },
 
   // Microsoft
@@ -214,7 +272,12 @@ const staticReleases: Release[] = [
   { id: 'in4', name: 'INMO X', description: 'Premium AR glasses with enhanced FOV', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'inmo', type: 'ar' },
 
   // AR/MR
-  { id: 'ar1', name: 'Apple Vision Pro', description: 'Spatial computing headset, micro-OLED displays', date: 'Feb 2024', dateObj: new Date('2024-02-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'vr' },
+  { id: 'ar1', name: 'Apple Vision Pro', description: 'Spatial computing headset, micro-OLED displays', date: 'Feb 2024', dateObj: new Date('2024-02-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'vr',
+    sources: [
+      { label: 'Apple Vision Pro', url: 'https://www.apple.com/apple-vision-pro/', type: 'official' },
+    ],
+    specs: { 'Display': 'Micro-OLED', 'Resolution': '23MP per eye', 'Chip': 'M2 + R2', 'Storage': '256GB-1TB', 'Weight': '453g' }
+  },
   { id: 'ar2', name: 'Microsoft HoloLens 3', description: 'Next gen AR headset for enterprise', date: 'TBD', dateObj: new Date('2027-01-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'ar', type: 'ar' },
   { id: 'ar3', name: 'Xreal Air 3 Pro', description: 'AR glasses with spatial display', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'ar' },
   { id: 'ar4', name: 'Xreal One Pro', description: 'Latest AR glasses with improved FOV', date: 'Mar 2026', dateObj: new Date('2026-03-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'ar' },
@@ -231,6 +294,7 @@ export default function Home() {
   const [timeFilter, setTimeFilter] = useState<string>('all');
   const [releases, setReleases] = useState<Release[]>([]);
   const [now, setNow] = useState(Date.now());
+  const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
 
   useEffect(() => {
     setReleases(staticReleases);
@@ -332,8 +396,81 @@ export default function Home() {
   const allSelected = selectedCategories.length === categoryIds.length;
   const allTypesSelected = selectedTypes.length === typeIds.length;
 
+  const sourceTypeColors = {
+    official: 'bg-green-500/20 text-green-400 border-green-500/30',
+    review: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    rumor: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+    specs: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+  };
+
   return (
-    <Layout title="Hardware Releases" subtitle={`${releases.length} releases • ${recentCount} recent (last 90d)`}>
+    <>
+      {selectedRelease && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedRelease(null)}>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} 
+            className={`max-w-2xl w-full max-h-[85vh] overflow-y-auto rounded-2xl p-6 ${isDark ? "bg-gray-900" : "bg-white"} shadow-2xl`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <div>
+                <h2 className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>{selectedRelease.name}</h2>
+                <div className="flex items-center gap-2 mt-2 flex-wrap">
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium border ${statusColors[selectedRelease.status]}`}>{selectedRelease.status}</span>
+                  <span className={`text-sm ${confirmationColors[selectedRelease.confirmationLevel]}`}>{selectedRelease.confirmationLevel}</span>
+                  <span className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>• {selectedRelease.date}</span>
+                </div>
+              </div>
+              <button onClick={() => setSelectedRelease(null)} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`}>
+                <X size={24} />
+              </button>
+            </div>
+
+            <p className={`text-lg mb-6 ${isDark ? "text-gray-300" : "text-gray-600"}`}>{selectedRelease.description}</p>
+
+            {selectedRelease.specs && Object.keys(selectedRelease.specs).length > 0 && (
+              <div className={`mb-6 p-4 rounded-xl ${isDark ? "bg-gray-800" : "bg-gray-100"}`}>
+                <h3 className={`font-semibold mb-3 flex items-center gap-2 ${isDark ? "text-white" : "text-gray-900"}`}>
+                  <Cpu size={18} /> Specifications
+                </h3>
+                <div className="grid grid-cols-2 gap-2">
+                  {Object.entries(selectedRelease.specs).map(([key, value]) => (
+                    <div key={key} className={`flex justify-between ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                      <span className={isDark ? "text-gray-400" : "text-gray-500"}>{key}:</span>
+                      <span className="font-medium">{value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedRelease.sources && selectedRelease.sources.length > 0 && (
+              <div className="mb-4">
+                <h3 className={`font-semibold mb-3 flex items-center gap-2 ${isDark ? "text-white" : "text-gray-900"}`}>
+                  <ExternalLink size={18} /> Sources & References
+                </h3>
+                <div className="space-y-2">
+                  {selectedRelease.sources.map((source, idx) => (
+                    <a key={idx} href={source.url} target="_blank" rel="noopener noreferrer"
+                      className={`flex items-center justify-between p-3 rounded-lg border transition-all hover:scale-[1.02] ${sourceTypeColors[source.type]} border-current`}>
+                      <span className="font-medium">{source.label}</span>
+                      <ExternalLink size={16} />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className={`mt-4 pt-4 border-t ${isDark ? "border-gray-700" : "border-gray-200"}`}>
+              <div className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>
+                <span className="font-medium">Category:</span> {selectedRelease.category} • <span className="font-medium">Type:</span> {selectedRelease.type}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      <Layout title="Hardware Releases" subtitle={`${releases.length} releases • ${recentCount} recent (last 90d)`}>
       <div className={`mb-4 p-4 rounded-xl ${isDark ? "glass-card glass-card-dark" : "glass-card glass-card-light"}`}>
         <div className="flex items-center justify-between mb-2">
           <span className={`text-sm ${isDark ? "text-gray-300" : "text-gray-500"}`}>Company:</span>
@@ -416,7 +553,9 @@ export default function Home() {
 
           return (
             <motion.div key={release.id}
-              className={`p-4 rounded-xl transition-all ${isDark ? "glass-card glass-card-dark" : "glass-card glass-card-light"}`}
+              className={`p-4 rounded-xl transition-all cursor-pointer hover:scale-[1.01] ${isDark ? "glass-card glass-card-dark" : "glass-card glass-card-light"}`}
+              onClick={() => setSelectedRelease(release)}
+              whileHover={{ scale: 1.01 }}
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
@@ -431,6 +570,11 @@ export default function Home() {
                     {countdown && (
                       <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center gap-1">
                         <Clock size={12} /> {countdown}
+                      </span>
+                    )}
+                    {(release.sources?.length || release.specs) && (
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${isDark ? "bg-gray-700 text-gray-400" : "bg-gray-200 text-gray-600"} flex items-center gap-1`}>
+                        <Info size={12} /> Details
                       </span>
                     )}
                   </div>
@@ -452,5 +596,6 @@ export default function Home() {
         })}
       </div>
     </Layout>
+    </>
   );
 }
