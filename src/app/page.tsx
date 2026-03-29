@@ -266,10 +266,17 @@ const staticReleases: Release[] = [
   { id: 'x4', name: 'Next Xbox (Project Scarlett)', description: 'Next generation Xbox, expected 2028', date: 'TBD 2028', dateObj: new Date('2028-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'microsoft', type: 'console' },
 
   // INMO
-  { id: 'in1', name: 'INMO Go', description: 'Lightweight AR glasses, monocular display', date: 'Mar 2024', dateObj: new Date('2024-03-01'), status: 'Released', confirmationLevel: 'official', category: 'inmo', type: 'ar' },
-  { id: 'in2', name: 'INMO Air 3', description: 'Binocular AR glasses, Android apps, camera', date: 'Jun 2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'inmo', type: 'ar' },
-  { id: 'in3', name: 'INMO Air 4', description: 'Latest gen, improved display, longer battery', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'inmo', type: 'ar' },
-  { id: 'in4', name: 'INMO X', description: 'Premium AR glasses with enhanced FOV', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'inmo', type: 'ar' },
+  { id: 'in1', name: 'INMO Go', description: 'Original lightweight AR glasses, monocular display', date: 'Mar 2024', dateObj: new Date('2024-03-01'), status: 'Released', confirmationLevel: 'official', category: 'inmo', type: 'ar' },
+  { id: 'in2', name: 'INMO Air 3', description: 'Binocular AR glasses, Android apps, camera - Kickstarter', date: 'Jun 2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'inmo', type: 'ar' },
+  { id: 'in3', name: 'INMO Go 3', description: 'New gen with camera privacy cover, Kickstarter mid-April 2026', date: 'Apr 2026', dateObj: new Date('2026-04-15'), status: 'Upcoming', confirmationLevel: 'official', category: 'inmo', type: 'ar',
+    sources: [
+      { label: 'INMO Kickstarter', url: 'https://www.inmoxr.com/pages/go3-crowdfunding', type: 'official' },
+      { label: 'PetaPixel Review', url: 'https://petapixel.com/2026/03/24/these-smart-glasses-come-with-a-cover-for-the-camera-inmo-go-3/', type: 'review' },
+    ],
+    specs: { 'Display': 'Waveguide', 'Camera': 'With privacy cover', 'Platform': 'AI-enabled' }
+  },
+  { id: 'in4', name: 'INMO Air 4', description: 'Latest gen, improved display, longer battery', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'inmo', type: 'ar' },
+  { id: 'in5', name: 'INMO X', description: 'Premium AR glasses with enhanced FOV', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'inmo', type: 'ar' },
 
   // AR/MR
   { id: 'ar1', name: 'Apple Vision Pro', description: 'Spatial computing headset, micro-OLED displays', date: 'Feb 2024', dateObj: new Date('2024-02-01'), status: 'Released', confirmationLevel: 'official', category: 'ar', type: 'vr',
