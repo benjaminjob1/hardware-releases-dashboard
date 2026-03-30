@@ -427,7 +427,7 @@ export default function Home() {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>('upcoming');
   const [timeFilter, setTimeFilter] = useState<string>('all');
-  const [currency, setCurrency] = useState<string>('USD');
+  const [selectedCurrencies, setSelectedCurrencies] = useState<string[]>(['USD']);
   const [releases, setReleases] = useState<Release[]>([]);
   const [now, setNow] = useState(Date.now());
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
@@ -435,6 +435,7 @@ export default function Home() {
   const [showCompare, setShowCompare] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copiedModalLink, setCopiedModalLink] = useState(false);
+  const [copiedShare, setCopiedShare] = useState(false);
 
   // Currency conversion
   const currencyRates: Record<string, number> = { USD: 1, GBP: 0.79, EUR: 0.92, JPY: 149, CAD: 1.36, AUD: 1.53 };
@@ -444,8 +445,17 @@ export default function Home() {
     const match = price.match(/[\d,]+/);
     if (!match) return price;
     const num = parseFloat(match[0].replace(/,/g, ''));
-    const converted = Math.round(num * currencyRates[currency]);
-    return `${currencySymbols[currency]}${converted.toLocaleString()}`;
+    return selectedCurrencies.map(c => {
+      const converted = Math.round(num * currencyRates[c]);
+      return `${currencySymbols[c]}${converted.toLocaleString()}`;
+    }).join(' / ');
+  };
+  const toggleCurrency = (c: string) => {
+    if (selectedCurrencies.includes(c)) {
+      if (selectedCurrencies.length > 1) setSelectedCurrencies(selectedCurrencies.filter(x => x !== c));
+    } else {
+      setSelectedCurrencies([...selectedCurrencies, c]);
+    }
   };
 
   useEffect(() => {
@@ -700,8 +710,8 @@ export default function Home() {
               </table>
             </div>
             <div className="mt-4 flex gap-2">
-              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; navigator.clipboard.writeText(compareUrl); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}><Copy size={16} className="inline mr-2" />Copy Link</button>
-              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; let shareText = items.length <= 3 ? items.map(i => i.name).join(' vs ') : `${items.length} hardware products`; navigator.clipboard.writeText(`${shareText}\n${compareUrl}`); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}><Share2 size={16} className="inline mr-2" />Share Text</button>
+              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; navigator.clipboard.writeText(compareUrl); setCopiedModalLink(true); setTimeout(() => setCopiedModalLink(false), 2000); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{copiedModalLink ? <><Check size={16} className="inline mr-2" />Copied!</> : <><Copy size={16} className="inline mr-2" />Copy Link</>}</button>
+              <button onClick={async () => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; const shareText = items.length <= 3 ? items.map(i => i.name).join(' vs ') : `${items.length} hardware products`; if (navigator.share) { await navigator.share({ title: 'Hardware Compare', text: shareText, url: compareUrl }); } else { await navigator.clipboard.writeText(`${shareText}\n${compareUrl}`); setCopiedShare(true); setTimeout(() => setCopiedShare(false), 2000); } }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{copiedShare ? <><Check size={16} className="inline mr-2" />Copied!</> : <><Share2 size={16} className="inline mr-2" />Share</>}</button>
             </div>
           </motion.div>
         </div>
@@ -780,9 +790,9 @@ export default function Home() {
         <span className={`text-sm ${isDark ? "text-gray-300" : "text-gray-500"} mb-2 block`}>Currency:</span>
         <div className="flex flex-wrap gap-2">
           {[{ id: 'USD', label: 'USD ($)' }, { id: 'GBP', label: 'GBP (£)' }, { id: 'EUR', label: 'EUR (€)' }, { id: 'JPY', label: 'JPY (¥)' }, { id: 'CAD', label: 'CAD (C$)' }, { id: 'AUD', label: 'AUD (A$)' }].map(c => (
-            <button key={c.id} onClick={() => setCurrency(c.id)}
+            <button key={c.id} onClick={() => toggleCurrency(c.id)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                currency === c.id ? 'bg-purple-500 text-white' : 'bg-gray-800 text-gray-200 hover:bg-gray-700 border border-gray-700'
+                selectedCurrencies.includes(c.id) ? 'bg-purple-500 text-white' : 'bg-gray-800 text-gray-200 hover:bg-gray-700 border border-gray-700'
               }`}>
               {c.label}
             </button>
