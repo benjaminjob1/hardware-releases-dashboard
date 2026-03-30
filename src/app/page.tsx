@@ -862,8 +862,8 @@ export default function Home() {
                     {getCompareItems().map((item, idx) => (
                       <th key={item.id} className={`text-center p-1 ${isDark ? "text-gray-400" : "text-gray-500"} w-40`}>
                         <div className="flex items-center justify-center gap-1">
-                          <button onClick={() => moveCompareItem(item.id, 'left')} disabled={idx === 0} className={`p-1.5 rounded ${isDark ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-200 text-gray-500'} ${idx === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}><ChevronLeft size={18} /></button>
-                          <button onClick={() => moveCompareItem(item.id, 'right')} disabled={idx === compareList.length - 1} className={`p-1.5 rounded ${isDark ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-200 text-gray-500'} ${idx === compareList.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}`}><ChevronRight size={18} /></button>
+                          <button onClick={(e) => { e.stopPropagation(); moveCompareItem(item.id, 'left'); }} disabled={idx === 0} className={`p-1.5 rounded ${isDark ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-200 text-gray-500'} ${idx === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}><ChevronLeft size={18} /></button>
+                          <button onClick={(e) => { e.stopPropagation(); moveCompareItem(item.id, 'right'); }} disabled={idx === compareList.length - 1} className={`p-1.5 rounded ${isDark ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-200 text-gray-500'} ${idx === compareList.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}`}><ChevronRight size={18} /></button>
                         </div>
                       </th>
                     ))}
