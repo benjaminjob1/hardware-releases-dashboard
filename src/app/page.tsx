@@ -895,6 +895,25 @@ export default function Home() {
                             return null;
                           });
                           const allHavePixels = resolutionPixels.every(n => n !== null);
+                          // Storage: extract max GB for comparison
+                          const isStorage = key === 'Storage';
+                          const storageGB = values.map(v => {
+                            const str = String(v);
+                            // Match all numbers followed by GB or TB
+                            const matches = str.match(/(\d+)\s*(GB|TB)/gi);
+                            if (!matches) return null;
+                            let maxGB = 0;
+                            for (const m of matches) {
+                              const numMatch = m.match(/(\d+)/);
+                              if (!numMatch) continue;
+                              const num = parseInt(numMatch[1]);
+                              const isTB = /TB/i.test(m);
+                              const gb = isTB ? num * 1000 : num;
+                              if (gb > maxGB) maxGB = gb;
+                            }
+                            return maxGB > 0 ? maxGB : null;
+                          });
+                          const allHaveStorage = storageGB.every(n => n !== null);
                           // Extract numeric version for connectivity
                           const connectivityValues = values.map(v => {
                             const match = String(v).match(/[\d.]+/);
@@ -903,13 +922,16 @@ export default function Home() {
                           const allHaveConnectivity = connectivityValues.every(n => n !== null);
                           // Boolean specs like Eye Tracking - color Yes=green, No=red
                           const isBooleanSpec = ['Eye Tracking'].some(k => key.includes(k));
-                          const hasNumericComparison = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels) && !skipRanking;
+                          const hasNumericComparison = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage) && !skipRanking;
                           const shouldColor = hasDiff && !skipRanking;
                           // Sort items by numeric value to get rankings (same numeric = same rank)
                           // Use connectivity values for Wi-Fi/Bluetooth/USB specs
                           const getNumericValue = (idx: number) => {
                             if (isResolution && allHavePixels) {
                               return resolutionPixels[idx];
+                            }
+                            if (isStorage && allHaveStorage) {
+                              return storageGB[idx];
                             }
                             if (numericConnectivity && allHaveConnectivity) {
                               return connectivityValues[idx];
@@ -963,7 +985,7 @@ export default function Home() {
                                 const isBest = rank === 1;
                                 const isTied = getTied(idx);
                                 const tiedBestWithWorse = isTiedBestWithWorse(idx);
-                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels) && val !== '—' && !skipRanking;
+                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage) && val !== '—' && !skipRanking;
                                 // Boolean specs: Yes=green, No=red
                                 const isYes = /yes/i.test(String(val));
                                 const isBooleanYesGood = isBooleanSpec && isYes;
@@ -973,9 +995,11 @@ export default function Home() {
                                 const isGreen = (isComparable && isBest && !isTied) || tiedBestWithWorse;
                                 // Show pixel count for resolution
                                 const pixelInfo = isResolution && resolutionPixels[idx] ? ` [${(resolutionPixels[idx] / 1000000).toFixed(1)}MP]` : '';
+                                // Show max storage for storage
+                                const storageInfo = isStorage && storageGB[idx] ? ` [${storageGB[idx] >= 1000 ? (storageGB[idx]/1000).toFixed(0)+'TB' : storageGB[idx]+'GB'} max]` : '';
                                 return (
                                   <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isBooleanYesGood ? (isDark ? "text-green-400" : "text-green-700") : (isBooleanNoBad ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))))}`}>
-                                    {val}{pixelInfo}
+                                    {val}{pixelInfo}{storageInfo}
                                     {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}{isTied && !tiedBestWithWorse ? '=' : ''}</span>}
                                   </td>
                                 );
