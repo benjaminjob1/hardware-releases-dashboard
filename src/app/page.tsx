@@ -885,6 +885,8 @@ export default function Home() {
                           const lowerIsBetter = ['Weight', 'weight', 'Price', 'price', 'Latency'].some(k => key.includes(k));
                           // Skip ranking for text specs like Tracking, Passthrough, Connection, OS, Display, Panel, etc.
                           const skipRanking = ['Tracking', 'Passthrough', 'Connection', 'OS', 'Display', 'Panel', 'Audio', 'Microphones', 'Chip', 'Controllers', 'Color Gamut', 'Technology'].some(k => key.includes(k));
+                          // Boolean specs like Eye Tracking, Hand Tracking - color Yes=green, No/red=less
+                          const isBooleanSpec = ['Eye Tracking', 'Hand Tracking'].some(k => key.includes(k));
                           const hasNumericComparison = hasDiff && allHaveNumbers && !skipRanking;
                           // Sort items by numeric value to get rankings (same numeric = same rank)
                           const sortedItems = items.map((_, idx) => ({
@@ -924,8 +926,12 @@ export default function Home() {
                                 const isBest = rank === 1;
                                 const isTied = getTied(idx);
                                 const isComparable = hasDiff && allHaveNumbers && val !== '—';
+                                // Boolean specs: Yes=green, No=less
+                                const isYes = /yes/i.test(String(val));
+                                const isBooleanYesGood = isBooleanSpec && isYes;
+                                const isBooleanNoBad = isBooleanSpec && !isYes && val !== '—';
                                 return (
-                                  <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest && !isTied ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))}`}>
+                                  <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest && !isTied ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isBooleanYesGood ? (isDark ? "text-green-400" : "text-green-700") : (isBooleanNoBad ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))))}`}>
                                     {val}
                                     {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}{isTied ? '=' : ''}</span>}
                                   </td>
