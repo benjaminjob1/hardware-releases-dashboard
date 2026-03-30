@@ -864,8 +864,11 @@ export default function Home() {
                       <tbody>
                         {allSpecKeys.map(key => {
                           const values = items.map(i => i.specs?.[key] || '—');
-                          const uniqueValues = Array.from(new Set(values.filter(v => v !== '—')));
-                          const hasDiff = uniqueValues.length > 1;
+                          // Normalize values for comparison: strip ~, °, spaces, etc.
+                          const normalizeForCompare = (v: string) => String(v).replace(/[~°\s]/g, '').toLowerCase();
+                          const normalizedValues = values.map(v => normalizeForCompare(v));
+                          const uniqueNormalized = Array.from(new Set(normalizedValues.filter(v => v !== '—')));
+                          const hasDiff = uniqueNormalized.length > 1;
                           // Extract numeric value - for ranges like "72-144Hz", take the MAX for comparison
                           // Also handles "8GB", "440g", "2160x2160" (takes first number)
                           const numericValues = values.map(v => {
@@ -879,10 +882,10 @@ export default function Home() {
                           });
                           const allHaveNumbers = numericValues.every(n => n !== null);
                           // Specs where LOWER is better (weight, price)
-                          const lowerIsBetter = ['Weight', 'weight', 'Price', 'price'].some(k => key.includes(k));
+                          const lowerIsBetter = ['Weight', 'weight', 'Price', 'price', 'Latency'].some(k => key.includes(k));
                           const hasNumericComparison = hasDiff && allHaveNumbers;
-                          // Sort items by numeric value to get rankings
-                          const itemRanks = items.map((_, idx) => ({
+                          // Sort items by numeric value to get rankings (same numeric = same rank)
+                          const sortedItems = items.map((_, idx) => ({
                             idx,
                             numericValue: numericValues[idx],
                             value: values[idx]
@@ -890,11 +893,22 @@ export default function Home() {
                             if (a.numericValue === null || b.numericValue === null) return 0;
                             return lowerIsBetter ? a.numericValue - b.numericValue : b.numericValue - a.numericValue;
                           });
-                          // Create rank map: rank[originalIndex] = rankNumber (1-based)
+                          // Create rank map with ties: same numeric value = same rank
                           const rankMap: Record<number, number> = {};
-                          itemRanks.forEach((item, rankIdx) => {
-                            rankMap[item.idx] = rankIdx + 1;
-                          });
+                          let currentRank = 1;
+                          for (let i = 0; i < sortedItems.length; i++) {
+                            const item = sortedItems[i];
+                            if (i > 0 && sortedItems[i-1].numericValue !== item.numericValue) {
+                              currentRank = i + 1;
+                            }
+                            rankMap[item.idx] = currentRank;
+                          }
+                          // Check if tied
+                          const getTied = (idx: number) => {
+                            const myRank = rankMap[idx];
+                            const myNumeric = numericValues[idx];
+                            return sortedItems.filter(item => rankMap[item.idx] === myRank && numericValues[item.idx] === myNumeric).length > 1;
+                          };
                           return (
                             <tr key={key} className={`border-b ${hasDiff ? (isDark ? "bg-yellow-900/20" : "bg-yellow-50") : ""} ${isDark ? "border-gray-800" : "border-gray-100"}`}>
                               <td className={`p-3 w-36 ${isDark ? "text-gray-400" : "text-gray-500"} text-sm font-medium`}>
@@ -906,11 +920,12 @@ export default function Home() {
                                 const val = values[idx];
                                 const rank = rankMap[idx];
                                 const isBest = rank === 1;
+                                const isTied = getTied(idx);
                                 const isComparable = hasDiff && allHaveNumbers && val !== '—';
                                 return (
-                                  <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))}`}>
+                                  <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest && !isTied ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))}`}>
                                     {val}
-                                    {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}</span>}
+                                    {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}{isTied ? '=' : ''}</span>}
                                   </td>
                                 );
                               })}
@@ -920,7 +935,7 @@ export default function Home() {
                       </tbody>
                     </table>
                   </div>
-                  <p className={`text-xs mt-2 ${isDark ? "text-gray-500" : "text-gray-400"}`}>🟢 Green = best | 🔴 Red = ranked lower | ↑ higher=better, ↓ lower=better | #1, #2, #3 = ranking</p>
+                  <p className={`text-xs mt-2 ${isDark ? "text-gray-500" : "text-gray-400"}`}>🟢 Green = best (unique) | 🔴 Red = ranked lower | ↑ higher=better, ↓ lower=better | #1, #2 = ranking | #1= tied/best same</p>
                 </div>
               );
             })()}
