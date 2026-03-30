@@ -865,31 +865,51 @@ export default function Home() {
                           const values = items.map(i => i.specs?.[key] || '—');
                           const uniqueValues = Array.from(new Set(values.filter(v => v !== '—')));
                           const hasDiff = uniqueValues.length > 1;
-                          // Extract numeric values from specs (e.g., "8GB" -> 8, "440g" -> 440)
+                          // Extract numeric value - for ranges like "72-144Hz", take the MAX for comparison
+                          // Also handles "8GB", "440g", "2160x2160" (takes first number)
                           const numericValues = values.map(v => {
-                            const match = String(v).match(/[\d.]+/);
-                            return match ? parseFloat(match[0]) : null;
+                            const str = String(v);
+                            // Match numbers, handling ranges by taking max: "72-144" -> 144
+                            const matches = str.match(/[\d.]+/g);
+                            if (!matches) return null;
+                            const nums = matches.map(m => parseFloat(m));
+                            // If range detected (2+ numbers), use max; otherwise use first number
+                            return nums.length > 1 ? Math.max(...nums) : nums[0];
                           });
                           const allHaveNumbers = numericValues.every(n => n !== null);
-                          // Specs where LOWER is better (weight, price, battery hours if same capacity)
-                          const lowerIsBetter = ['Weight', 'weight', 'Battery', 'Price', 'price'].some(k => key.includes(k));
+                          // Specs where LOWER is better (weight, price)
+                          const lowerIsBetter = ['Weight', 'weight', 'Price', 'price'].some(k => key.includes(k));
                           const hasNumericComparison = hasDiff && allHaveNumbers;
-                          // For numeric specs, find best (min or max depending on spec type)
-                          const numericNonNull = numericValues.filter(n => n !== null);
-                          const bestValue = hasNumericComparison
-                            ? (lowerIsBetter ? Math.min(...numericNonNull) : Math.max(...numericNonNull))
-                            : null;
+                          // Sort items by numeric value to get rankings
+                          const itemRanks = items.map((_, idx) => ({
+                            idx,
+                            numericValue: numericValues[idx],
+                            value: values[idx]
+                          })).sort((a, b) => {
+                            if (a.numericValue === null || b.numericValue === null) return 0;
+                            return lowerIsBetter ? a.numericValue - b.numericValue : b.numericValue - a.numericValue;
+                          });
+                          // Create rank map: rank[originalIndex] = rankNumber (1-based)
+                          const rankMap: Record<number, number> = {};
+                          itemRanks.forEach((item, rankIdx) => {
+                            rankMap[item.idx] = rankIdx + 1;
+                          });
                           return (
                             <tr key={key} className={`border-b ${hasDiff ? (isDark ? "bg-yellow-900/20" : "bg-yellow-50") : ""} ${isDark ? "border-gray-800" : "border-gray-100"}`}>
-                              <td className={`p-3 w-32 ${isDark ? "text-gray-400" : "text-gray-500"} text-sm font-medium`}>{key}{lowerIsBetter && hasNumericComparison && <span className="ml-1 text-xs opacity-60">(↓)</span>}</td>
+                              <td className={`p-3 w-36 ${isDark ? "text-gray-400" : "text-gray-500"} text-sm font-medium`}>
+                                {key}
+                                {lowerIsBetter && hasNumericComparison && <span className="ml-1 text-xs opacity-60">(↓)</span>}
+                                {!lowerIsBetter && hasNumericComparison && <span className="ml-1 text-xs opacity-60">(↑)</span>}
+                              </td>
                               {items.map((item, idx) => {
                                 const val = values[idx];
-                                const isBest = hasNumericComparison && numericValues[idx] === bestValue;
-                                const canCompare = hasDiff && (allHaveNumbers || !hasDiff);
+                                const rank = rankMap[idx];
+                                const isBest = rank === 1;
+                                const isComparable = hasDiff && allHaveNumbers && val !== '—';
                                 return (
-                                  <td key={item.id} className={`p-3 text-sm min-w-[120px] ${canCompare && isBest ? (isDark ? "text-green-400" : "text-green-700") : (canCompare && !isBest && allHaveNumbers ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))}`}>
+                                  <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))}`}>
                                     {val}
-                                    {hasNumericComparison && hasDiff && val !== '—' && isBest && <span className="ml-2 text-xs opacity-60">(best)</span>}
+                                    {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}</span>}
                                   </td>
                                 );
                               })}
@@ -899,7 +919,7 @@ export default function Home() {
                       </tbody>
                     </table>
                   </div>
-                  <p className={`text-xs mt-2 ${isDark ? "text-gray-500" : "text-gray-400"}`}>🟢 Green = better value | 🔴 Red = different/less</p>
+                  <p className={`text-xs mt-2 ${isDark ? "text-gray-500" : "text-gray-400"}`}>🟢 Green = best | 🔴 Red = ranked lower | ↑ higher=better, ↓ lower=better | #1, #2, #3 = ranking</p>
                 </div>
               );
             })()}
