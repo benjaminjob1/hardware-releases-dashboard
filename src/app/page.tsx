@@ -876,12 +876,46 @@ export default function Home() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className={`border-b ${isDark ? "border-gray-800" : "border-gray-100"}`}>
-                    <td className={`p-3 text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>Price</td>
-                    {getCompareItems().map(item => (
-                      <td key={item.id} className={`p-3 font-medium ${isDark ? "text-green-400" : "text-green-700"}`}>{convertPrice(item.price || item.priceRange)}{item.priceRange ? ' est.' : ''}</td>
-                    ))}
-                  </tr>
+                  {(() => {
+                    const items = getCompareItems();
+                    // Extract prices and rank them (lower = better for most products)
+                    const prices = items.map(item => {
+                      const priceStr = item.price || item.priceRange || '';
+                      const nums = priceStr.match(/[\d,]+/g) || [];
+                      const vals = nums.map(n => parseFloat(n.replace(/,/g, '')));
+                      // For price ranges, use the average; for single prices, use that value
+                      const num = vals.length > 0 ? (vals.length > 1 ? (vals[0] + vals[vals.length - 1]) / 2 : vals[0]) : null;
+                      return num;
+                    });
+                    const validPrices = prices.map((p, i) => p !== null ? { idx: i, price: p } : null).filter(Boolean) as { idx: number; price: number }[];
+                    const sortedPrices = [...validPrices].sort((a, b) => a.price - b.price); // Lower = better
+                    const priceRankMap: Record<number, number> = {};
+                    let currentRank = 1;
+                    for (let i = 0; i < sortedPrices.length; i++) {
+                      if (i > 0 && sortedPrices[i].price !== sortedPrices[i - 1].price) {
+                        currentRank = i + 1;
+                      }
+                      priceRankMap[sortedPrices[i].idx] = currentRank;
+                    }
+                    const hasPriceDiff = new Set(validPrices.map(p => p.price)).size > 1;
+                    return (
+                      <tr className={`border-b ${isDark ? "border-gray-800" : "border-gray-100"}`}>
+                        <td className={`p-3 text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>Price</td>
+                        {items.map((item, idx) => {
+                          const price = prices[idx];
+                          const rank = price !== null ? priceRankMap[idx] : null;
+                          const isBest = rank === 1;
+                          const hasDiff = hasPriceDiff && rank !== null;
+                          return (
+                            <td key={item.id} className={`p-3 font-medium ${hasDiff ? (isBest ? (isDark ? "text-green-400" : "text-green-700") : (isDark ? "text-red-400" : "text-red-700")) : (isDark ? "text-green-400" : "text-green-700")}`}>
+                              {convertPrice(item.price || item.priceRange)}{item.priceRange ? ' est.' : ''}
+                              {hasDiff && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}</span>}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })()}
                   <tr className={`border-b ${isDark ? "border-gray-800" : "border-gray-100"}`}>
                     <td className={`p-3 text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>Status</td>
                     {getCompareItems().map(item => (
@@ -927,7 +961,7 @@ export default function Home() {
                             // If range detected (2+ numbers), use max; otherwise use first number
                             return nums.length > 1 ? Math.max(...nums) : nums[0];
                           });
-                          const allHaveNumbers = numericValues.every(n => n !== null);
+                          const hasNumericValues = numericValues.filter(n => n !== null).length >= 2;
                           // Specs where LOWER is better (weight, price)
                           const lowerIsBetter = ['Weight', 'weight', 'Price', 'price', 'Latency'].some(k => key.includes(k));
                           // Skip ranking and coloring for text specs
@@ -941,7 +975,7 @@ export default function Home() {
                             if (match) return parseInt(match[1]) * parseInt(match[2]);
                             return null;
                           });
-                          const allHavePixels = resolutionPixels.every(n => n !== null);
+                          const allHavePixels = resolutionPixels.filter(n => n !== null).length >= 2;
                           // Storage: extract max GB for comparison
                           const isStorage = key === 'Storage Capacity';
                           const storageGB = values.map(v => {
@@ -960,7 +994,7 @@ export default function Home() {
                             }
                             return maxGB > 0 ? maxGB : null;
                           });
-                          const allHaveStorage = storageGB.every(n => n !== null);
+                          const allHaveStorage = storageGB.filter(n => n !== null).length >= 2;
                           // Storage Type: UFS 3.x > UFS 2.x > eMMC (higher version = better)
                           const isStorageType = key === 'Storage Type';
                           const storageTypeScore = values.map(v => {
@@ -976,7 +1010,7 @@ export default function Home() {
                             if (storageGB[values.indexOf(v)] !== null) return 1;
                             return null;
                           });
-                          const allHaveStorageType = storageTypeScore.every(n => n !== null);
+                          const allHaveStorageType = storageTypeScore.filter(n => n !== null).length >= 2;
                           const storageTypeLabel = values.map(v => {
                             const str = String(v);
                             // Extract type label
@@ -992,7 +1026,7 @@ export default function Home() {
                             const match = String(v).match(/(\d+)\s*GB/i);
                             return match ? parseInt(match[1]) : null;
                           });
-                          const allHaveRAMSize = ramSizeGB.every(n => n !== null);
+                          const allHaveRAMSize = ramSizeGB.filter(n => n !== null).length >= 2;
                           // RAM Speed: extract DDR generation and X variant (LPDDR5X > LPDDR5 > LPDDR4X > LPDDR4 etc)
                           const isRAMSpeed = key === 'RAM Speed';
                           const ramSpeedScore = values.map(v => {
@@ -1004,7 +1038,7 @@ export default function Home() {
                             const hasX = /X$/i.test(str);
                             return gen * 100 + (hasX ? 50 : 0);
                           });
-                          const allHaveRAMSpeed = ramSpeedScore.every(n => n !== null);
+                          const allHaveRAMSpeed = ramSpeedScore.filter(n => n !== null).length >= 2;
                           // DDR type label for display
                           const ramSpeedLabel = values.map(v => {
                             const str = String(v);
@@ -1016,10 +1050,10 @@ export default function Home() {
                             const match = String(v).match(/[\d.]+/);
                             return match ? parseFloat(match[0]) : null;
                           });
-                          const allHaveConnectivity = connectivityValues.every(n => n !== null);
+                          const allHaveConnectivity = connectivityValues.filter(n => n !== null).length >= 2;
                           // Boolean specs like Eye Tracking - color Yes=green, No=red
                           const isBooleanSpec = ['Eye Tracking'].some(k => key.includes(k));
-                          const hasNumericComparison = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveStorageType || allHaveRAMSize || allHaveRAMSpeed) && !skipRanking;
+                          const hasNumericComparison = hasDiff && (hasNumericValues || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveStorageType || allHaveRAMSize || allHaveRAMSpeed) && !skipRanking;
                           const shouldColor = hasDiff && !skipRanking;
                           // Sort items by numeric value to get rankings (same numeric = same rank)
                           // Use connectivity values for Wi-Fi/Bluetooth/USB specs
@@ -1091,7 +1125,7 @@ export default function Home() {
                                 const isBest = rank === 1;
                                 const isTied = getTied(idx);
                                 const tiedBestWithWorse = isTiedBestWithWorse(idx);
-                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveStorageType || allHaveRAMSize || allHaveRAMSpeed) && val !== '—' && val !== 'N/A' && !skipRanking;
+                                const isComparable = hasDiff && (hasNumericValues || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveStorageType || allHaveRAMSize || allHaveRAMSpeed) && val !== '—' && val !== 'N/A' && !skipRanking;
                                 // Boolean specs: Yes=green, No=red
                                 const isYes = /yes/i.test(String(val));
                                 const isBooleanYesGood = isBooleanSpec && isYes;
