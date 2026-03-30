@@ -626,7 +626,7 @@ export default function Home() {
               </div>
               <div className="flex items-center gap-2">
                 <button onClick={() => { const url = `https://hardware.benjob.me?item=${selectedRelease.id}`; navigator.clipboard.writeText(url); setCopiedModalLink(true); setTimeout(() => setCopiedModalLink(false), 2000); }} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Copy Link">{copiedModalLink ? <Check size={20} className="text-green-400" /> : <Copy size={20} />}</button>
-                <button onClick={() => { const url = `https://hardware.benjob.me?item=${selectedRelease.id}`; const text = `${selectedRelease.name} - ${selectedRelease.description} (${selectedRelease.status}, ${selectedRelease.date})`; navigator.clipboard.writeText(`${text}\n${url}`); setCopiedShareModal(true); setTimeout(() => setCopiedShareModal(false), 2000); }} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Share">{copiedShareModal ? <Check size={20} className="text-green-400" /> : <Share2 size={20} />}</button>
+                <button onClick={() => shareProduct(selectedRelease)} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Share"><Share2 size={20} /></button>
                 <button onClick={() => setSelectedRelease(null)} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`}>
                   <X size={24} />
                 </button>
