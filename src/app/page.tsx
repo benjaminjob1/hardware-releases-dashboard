@@ -435,6 +435,7 @@ export default function Home() {
   const [showCompare, setShowCompare] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copiedModalLink, setCopiedModalLink] = useState(false);
+  const [copiedShareModal, setCopiedShareModal] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
   const [compareCopiedLink, setCompareCopiedLink] = useState(false);
   const [compareCopiedShare, setCompareCopiedShare] = useState(false);
@@ -625,7 +626,7 @@ export default function Home() {
               </div>
               <div className="flex items-center gap-2">
                 <button onClick={() => { const url = `https://hardware.benjob.me?item=${selectedRelease.id}`; navigator.clipboard.writeText(url); setCopiedModalLink(true); setTimeout(() => setCopiedModalLink(false), 2000); }} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Copy Link">{copiedModalLink ? <Check size={20} className="text-green-400" /> : <Copy size={20} />}</button>
-                <button onClick={async () => { const url = `https://hardware.benjob.me?item=${selectedRelease.id}`; const text = `${selectedRelease.name} - ${selectedRelease.description} (${selectedRelease.status}, ${selectedRelease.date})`; if (navigator.share) { await navigator.share({ title: selectedRelease.name, text, url }); } else { await navigator.clipboard.writeText(`${text}\n${url}`); setCopiedModalLink(true); setTimeout(() => setCopiedModalLink(false), 2000); } }} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Share">{copiedModalLink ? <Check size={20} className="text-green-400" /> : <Share2 size={20} />}</button>
+                <button onClick={() => { const url = `https://hardware.benjob.me?item=${selectedRelease.id}`; const text = `${selectedRelease.name} - ${selectedRelease.description} (${selectedRelease.status}, ${selectedRelease.date})`; navigator.clipboard.writeText(`${text}\n${url}`); setCopiedShareModal(true); setTimeout(() => setCopiedShareModal(false), 2000); }} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`} title="Share">{copiedShareModal ? <Check size={20} className="text-green-400" /> : <Share2 size={20} />}</button>
                 <button onClick={() => setSelectedRelease(null)} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`}>
                   <X size={24} />
                 </button>
@@ -698,14 +699,15 @@ export default function Home() {
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead><tr className={`border-b ${isDark ? "border-gray-700" : "border-gray-200"}`}><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Product</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Status</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Date</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Specs</th></tr></thead>
+                <thead><tr className={`border-b ${isDark ? "border-gray-700" : "border-gray-200"}`}><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Product</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Price</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Status</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Date</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Specs</th></tr></thead>
                 <tbody>
                   {getCompareItems().map(item => (
                     <tr key={item.id} className={`border-b ${isDark ? "border-gray-800" : "border-gray-100"}`}>
                       <td className="p-3"><div className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>{item.name}</div><div className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>{item.description}</div></td>
+                      <td className={`p-3 font-medium ${isDark ? "text-green-400" : "text-green-700"}`}>{convertPrice(item.price || item.priceRange)}{item.priceRange ? ' est.' : ''}</td>
                       <td className="p-3"><span className={`px-2 py-1 rounded-full text-xs font-medium border ${statusColors[item.status]}`}>{item.status}</span></td>
                       <td className={`p-3 ${isDark ? "text-gray-300" : "text-gray-700"}`}>{item.date}</td>
-                      <td className="p-3">{item.specs && Object.entries(item.specs).slice(0,3).map(([k,v]) => <div key={k} className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}><span className="font-medium">{k}:</span> {v}</div>)}</td>
+                      <td className="p-3">{item.specs && Object.entries(item.specs).map(([k,v]) => <div key={k} className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}><span className="font-medium">{k}:</span> {v}</div>)}</td>
                     </tr>
                   ))}
                 </tbody>
