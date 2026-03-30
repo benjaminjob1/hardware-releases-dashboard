@@ -314,7 +314,7 @@ const staticReleases: Release[] = [
       { label: 'Meta Quest 3', url: 'https://www.meta.com/quest/quest-3/', type: 'official' },
       { label: 'Tom\'s Hardware Review', url: 'https://www.tomshardware.com/meta-quest-3', type: 'review' },
     ],
-    specs: { 'Type': 'Standalone VR/MR', 'Chip': 'Snapdragon XR2 Gen 2', 'RAM': '8GB LPDDR5', 'Resolution': '2064x2208 per eye', 'PPD': '~25 PPD', 'FOV': '110°', 'Refresh': '90/120Hz', 'Storage': '128GB-512GB', 'Battery (hrs)': '2.2 hrs', 'Battery (mAh)': '5060', 'Weight': '515g', 'Tracking': 'Inside-Out 6DoF', 'Passthrough': 'Full-color RGB cameras', 'Cameras': '2x RGB + 4x IR tracking + IR projector', 'Eye Tracking': 'No', 'Audio': 'Spatial speakers, 3.5mm jack', 'Microphones': 'Beamforming mic array', 'IPD': '53-75mm (scroll wheel)', 'Controllers': 'Touch Plus (AA batteries)', 'Wi-Fi': 'Wi-Fi 6E', 'Bluetooth': 'BT 5.2', 'USB': 'USB-C', 'OS': 'Meta Horizon OS (Android)', 'Display': 'LCD (pancake lenses)', 'Color Gamut': 'LCD RGB-stripe' }
+    specs: { 'Type': 'Standalone VR/MR', 'Chip': 'Snapdragon XR2 Gen 2', 'RAM Capacity': '8GB', 'RAM Speed': 'LPDDR5', 'Resolution': '2064x2208 per eye', 'PPD': '~25 PPD', 'FOV': '110°', 'Refresh': '90/120Hz', 'Storage': '128GB-512GB', 'Battery (hrs)': '2.2 hrs', 'Battery (mAh)': '5060', 'Weight': '515g', 'Tracking': 'Inside-Out 6DoF', 'Passthrough': 'Full-color RGB cameras', 'Cameras': '2x RGB + 4x IR tracking + IR projector', 'Eye Tracking': 'No', 'Audio': 'Spatial speakers, 3.5mm jack', 'Microphones': 'Beamforming mic array', 'IPD': '53-75mm (scroll wheel)', 'Controllers': 'Touch Plus (AA batteries)', 'Wi-Fi': 'Wi-Fi 6E', 'Bluetooth': 'BT 5.2', 'USB': 'USB-C', 'OS': 'Meta Horizon OS (Android)', 'Display': 'LCD (pancake lenses)', 'Color Gamut': 'LCD RGB-stripe' }
   },
   { id: 'm2', name: 'Meta Quest 3S', description: 'Budget mixed reality, same chip as Quest 3', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr', price: '$299',
   },
@@ -423,7 +423,7 @@ const staticReleases: Release[] = [
       { label: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Steam_Frame', type: 'official' },
       { label: 'RoadToVR', url: 'https://www.roadtovr.com/steam-frame-hands-on-valve-vr-headset-index-2/', type: 'review' },
     ],
-    specs: { 'Type': 'Standalone VR', 'Chip': 'Snapdragon 8 Gen 3', 'RAM': '16GB LPDDR5X', 'Resolution': '2160x2160 per eye', 'PPD': '~25 PPD', 'FOV': '~110°', 'Refresh': '72-144Hz', 'Storage': '256GB/1TB UFS', 'Battery (hrs)': '2-3 hrs', 'Battery (Wh)': '21.6', 'Weight': '440g (with strap)', 'Weight (bare)': '185g', 'Tracking': 'Inside-Out 6DoF', 'Eye Tracking': 'Yes (foveated rendering)', 'Passthrough': 'Monochrome IR (1280x1024)', 'Cameras': '4x IR + 2x eye tracking', 'Audio': '4x speakers, dual-mic array', 'Microphones': 'Dual-mic array', 'IPD': '58-72mm (physical wheel)', 'Controllers': 'Bundled ((Index 2?) TBD)', 'Wi-Fi': 'Wi-Fi 7', 'Bluetooth': 'BT 5.3', 'USB': 'USB-C 2.0', 'OS': 'SteamOS', 'Display': 'LCD (pancake lenses)', 'Micro-SD': 'Yes (expandable)' }
+    specs: { 'Type': 'Standalone VR', 'Chip': 'Snapdragon 8 Gen 3', 'RAM Capacity': '16GB', 'RAM Speed': 'LPDDR5X', 'Resolution': '2160x2160 per eye', 'PPD': '~25 PPD', 'FOV': '~110°', 'Refresh': '72-144Hz', 'Storage': '256GB/1TB UFS', 'Battery (hrs)': '2-3 hrs', 'Battery (Wh)': '21.6', 'Weight': '440g (with strap)', 'Weight (bare)': '185g', 'Tracking': 'Inside-Out 6DoF', 'Eye Tracking': 'Yes (foveated rendering)', 'Passthrough': 'Monochrome IR (1280x1024)', 'Cameras': '4x IR + 2x eye tracking', 'Audio': '4x speakers, dual-mic array', 'Microphones': 'Dual-mic array', 'IPD': '58-72mm (physical wheel)', 'Controllers': 'Bundled ((Index 2?) TBD)', 'Wi-Fi': 'Wi-Fi 7', 'Bluetooth': 'BT 5.3', 'USB': 'USB-C 2.0', 'OS': 'SteamOS', 'Display': 'LCD (pancake lenses)', 'Micro-SD': 'Yes (expandable)' }
   },
   { id: 'v5', name: 'Steam Machine', description: 'Valve living room console PC', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'console', priceRange: '$500-$1,000',
   },
@@ -915,25 +915,30 @@ export default function Home() {
                           });
                           const allHaveStorage = storageGB.every(n => n !== null);
                           // RAM Size: extract GB
-                          const isRAMSize = key === 'RAM';
+                          const isRAMSize = key === 'RAM Capacity';
                           const ramSizeGB = values.map(v => {
                             const match = String(v).match(/(\d+)\s*GB/i);
                             return match ? parseInt(match[1]) : null;
                           });
                           const allHaveRAMSize = ramSizeGB.every(n => n !== null);
-                          // RAM Speed: extract MHz or DDR version
+                          // RAM Speed: extract DDR generation and X variant (LPDDR5X > LPDDR5 > LPDDR4X > LPDDR4 etc)
                           const isRAMSpeed = key === 'RAM Speed';
-                          const ramSpeed = values.map(v => {
+                          const ramSpeedScore = values.map(v => {
                             const str = String(v);
-                            // Match MHz number
-                            const mhzMatch = str.match(/(\d+)\s*MHz/i);
-                            if (mhzMatch) return parseInt(mhzMatch[1]);
-                            // DDR5 = ~4800-6400MHz equivalent, DDR4 = 2133-3200MHz
-                            if (/DDR5/i.test(str)) return 6400;
-                            if (/DDR4/i.test(str)) return 3200;
-                            return null;
+                            // Score: DDR generation (5=5, 4=4, 3=3) * 100 + X bonus (X=50, no X=0)
+                            const genMatch = str.match(/LPDDR(\d)/i);
+                            if (!genMatch) return null;
+                            const gen = parseInt(genMatch[1]);
+                            const hasX = /X$/i.test(str);
+                            return gen * 100 + (hasX ? 50 : 0);
                           });
-                          const allHaveRAMSpeed = ramSpeed.every(n => n !== null);
+                          const allHaveRAMSpeed = ramSpeedScore.every(n => n !== null);
+                          // DDR type label for display
+                          const ramSpeedLabel = values.map(v => {
+                            const str = String(v);
+                            const genMatch = str.match(/LPDDR(\d)X*/i);
+                            return genMatch ? genMatch[0] : null;
+                          });
                           // Extract numeric version for connectivity
                           const connectivityValues = values.map(v => {
                             const match = String(v).match(/[\d.]+/);
@@ -957,7 +962,7 @@ export default function Home() {
                               return ramSizeGB[idx];
                             }
                             if (isRAMSpeed && allHaveRAMSpeed) {
-                              return ramSpeed[idx];
+                              return ramSpeedScore[idx];
                             }
                             if (numericConnectivity && allHaveConnectivity) {
                               return connectivityValues[idx];
@@ -1023,10 +1028,10 @@ export default function Home() {
                                 const pixelInfo = isResolution && resolutionPixels[idx] ? ` [${(resolutionPixels[idx] / 1000000).toFixed(1)}MP]` : '';
                                 // Show max storage for storage
                                 const storageInfo = isStorage && storageGB[idx] ? ` [${storageGB[idx] >= 1000 ? (storageGB[idx]/1000).toFixed(0)+'TB' : storageGB[idx]+'GB'} max]` : '';
-                                // Show RAM size
+                                // Show RAM capacity
                                 const ramSizeInfo = isRAMSize && ramSizeGB[idx] ? ` [${ramSizeGB[idx]}GB]` : '';
-                                // Show RAM speed
-                                const ramSpeedInfo = isRAMSpeed && ramSpeed[idx] ? ` [${ramSpeed[idx]}MT/s]` : '';
+                                // Show RAM speed type label
+                                const ramSpeedInfo = isRAMSpeed && ramSpeedLabel[idx] ? ` [${ramSpeedLabel[idx]}]` : '';
                                 return (
                                   <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isBooleanYesGood ? (isDark ? "text-green-400" : "text-green-700") : (isBooleanNoBad ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))))}`}>
                                     {val}{pixelInfo}{storageInfo}{ramSizeInfo}{ramSpeedInfo}
