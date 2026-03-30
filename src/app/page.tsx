@@ -309,12 +309,12 @@ const staticReleases: Release[] = [
   },
 
   // Meta
-  { id: 'm1', name: 'Meta Quest 3', description: 'Mixed reality headset, Snapdragon XR2 Gen 2', date: 'Oct 2023', dateObj: new Date('2023-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr', price: '$499',
+  { id: 'm1', name: 'Meta Quest 3', description: 'Mixed reality headset with pancake lenses and full-color passthrough', date: 'Oct 2023', dateObj: new Date('2023-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr', price: '$499',
     sources: [
       { label: 'Meta Quest 3', url: 'https://www.meta.com/quest/quest-3/', type: 'official' },
       { label: 'Tom\'s Hardware Review', url: 'https://www.tomshardware.com/meta-quest-3', type: 'review' },
     ],
-    specs: { 'Chip': 'Snapdragon XR2 Gen 2', 'Resolution': '2064x2208 per eye', 'FOV': '110°', 'Storage': '128GB-512GB' }
+    specs: { 'Chip': 'Snapdragon XR2 Gen 2', 'RAM': '8GB', 'Resolution': '2064x2208 per eye', 'FOV': '110°', 'Refresh': '90/120Hz', 'Storage': '128GB-512GB', 'Battery': '2.2 hrs', 'Weight': '515g', 'Tracking': 'Inside-Out 6DoF', 'Passthrough': 'Full-color RGB', 'Audio': 'Spatial speakers, 3.5mm' }
   },
   { id: 'm2', name: 'Meta Quest 3S', description: 'Budget mixed reality, same chip as Quest 3', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr', price: '$299',
   },
@@ -418,12 +418,12 @@ const staticReleases: Release[] = [
   },
   { id: 'v3', name: 'Steam Deck Pro', description: 'High-end refresh with better performance', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'valve', type: 'handheld', priceRange: '$699',
   },
-  { id: 'v4', name: 'Steam Frame', description: 'Valve VR headset/handheld with OLED 90Hz display', date: 'H1 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'valve', type: 'vr', priceRange: '$599-$699',
+  { id: 'v4', name: 'Steam Frame', description: 'Standalone VR headset streaming from Steam library, successor to Valve Index', date: 'H1 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'official', category: 'valve', type: 'vr', priceRange: '$599-$699',
     sources: [
-      { label: 'Valve Steam Deck', url: 'https://www.steamdeck.com/', type: 'official' },
-      { label: 'The Verge', url: 'https://www.theverge.com/valve-steam-deck-2', type: 'rumor' },
+      { label: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Steam_Frame', type: 'official' },
+      { label: 'UploadVR', url: 'https://www.uploadvr.com/valve-steam-frame-official-announcement-features-details/', type: 'review' },
     ],
-    specs: { 'Display': 'OLED 90Hz (rumored)', 'Chip': 'AMD Phoenix 2 (rumored)', 'Release': 'First half 2026' }
+    specs: { 'Chip': 'Snapdragon 8 Gen 3', 'RAM': '16GB LPDDR5X', 'Resolution': '2160x2160 per eye', 'FOV': '~110°', 'Refresh': '72-144Hz', 'Storage': '256GB/1TB UFS', 'Battery': '21.6 Wh (~2-3 hrs)', 'Weight': '440g (with strap)', 'Tracking': 'Inside-Out 6DoF', 'Eye Tracking': 'Yes (foveated rendering)', 'Connectivity': 'Wi-Fi 7, BT 5.3, USB-C', 'OS': 'SteamOS', 'Display': 'LCD (pancake lenses)' }
   },
   { id: 'v5', name: 'Steam Machine', description: 'Valve living room console PC', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'console', priceRange: '$500-$1,000',
   },
@@ -443,11 +443,11 @@ const staticReleases: Release[] = [
     ],
     specs: { 'Resolution': '3840x3840 per eye', 'FOV': '106°-127° HFOV', 'PPD': '50-57 PPD', 'Refresh': '72/90Hz', 'Panel': 'Sony Micro-OLED', 'IPD': '58-72mm auto' }
   },
-  { id: 'px3', name: 'Pimax Dream Air', description: 'Compact 8K Micro-OLED with 110° ConcaveView optics, ~170g', date: 'Mar 2026', dateObj: new Date('2026-03-01'), status: 'Upcoming', confirmationLevel: 'official', category: 'pimax', type: 'vr', priceRange: '€1,783-€2,050',
+  { id: 'px3', name: 'Pimax Dream Air', description: 'Ultra-lightweight 8K Micro-OLED PCVR with ConcaveView optics', date: 'Mar 2026', dateObj: new Date('2026-03-01'), status: 'Upcoming', confirmationLevel: 'official', category: 'pimax', type: 'vr', priceRange: '€1,783-€2,050',
     sources: [
       { label: 'Pimax Store', url: 'https://pimax.com/products/pimax-dream-air', type: 'official' },
     ],
-    specs: { 'Resolution': '7680x3552 (3840x3552 per eye)', 'FOV': '110° HFOV', 'Refresh': '90Hz', 'Panel': 'Sony Micro-OLED', 'Weight': '~170g', 'Tracking': 'SLAM or Lighthouse' }
+    specs: { 'Resolution': '7680x3552 (3840x3552 per eye)', 'FOV': '110° HFOV', 'Refresh': '90Hz', 'Panel': 'Sony Micro-OLED', 'Weight': '~170g', 'Tracking': 'SLAM or Lighthouse', 'IPD': 'Auto-adjusting', 'Eye Tracking': 'Yes (120Hz)', 'Audio': '3.5mm jack, microphones', 'Connection': 'DisplayPort cable', 'Lenses': '3-layer pancake (ConcaveView)' }
   },
   { id: 'px4', name: 'Pimax Dream Air SE', description: 'Budget Micro-OLED with 105° ConcaveView, lightweight design', date: 'Dec 2025', dateObj: new Date('2025-12-01'), status: 'Upcoming', confirmationLevel: 'official', category: 'pimax', type: 'vr', priceRange: '€802-€1,070',
     sources: [
