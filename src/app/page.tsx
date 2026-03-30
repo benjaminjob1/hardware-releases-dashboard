@@ -914,6 +914,26 @@ export default function Home() {
                             return maxGB > 0 ? maxGB : null;
                           });
                           const allHaveStorage = storageGB.every(n => n !== null);
+                          // RAM Size: extract GB
+                          const isRAMSize = key === 'RAM';
+                          const ramSizeGB = values.map(v => {
+                            const match = String(v).match(/(\d+)\s*GB/i);
+                            return match ? parseInt(match[1]) : null;
+                          });
+                          const allHaveRAMSize = ramSizeGB.every(n => n !== null);
+                          // RAM Speed: extract MHz or DDR version
+                          const isRAMSpeed = key === 'RAM Speed';
+                          const ramSpeed = values.map(v => {
+                            const str = String(v);
+                            // Match MHz number
+                            const mhzMatch = str.match(/(\d+)\s*MHz/i);
+                            if (mhzMatch) return parseInt(mhzMatch[1]);
+                            // DDR5 = ~4800-6400MHz equivalent, DDR4 = 2133-3200MHz
+                            if (/DDR5/i.test(str)) return 6400;
+                            if (/DDR4/i.test(str)) return 3200;
+                            return null;
+                          });
+                          const allHaveRAMSpeed = ramSpeed.every(n => n !== null);
                           // Extract numeric version for connectivity
                           const connectivityValues = values.map(v => {
                             const match = String(v).match(/[\d.]+/);
@@ -922,7 +942,7 @@ export default function Home() {
                           const allHaveConnectivity = connectivityValues.every(n => n !== null);
                           // Boolean specs like Eye Tracking - color Yes=green, No=red
                           const isBooleanSpec = ['Eye Tracking'].some(k => key.includes(k));
-                          const hasNumericComparison = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage) && !skipRanking;
+                          const hasNumericComparison = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveRAMSize || allHaveRAMSpeed) && !skipRanking;
                           const shouldColor = hasDiff && !skipRanking;
                           // Sort items by numeric value to get rankings (same numeric = same rank)
                           // Use connectivity values for Wi-Fi/Bluetooth/USB specs
@@ -932,6 +952,12 @@ export default function Home() {
                             }
                             if (isStorage && allHaveStorage) {
                               return storageGB[idx];
+                            }
+                            if (isRAMSize && allHaveRAMSize) {
+                              return ramSizeGB[idx];
+                            }
+                            if (isRAMSpeed && allHaveRAMSpeed) {
+                              return ramSpeed[idx];
                             }
                             if (numericConnectivity && allHaveConnectivity) {
                               return connectivityValues[idx];
@@ -985,7 +1011,7 @@ export default function Home() {
                                 const isBest = rank === 1;
                                 const isTied = getTied(idx);
                                 const tiedBestWithWorse = isTiedBestWithWorse(idx);
-                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage) && val !== '—' && !skipRanking;
+                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveRAMSize || allHaveRAMSpeed) && val !== '—' && !skipRanking;
                                 // Boolean specs: Yes=green, No=red
                                 const isYes = /yes/i.test(String(val));
                                 const isBooleanYesGood = isBooleanSpec && isYes;
@@ -997,9 +1023,13 @@ export default function Home() {
                                 const pixelInfo = isResolution && resolutionPixels[idx] ? ` [${(resolutionPixels[idx] / 1000000).toFixed(1)}MP]` : '';
                                 // Show max storage for storage
                                 const storageInfo = isStorage && storageGB[idx] ? ` [${storageGB[idx] >= 1000 ? (storageGB[idx]/1000).toFixed(0)+'TB' : storageGB[idx]+'GB'} max]` : '';
+                                // Show RAM size
+                                const ramSizeInfo = isRAMSize && ramSizeGB[idx] ? ` [${ramSizeGB[idx]}GB]` : '';
+                                // Show RAM speed
+                                const ramSpeedInfo = isRAMSpeed && ramSpeed[idx] ? ` [${ramSpeed[idx]}MT/s]` : '';
                                 return (
                                   <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isBooleanYesGood ? (isDark ? "text-green-400" : "text-green-700") : (isBooleanNoBad ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))))}`}>
-                                    {val}{pixelInfo}{storageInfo}
+                                    {val}{pixelInfo}{storageInfo}{ramSizeInfo}{ramSpeedInfo}
                                     {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}{isTied && !tiedBestWithWorse ? '=' : ''}</span>}
                                   </td>
                                 );
