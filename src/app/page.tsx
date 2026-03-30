@@ -883,7 +883,9 @@ export default function Home() {
                           const allHaveNumbers = numericValues.every(n => n !== null);
                           // Specs where LOWER is better (weight, price)
                           const lowerIsBetter = ['Weight', 'weight', 'Price', 'price', 'Latency'].some(k => key.includes(k));
-                          const hasNumericComparison = hasDiff && allHaveNumbers;
+                          // Skip ranking for text specs like Tracking, Passthrough, Connection, OS, Display, Panel, etc.
+                          const skipRanking = ['Tracking', 'Passthrough', 'Connection', 'OS', 'Display', 'Panel', 'Audio', 'Microphones', 'Chip', 'Controllers', 'Color Gamut', 'Technology'].some(k => key.includes(k));
+                          const hasNumericComparison = hasDiff && allHaveNumbers && !skipRanking;
                           // Sort items by numeric value to get rankings (same numeric = same rank)
                           const sortedItems = items.map((_, idx) => ({
                             idx,
