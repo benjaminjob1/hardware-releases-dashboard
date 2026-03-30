@@ -884,18 +884,35 @@ export default function Home() {
                           // Specs where LOWER is better (weight, price)
                           const lowerIsBetter = ['Weight', 'weight', 'Price', 'price', 'Latency'].some(k => key.includes(k));
                           // Skip ranking and coloring for text specs
-                          const skipRanking = ['Tracking', 'Passthrough', 'Connection', 'OS', 'Display', 'Panel', 'Audio', 'Microphones', 'Chip', 'Controllers', 'Color Gamut', 'Technology', 'Type', 'Cable', 'Diopter', 'Eye Relief', 'Contrast', 'Cameras', 'Hand Tracking'].some(k => key.includes(k));
+                          const skipRanking = ['Tracking', 'Passthrough', 'Connection', 'OS', 'Display', 'Panel', 'Audio', 'Microphones', 'Chip', 'Controllers', 'Color Gamut', 'Technology', 'Type', 'Cable', 'Diopter', 'Eye Relief', 'Contrast', 'Cameras', 'Hand Tracking', 'IPD'].some(k => key.includes(k));
+                          // Numeric ranking for connectivity specs (Wi-Fi, Bluetooth, USB versions)
+                          const numericConnectivity = ['Wi-Fi', 'WiFi', 'Bluetooth', 'USB'].some(k => key.includes(k));
+                          // Extract numeric version for connectivity
+                          const connectivityValues = values.map(v => {
+                            const match = String(v).match(/[\d.]+/);
+                            return match ? parseFloat(match[0]) : null;
+                          });
+                          const allHaveConnectivity = connectivityValues.every(n => n !== null);
                           // Boolean specs like Eye Tracking - color Yes=green, No=red
                           const isBooleanSpec = ['Eye Tracking'].some(k => key.includes(k));
-                          const hasNumericComparison = hasDiff && allHaveNumbers && !skipRanking;
+                          const hasNumericComparison = hasDiff && (allHaveNumbers || allHaveConnectivity) && !skipRanking;
                           const shouldColor = hasDiff && !skipRanking;
                           // Sort items by numeric value to get rankings (same numeric = same rank)
+                          // Use connectivity values for Wi-Fi/Bluetooth/USB specs
+                          const getNumericValue = (idx: number) => {
+                            if (numericConnectivity && allHaveConnectivity) {
+                              return connectivityValues[idx];
+                            }
+                            return numericValues[idx];
+                          };
                           const sortedItems = items.map((_, idx) => ({
                             idx,
-                            numericValue: numericValues[idx],
+                            numericValue: getNumericValue(idx),
                             value: values[idx]
                           })).sort((a, b) => {
                             if (a.numericValue === null || b.numericValue === null) return 0;
+                            // For connectivity, higher number is always better (Wi-Fi 7 > Wi-Fi 6E)
+                            if (numericConnectivity) return b.numericValue - a.numericValue;
                             return lowerIsBetter ? a.numericValue - b.numericValue : b.numericValue - a.numericValue;
                           });
                           // Create rank map with ties: same numeric value = same rank
@@ -911,8 +928,16 @@ export default function Home() {
                           // Check if tied
                           const getTied = (idx: number) => {
                             const myRank = rankMap[idx];
-                            const myNumeric = numericValues[idx];
-                            return sortedItems.filter(item => rankMap[item.idx] === myRank && numericValues[item.idx] === myNumeric).length > 1;
+                            const myNumeric = getNumericValue(idx);
+                            return sortedItems.filter(item => rankMap[item.idx] === myRank && getNumericValue(item.idx) === myNumeric).length > 1;
+                          };
+                          // Check if tied for best with worse options existing
+                          const isTiedBestWithWorse = (idx: number) => {
+                            const rank = rankMap[idx];
+                            if (rank !== 1) return false;
+                            const myNumeric = getNumericValue(idx);
+                            const hasWorse = sortedItems.some(item => getNumericValue(item.idx) !== myNumeric);
+                            return getTied(idx) && hasWorse;
                           };
                           return (
                             <tr key={key} className={`border-b ${hasDiff ? (isDark ? "bg-yellow-900/20" : "bg-yellow-50") : ""} ${isDark ? "border-gray-800" : "border-gray-100"}`}>
@@ -926,16 +951,19 @@ export default function Home() {
                                 const rank = rankMap[idx];
                                 const isBest = rank === 1;
                                 const isTied = getTied(idx);
-                                const isComparable = hasDiff && allHaveNumbers && val !== '—' && !skipRanking;
+                                const tiedBestWithWorse = isTiedBestWithWorse(idx);
+                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity) && val !== '—' && !skipRanking;
                                 // Boolean specs: Yes=green, No=red
                                 const isYes = /yes/i.test(String(val));
                                 const isBooleanYesGood = isBooleanSpec && isYes;
                                 const isBooleanNoBad = isBooleanSpec && !isYes && val !== '—';
                                 const showColor = shouldColor && val !== '—';
+                                // Green if: best unique OR tied best with worse options existing
+                                const isGreen = (isComparable && isBest && !isTied) || tiedBestWithWorse;
                                 return (
-                                  <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest && !isTied ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isBooleanYesGood ? (isDark ? "text-green-400" : "text-green-700") : (isBooleanNoBad ? (isDark ? "text-red-400" : "text-red-700") : (showColor ? (isDark ? "text-gray-300" : "text-gray-700") : (isDark ? "text-gray-300" : "text-gray-700")))))}`}>
+                                  <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isBooleanYesGood ? (isDark ? "text-green-400" : "text-green-700") : (isBooleanNoBad ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))))}`}>
                                     {val}
-                                    {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}{isTied ? '=' : ''}</span>}
+                                    {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}{isTied && !tiedBestWithWorse ? '=' : ''}</span>}
                                   </td>
                                 );
                               })}
