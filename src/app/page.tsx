@@ -48,6 +48,7 @@ const allCategories = [
   { id: 'rokid', label: 'Rokid' },
   { id: 'snap', label: 'Snap' },
   { id: 'magic-leap', label: 'Magic Leap' },
+  { id: 'pimax', label: 'Pimax' },
 ];
 
 const allTypes = [
@@ -86,6 +87,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
   rokid: <Glasses size={14} />,
   snap: <Glasses size={14} />,
   'magic-leap': <Glasses size={14} />,
+  pimax: <Glasses size={14} />,
 };
 
 const typeIcons: Record<string, React.ReactNode> = {
@@ -418,6 +420,44 @@ const staticReleases: Release[] = [
   { id: 'v5', name: 'Steam Machine', description: 'Valve living room console PC', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'console', priceRange: '$500-$1,000',
   },
   { id: 'v6', name: 'Steam Controller 2', description: 'Next-gen Steam Controller with haptic feedback', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'controller', priceRange: '$79',
+  },
+
+  // Pimax VR
+  { id: 'px1', name: 'Pimax Crystal Super QLED', description: 'High-end PCVR with 3840x3840 per eye, glass aspheric lenses, ultrawide FOV', date: 'Apr 2025', dateObj: new Date('2025-04-10'), status: 'Released', confirmationLevel: 'official', category: 'pimax', type: 'vr', priceRange: '€1,520-€2,400',
+    sources: [
+      { label: 'Pimax Store', url: 'https://pimax.com/products/pimax-crystal-super', type: 'official' },
+    ],
+    specs: { 'Resolution': '3840x3840 per eye', 'FOV': '106°-140° HFOV', 'PPD': '50-57 PPD', 'Refresh': '72/90Hz', 'Panel': 'QLED', 'IPD': '58-72mm auto' }
+  },
+  { id: 'px2', name: 'Pimax Crystal Super Micro-OLED', description: 'Micro-OLED version with Sony panels, highest clarity', date: 'Sep 2025', dateObj: new Date('2025-09-01'), status: 'Released', confirmationLevel: 'official', category: 'pimax', type: 'vr', price: '€1,636',
+    sources: [
+      { label: 'Pimax Store', url: 'https://pimax.com/products/pimax-crystal-super', type: 'official' },
+    ],
+    specs: { 'Resolution': '3840x3840 per eye', 'FOV': '106°-127° HFOV', 'PPD': '50-57 PPD', 'Refresh': '72/90Hz', 'Panel': 'Sony Micro-OLED', 'IPD': '58-72mm auto' }
+  },
+  { id: 'px3', name: 'Pimax Dream Air', description: 'Compact 8K Micro-OLED with 110° ConcaveView optics, ~170g', date: 'Mar 2026', dateObj: new Date('2026-03-01'), status: 'Upcoming', confirmationLevel: 'official', category: 'pimax', type: 'vr', priceRange: '€1,783-€2,050',
+    sources: [
+      { label: 'Pimax Store', url: 'https://pimax.com/products/pimax-dream-air', type: 'official' },
+    ],
+    specs: { 'Resolution': '7680x3552 (3840x3552 per eye)', 'FOV': '110° HFOV', 'Refresh': '90Hz', 'Panel': 'Sony Micro-OLED', 'Weight': '~170g', 'Tracking': 'SLAM or Lighthouse' }
+  },
+  { id: 'px4', name: 'Pimax Dream Air SE', description: 'Budget Micro-OLED with 105° ConcaveView, lightweight design', date: 'Dec 2025', dateObj: new Date('2025-12-01'), status: 'Upcoming', confirmationLevel: 'official', category: 'pimax', type: 'vr', priceRange: '€802-€1,070',
+    sources: [
+      { label: 'Pimax Store', url: 'https://pimax.com/products/pimax-dream-air-se', type: 'official' },
+    ],
+    specs: { 'Resolution': '2560x2560 per eye', 'FOV': '105° HFOV', 'Refresh': '90Hz', 'Panel': 'Micro-OLED', 'Weight': '~170g', 'Tracking': 'SLAM or Lighthouse' }
+  },
+  { id: 'px5', name: 'Pimax Crystal Light', description: 'Accessible high-end PCVR, 4K QLED, no eye tracking', date: 'Late 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'pimax', type: 'vr', price: '$1,449',
+    sources: [
+      { label: 'Pimax Store', url: 'https://pimax.com/pages/crystal-light', type: 'official' },
+    ],
+    specs: { 'Resolution': '2880x2880 per eye', 'FOV': '105° HFOV', 'PPD': '35 PPD', 'Refresh': '60/72/90/120Hz', 'Panel': 'QLED + Mini-LED', 'Tracking': '6DoF Inside-Out (SLAM)' }
+  },
+  { id: 'px6', name: 'Pimax Crystal', description: 'Original flagship with eye tracking, 4K QLED, PCVR', date: '2023', dateObj: new Date('2023-06-01'), status: 'Released', confirmationLevel: 'official', category: 'pimax', type: 'vr', price: '€1,392',
+    sources: [
+      { label: 'Pimax Store', url: 'https://pimax.com/products/pimax-crystal', type: 'official' },
+    ],
+    specs: { 'Resolution': '2880x2880 per eye', 'FOV': '105° HFOV', 'PPD': '35 PPD', 'Refresh': '72/90/120Hz', 'Panel': 'QLED', 'Eye Tracking': 'Tobii', 'Tracking': 'Lighthouse or Inside-Out' }
   },
 ];
 
