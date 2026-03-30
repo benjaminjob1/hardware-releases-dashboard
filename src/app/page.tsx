@@ -71,6 +71,9 @@ const allTypes = [
   { id: 'handheld', label: 'Handhelds' },
   { id: 'controller', label: 'Controllers' },
   { id: 'haptic', label: 'Haptic Vests' },
+  { id: 'haptic-gloves', label: 'Haptic Gloves' },
+  { id: 'haptic-arms', label: 'Haptic Arms' },
+  { id: 'haptic-head', label: 'Haptic Head/Neck' },
 ];
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -490,25 +493,49 @@ const staticReleases: Release[] = [
     ],
     specs: { 'Motors': '16', 'Compatibility': 'PCVR, Meta Quest', 'Wireless': 'Yes', 'Weight': '~1kg', 'Games': '250+' }
   },
-  { id: 'bh5', name: 'bHaptics TactGlove', description: 'Haptic gloves for hand feedback', date: '2026', dateObj: new Date('2026-01-01'), status: 'Upcoming', confirmationLevel: 'official', category: 'bhaptics', type: 'haptic', priceRange: '$299-399',
+  { id: 'bh5', name: 'bHaptics TactGlove', description: 'Haptic gloves for hand feedback with per-finger haptics', date: '2026', dateObj: new Date('2026-01-01'), status: 'Upcoming', confirmationLevel: 'official', category: 'bhaptics', type: 'haptic-gloves', priceRange: '$299-399',
     sources: [
       { label: 'bHaptics CES 2026', url: 'https://www.newsdirectory3.com/bhaptics-tactsuit-tactglove-ces-2026-innovation/', type: 'rumor' },
     ],
     specs: { 'Haptic Points': 'Per finger', 'Compatibility': 'PCVR, Meta Quest', 'Wireless': 'Yes' }
   },
+  { id: 'bh6', name: 'bHaptics TactSuit bPad', description: 'Haptic hip/bottom pad for seated VR experiences', date: '2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'bhaptics', type: 'haptic', priceRange: '$149-199',
+    sources: [
+      { label: 'bHaptics', url: 'https://www.bhaptics.com/', type: 'official' },
+    ],
+    specs: { 'Coverage': 'Hip/Seated', 'Motors': '8', 'Compatibility': 'PCVR, Meta Quest', 'Wireless': 'Yes' }
+  },
+  { id: 'bh7', name: 'bHaptics TactShade', description: 'Haptic head/neck pad for immersive head impacts', date: '2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'bhaptics', type: 'haptic-head', priceRange: '$99-149',
+    sources: [
+      { label: 'bHaptics', url: 'https://www.bhaptics.com/', type: 'official' },
+    ],
+    specs: { 'Coverage': 'Head/Neck', 'Motors': '6', 'Compatibility': 'PCVR, Meta Quest', 'Wireless': 'Yes' }
+  },
+  { id: 'bh8', name: 'bHaptics TactArm', description: 'Haptic arm bands for forearm feedback', date: '2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'bhaptics', type: 'haptic-arms', priceRange: '$149-199',
+    sources: [
+      { label: 'bHaptics', url: 'https://www.bhaptics.com/', type: 'official' },
+    ],
+    specs: { 'Coverage': 'Forearms', 'Motors': '4 each', 'Compatibility': 'PCVR, Meta Quest', 'Wireless': 'Yes' }
+  },
 
   // TrueGear Haptic Vests
-  { id: 'tg1', name: 'TrueGear ME02', description: 'Budget haptic suit with 40 feedback points, EMS technology', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'truegear', type: 'haptic', priceRange: '$299-399',
+  { id: 'tg1', name: 'TrueGear ME02', description: 'Budget haptic vest with 40 feedback points, EMS technology, includes arm bands', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'truegear', type: 'haptic', priceRange: '$299-399',
     sources: [
       { label: 'TrueGear', url: 'https://truegearhaptic.com/', type: 'official' },
     ],
-    specs: { 'Feedback Points': '40', 'Technology': 'EMS', 'Compatibility': 'Quest 3, SteamVR', 'Wireless': 'Yes' }
+    specs: { 'Feedback Points': '40 vest + 2 arm bands', 'Technology': 'EMS', 'Compatibility': 'Quest 3, SteamVR', 'Wireless': 'Yes' }
   },
   { id: 'tg2', name: 'TrueGear ME01', description: 'Entry-level haptic vest with 40 feedback points', date: '2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'truegear', type: 'haptic', priceRange: '$199-299',
     sources: [
       { label: 'TrueGear', url: 'https://vrtruegear.com/', type: 'official' },
     ],
     specs: { 'Feedback Points': '40', 'Technology': 'EMS', 'Compatibility': 'PCVR, Quest', 'Wireless': 'Yes' }
+  },
+  { id: 'tg3', name: 'TrueGear EMS Arm Bands', description: 'Standalone EMS haptic arm bands for arm feedback', date: '2025', dateObj: new Date('2025-03-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'truegear', type: 'haptic-arms', priceRange: '$79-99',
+    sources: [
+      { label: 'TrueGear', url: 'https://truegearhaptic.com/', type: 'official' },
+    ],
+    specs: { 'Coverage': 'Forearms', 'Technology': 'EMS', 'Compatibility': 'PCVR, Quest', 'Wireless': 'Yes' }
   },
 ];
 
