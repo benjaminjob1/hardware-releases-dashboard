@@ -896,7 +896,7 @@ export default function Home() {
                           });
                           const allHavePixels = resolutionPixels.every(n => n !== null);
                           // Storage: extract max GB for comparison
-                          const isStorage = key === 'Storage';
+                          const isStorage = key === 'Storage Capacity';
                           const storageGB = values.map(v => {
                             const str = String(v);
                             // Match all numbers followed by GB or TB
@@ -1058,13 +1058,12 @@ export default function Home() {
                                 const storageInfo = isStorage && storageGB[idx] ? ` [${storageGB[idx] >= 1000 ? (storageGB[idx]/1000).toFixed(0)+'TB' : storageGB[idx]+'GB'} max]` : '';
                                 // Show storage type label
                                 const storageTypeInfo = isStorageType && storageTypeLabel[idx] ? ` [${storageTypeLabel[idx]}]` : '';
-                                // Show RAM capacity
-                                const ramSizeInfo = isRAMSize && ramSizeGB[idx] ? ` [${ramSizeGB[idx]}GB]` : '';
+                                // RAM capacity and speed don't need extra brackets (value is clear enough)
                                 // Show RAM speed type label
                                 const ramSpeedInfo = isRAMSpeed && ramSpeedLabel[idx] ? ` [${ramSpeedLabel[idx]}]` : '';
                                 return (
                                   <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isBooleanYesGood ? (isDark ? "text-green-400" : "text-green-700") : (isBooleanNoBad ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))))}`}>
-                                    {val}{pixelInfo}{storageInfo}{storageTypeInfo}{ramSizeInfo}{ramSpeedInfo}
+                                    {val}{pixelInfo}{storageInfo}{storageTypeInfo}
                                     {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}{isTied && !tiedBestWithWorse ? '=' : ''}</span>}
                                   </td>
                                 );
