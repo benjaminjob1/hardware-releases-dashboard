@@ -158,6 +158,25 @@ const staticReleases: Release[] = [
   },
   { id: '7', name: 'Vision Pro 2', description: 'Second generation Vision Pro with lighter weight and lower price', date: 'TBD 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'vr', priceRange: '$2,000-$2,500',
   },
+  { id: 'avp1', name: 'Apple Vision Pro', description: 'First generation spatial computer with micro-OLED displays, eye & hand tracking', date: 'Feb 2024', dateObj: new Date('2024-02-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'vr', price: '$3,499',
+    sources: [
+      { label: 'Apple Vision Pro Specs', url: 'https://www.apple.com/apple-vision-pro/specs/', type: 'official' },
+      { label: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Apple_Vision_Pro', type: 'specs' },
+    ],
+    specs: { 'Type': 'Spatial Computer (MR)', 'Chip': 'M2 + R2', 'RAM Capacity': '16GB', 'RAM Speed': 'LPDDR5', 'Resolution': '3840x2160 per eye (Micro-OLED)', 'PPD': '~40 PPD', 'FOV': '100-120°', 'Refresh': '90-120Hz', 'Storage Capacity': '256GB-1TB', 'Storage Type': 'NVMe', 'Battery (hrs)': '2-3 hrs', 'Battery (mAh)': '353 (external)', 'Weight': '600-800g', 'Weight (bare)': '450g', 'Tracking': 'Eyes + Hands + Voice', 'Passthrough': 'Full-color pass-through', 'Eye Tracking': 'Yes (Optic ID)', 'Hand Tracking': 'Yes (cameras)', 'Audio': 'Spatial Audio, 6-mic array', 'Microphones': '6-mic array', 'IPD': '51-75mm (auto-adjust)', 'Wi-Fi': 'Wi-Fi 6', 'Bluetooth': 'BT 5.3', 'OS': 'visionOS', 'Display': 'Micro-OLED', 'Color Gamut': '92% DCI-P3', 'Cameras': '2x main + 6x tracking + TrueDepth', 'Micro-SD': 'No', 'Security': 'Optic ID (iris scan)' }
+  },
+  { id: 'apm1', name: 'AirPods Max', description: 'Original premium over-ear headphones with Spatial Audio', date: 'Dec 2020', dateObj: new Date('2020-12-15'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'audio', price: '$549',
+    sources: [
+      { label: 'Apple AirPods Max', url: 'https://www.apple.com/airpods-max/', type: 'official' },
+    ],
+    specs: { 'Type': 'Over-ear Headphones', 'Chip': 'H1', 'ANC': 'Yes', 'Transparency': 'Yes', 'Spatial Audio': 'Yes (dynamic head tracking)', 'Audio': '40mm Apple drivers', 'Frequency': '20Hz-20kHz', 'Impedance': '~32 ohm', 'Microphones': '9 mics (8 ANC + 3 voice)', 'Battery (hrs)': '20 hrs', 'Weight': '384g', 'Connectivity': 'Bluetooth 5.0, AAC', ' Charging': 'Lightning, MagSafe', 'Colors': 'Space Gray, Silver, Sky Blue, Green, Pink' }
+  },
+  { id: 'apm2', name: 'AirPods Max 2', description: 'Second gen with H2 chip, improved ANC, lossless audio support', date: 'Mar 2026', dateObj: new Date('2026-03-25'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'audio', price: '$549',
+    sources: [
+      { label: 'Apple Newsroom', url: 'https://www.apple.com/newsroom/2026/03/apple-introduces-airpods-max-2-powered-by-h2/', type: 'official' },
+    ],
+    specs: { 'Type': 'Over-ear Headphones', 'Chip': 'H2', 'ANC': 'Yes (improved)', 'Transparency': 'Yes (adaptive)', 'Spatial Audio': 'Yes (personalized + ray tracing)', 'Audio': '40mm Apple custom drivers', 'Frequency': '20Hz-20kHz', 'Impedance': '~32 ohm', 'Microphones': '9 mics (enhanced ANC + voice)', 'Battery (hrs)': '24 hrs', 'Weight': '384g', 'Connectivity': 'Bluetooth 5.3, AAC, lossless', 'Charging': 'USB-C, MagSafe', 'Colors': 'Midnight, Starlight, Blue, Purple, Orange' }
+  },
   { id: '8', name: 'MacBook Air M4', description: 'MacBook Air with M4 chip, expected early 2025', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$999',
   },
   { id: '9', name: 'iPhone 18 Pro', description: 'Next iPhone with A20 chip, expected September 2026', date: 'Sep 2026', dateObj: new Date('2026-09-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'smartphone', priceRange: '$1,199',
