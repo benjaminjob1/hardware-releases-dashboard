@@ -314,7 +314,7 @@ const staticReleases: Release[] = [
       { label: 'Meta Quest 3', url: 'https://www.meta.com/quest/quest-3/', type: 'official' },
       { label: 'Tom\'s Hardware Review', url: 'https://www.tomshardware.com/meta-quest-3', type: 'review' },
     ],
-    specs: { 'Chip': 'Snapdragon XR2 Gen 2', 'RAM': '8GB', 'Resolution': '2064x2208 per eye', 'PPD': '~25 PPD', 'FOV': '110°', 'Refresh': '90/120Hz', 'Storage': '128GB-512GB', 'Battery': '2.2 hrs (5060mAh)', 'Weight': '515g', 'Tracking': 'Inside-Out 6DoF', 'Passthrough': 'Full-color RGB cameras', 'Eye Tracking': 'No', 'Audio': 'Spatial speakers, 3.5mm jack', 'IPD': 'Fixed 63.5mm (2 positions)', 'Controllers': 'Touch Plus (AA batteries)', 'Connectivity': 'Wi-Fi 6E, BT 5.2, USB-C' }
+    specs: { 'Chip': 'Snapdragon XR2 Gen 2', 'RAM': '8GB', 'Resolution': '2064x2208 per eye', 'PPD': '~25 PPD', 'FOV': '110°', 'Refresh': '90/120Hz', 'Storage': '128GB-512GB', 'Battery': '2.2 hrs (5060mAh)', 'Weight': '515g', 'Tracking': 'Inside-Out 6DoF', 'Passthrough': 'Full-color RGB cameras', 'Eye Tracking': 'No', 'Audio': 'Spatial speakers, 3.5mm jack', 'IPD': 'Fixed 63.5mm (2 positions)', 'Controllers': 'Touch Plus (AA batteries)', 'Wi-Fi': 'Wi-Fi 6E', 'Bluetooth': 'BT 5.2', 'USB': 'USB-C' }
   },
   { id: 'm2', name: 'Meta Quest 3S', description: 'Budget mixed reality, same chip as Quest 3', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr', price: '$299',
   },
@@ -423,7 +423,7 @@ const staticReleases: Release[] = [
       { label: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Steam_Frame', type: 'official' },
       { label: 'RoadToVR', url: 'https://www.roadtovr.com/steam-frame-hands-on-valve-vr-headset-index-2/', type: 'review' },
     ],
-    specs: { 'Chip': 'Snapdragon 8 Gen 3', 'RAM': '16GB LPDDR5X', 'Resolution': '2160x2160 per eye', 'PPD': '~25 PPD', 'FOV': '~110°', 'Refresh': '72-144Hz', 'Storage': '256GB/1TB UFS', 'Battery': '21.6 Wh (~2-3 hrs)', 'Weight': '440g (with strap)', 'Weight (bare)': '185g', 'Tracking': 'Inside-Out 6DoF', 'Eye Tracking': 'Yes (foveated rendering)', 'Passthrough': 'Monochrome IR (1280x1024)', 'Cameras': '4x IR + 2x eye tracking', 'Audio': '4x speakers, dual-mic array', 'IPD': 'Physical wheel (adjustable)', 'Connectivity': 'Wi-Fi 7, BT 5.3, USB-C 2.0', 'OS': 'SteamOS', 'Display': 'LCD (pancake lenses)', 'IPD Range': '58-72mm' }
+    specs: { 'Chip': 'Snapdragon 8 Gen 3', 'RAM': '16GB LPDDR5X', 'Resolution': '2160x2160 per eye', 'PPD': '~25 PPD', 'FOV': '~110°', 'Refresh': '72-144Hz', 'Storage': '256GB/1TB UFS', 'Battery': '21.6 Wh (~2-3 hrs)', 'Weight': '440g (with strap)', 'Weight (bare)': '185g', 'Tracking': 'Inside-Out 6DoF', 'Eye Tracking': 'Yes (foveated rendering)', 'Passthrough': 'Monochrome IR (1280x1024)', 'Cameras': '4x IR + 2x eye tracking', 'Audio': '4x speakers, dual-mic array', 'IPD': 'Physical wheel (58-72mm)', 'Wi-Fi': 'Wi-Fi 7', 'Bluetooth': 'BT 5.3', 'USB': 'USB-C 2.0', 'OS': 'SteamOS', 'Display': 'LCD (pancake lenses)', 'Micro-SD': 'Yes' }
   },
   { id: 'v5', name: 'Steam Machine', description: 'Valve living room console PC', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'console', priceRange: '$500-$1,000',
   },
@@ -448,7 +448,7 @@ const staticReleases: Release[] = [
       { label: 'Pimax Store', url: 'https://pimax.com/products/pimax-dream-air', type: 'official' },
       { label: 'Pimax FAQ', url: 'https://pimax.com/blogs/blogs/faq-about-the-pimax-dream-air', type: 'official' },
     ],
-    specs: { 'Type': 'PCVR (Wired)', 'Resolution': '3840x3552 per eye', 'PPD': '~35 PPD', 'FOV': '102°', 'Refresh': '72/90Hz', 'Panel': 'Sony Micro-OLED 2x 1.35"', 'Contrast': '100000:1', 'Color Gamut': 'DCI-P3 100%', 'MTP Latency': '15ms', 'Weight': '~170g', 'Tracking': 'SLAM (4 cameras) + Lighthouse', 'Eye Tracking': 'Yes (integrated)', 'Hand Tracking': 'Yes (integrated)', 'Audio': 'Integrated speakers', 'Microphones': '2x built-in', 'IPD': 'Auto 58-72mm', 'Eye Relief': '14mm', 'Connection': 'DP 1.4 + USB-C (5m cable)', 'Diopter': '-300~900° (sold separately)', 'Controller Battery': '4-5 hrs (600mAh)', 'Controller Weight': '126g', 'Controller Charging': 'USB-C' }
+    specs: { 'Type': 'PCVR (Wired)', 'Resolution': '3840x3552 per eye', 'PPD': '~35 PPD', 'FOV': '102°', 'Refresh': '72/90Hz', 'Panel': 'Sony Micro-OLED 2x 1.35"', 'Contrast': '100000:1', 'Color Gamut': 'DCI-P3 100%', 'MTP Latency': '15ms', 'Weight': '~170g', 'Tracking': 'SLAM (4 cameras) + Lighthouse', 'Eye Tracking': 'Yes (integrated)', 'Hand Tracking': 'Yes (integrated)', 'Audio': 'Integrated speakers', 'Microphones': '2x built-in', 'IPD': 'Auto 58-72mm', 'Eye Relief': '14mm', 'DisplayPort': 'DP 1.4', 'USB': 'USB-C', 'Cable': '5m', 'Diopter': '-300~900° (sold separately)', 'Controller Battery': '4-5 hrs (600mAh)', 'Controller Weight': '126g', 'Controller Charging': 'USB-C' }
   },
   { id: 'px4', name: 'Pimax Dream Air SE', description: 'Budget Micro-OLED with 105° ConcaveView, lightweight design', date: 'Dec 2025', dateObj: new Date('2025-12-01'), status: 'Upcoming', confirmationLevel: 'official', category: 'pimax', type: 'vr', priceRange: '€802-€1,070',
     sources: [
