@@ -732,30 +732,84 @@ export default function Home() {
 
       {showCompare && compareList.length > 0 && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowCompare(false)}>
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className={`max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-2xl p-6 ${isDark ? "bg-gray-900" : "bg-white"} shadow-2xl`} onClick={(e) => e.stopPropagation()}>
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className={`max-w-6xl w-full max-h-[90vh] overflow-y-auto rounded-2xl p-6 ${isDark ? "bg-gray-900" : "bg-white"} shadow-2xl`} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6">
               <h2 className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>Compare ({compareList.length})</h2>
               <button onClick={() => setShowCompare(false)} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`}><X size={24} /></button>
             </div>
-            <div className="overflow-x-auto">
+
+            {/* Product Overview Row */}
+            <div className="mb-6 overflow-x-auto">
               <table className="w-full">
-                <thead><tr className={`border-b ${isDark ? "border-gray-700" : "border-gray-200"}`}><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Product</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Price</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Status</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Date</th><th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Specs</th></tr></thead>
+                <thead>
+                  <tr className={`border-b ${isDark ? "border-gray-700" : "border-gray-200"}`}>
+                    <th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"} w-32`}>Product</th>
+                    {getCompareItems().map(item => (
+                      <th key={item.id} className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>{item.name}</th>
+                    ))}
+                  </tr>
+                </thead>
                 <tbody>
-                  {getCompareItems().map(item => (
-                    <tr key={item.id} className={`border-b ${isDark ? "border-gray-800" : "border-gray-100"}`}>
-                      <td className="p-3"><div className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>{item.name}</div><div className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>{item.description}</div></td>
-                      <td className={`p-3 font-medium ${isDark ? "text-green-400" : "text-green-700"}`}>{convertPrice(item.price || item.priceRange)}{item.priceRange ? ' est.' : ''}</td>
-                      <td className="p-3"><span className={`px-2 py-1 rounded-full text-xs font-medium border ${statusColors[item.status]}`}>{item.status}</span></td>
-                      <td className={`p-3 ${isDark ? "text-gray-300" : "text-gray-700"}`}>{item.date}</td>
-                      <td className="p-3">{item.specs && Object.entries(item.specs).map(([k,v]) => <div key={k} className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}><span className="font-medium">{k}:</span> {v}</div>)}</td>
-                    </tr>
-                  ))}
+                  <tr className={`border-b ${isDark ? "border-gray-800" : "border-gray-100"}`}>
+                    <td className={`p-3 text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>Price</td>
+                    {getCompareItems().map(item => (
+                      <td key={item.id} className={`p-3 font-medium ${isDark ? "text-green-400" : "text-green-700"}`}>{convertPrice(item.price || item.priceRange)}{item.priceRange ? ' est.' : ''}</td>
+                    ))}
+                  </tr>
+                  <tr className={`border-b ${isDark ? "border-gray-800" : "border-gray-100"}`}>
+                    <td className={`p-3 text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>Status</td>
+                    {getCompareItems().map(item => (
+                      <td key={item.id} className="p-3"><span className={`px-2 py-1 rounded-full text-xs font-medium border ${statusColors[item.status]}`}>{item.status}</span></td>
+                    ))}
+                  </tr>
+                  <tr className={``}>
+                    <td className={`p-3 text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>Date</td>
+                    {getCompareItems().map(item => (
+                      <td key={item.id} className={`p-3 ${isDark ? "text-gray-300" : "text-gray-700"}`}>{item.date}</td>
+                    ))}
+                  </tr>
                 </tbody>
               </table>
             </div>
+
+            {/* Spec Comparison Rows */}
+            {(() => {
+              const items = getCompareItems();
+              const allSpecKeys = Array.from(new Set(items.flatMap(i => i.specs ? Object.keys(i.specs) : [])));
+              if (allSpecKeys.length === 0) return null;
+              return (
+                <div className="mb-4">
+                  <h3 className={`text-lg font-semibold mb-3 ${isDark ? "text-white" : "text-gray-900"}`}>Specifications Comparison</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <tbody>
+                        {allSpecKeys.map(key => {
+                          const values = items.map(i => i.specs?.[key] || '—');
+                          const uniqueValues = Array.from(new Set(values.filter(v => v !== '—')));
+                          const hasDiff = uniqueValues.length > 1;
+                          return (
+                            <tr key={key} className={`border-b ${hasDiff ? (isDark ? "bg-yellow-900/20" : "bg-yellow-50") : ""} ${isDark ? "border-gray-800" : "border-gray-100"}`}>
+                              <td className={`p-3 w-32 ${isDark ? "text-gray-400" : "text-gray-500"} text-sm font-medium`}>{key}</td>
+                              {items.map((item, idx) => (
+                                <td key={item.id} className={`p-3 text-sm ${hasDiff ? (values[idx] === uniqueValues[0] ? (isDark ? "text-green-400" : "text-green-700") : (isDark ? "text-red-400" : "text-red-700")) : (isDark ? "text-gray-300" : "text-gray-700")}`}>
+                                  {values[idx]}
+                                  {hasDiff && values[idx] !== '—' && <span className="ml-2 text-xs opacity-60">({idx === 0 ? "best" : idx === 1 ? "2nd" : idx === 2 ? "3rd" : idx + 1 + "th"})</span>}
+                                </td>
+                              ))}
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className={`text-xs mt-2 ${isDark ? "text-gray-500" : "text-gray-400"}`}>🟢 Green = better value | 🔴 Red = different/less</p>
+                </div>
+              );
+            })()}
+
             <div className="mt-4 flex gap-2">
-              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; navigator.clipboard.writeText(compareUrl); setCompareCopiedLink(true); setTimeout(() => setCompareCopiedLink(false), 2000); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{compareCopiedLink ? <Check size={16} className="inline mr-2" /> : <Copy size={16} className="inline mr-2" />}{compareCopiedLink ? 'Copied!' : 'Copy Link'}</button>
-              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; const shareText = items.length <= 3 ? items.map(i => i.name).join(' vs ') : `${items.length} hardware products`; navigator.clipboard.writeText(shareText + '\n' + compareUrl); setCompareCopiedShare(true); setTimeout(() => setCompareCopiedShare(false), 2000); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{compareCopiedShare ? <Check size={16} className="inline mr-2" /> : <Share2 size={16} className="inline mr-2" />}{compareCopiedShare ? 'Copied!' : 'Share'}</button>
+              <button onClick={() => { const items = getCompareItems(); const compareUrl = `${typeof window !== 'undefined' ? window.location.origin : 'https://hardware.benjob.me'}?compare=${items.map(i => i.id).join(',')}`; navigator.clipboard.writeText(compareUrl); setCompareCopiedLink(true); setTimeout(() => setCompareCopiedLink(false), 2000); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{compareCopiedLink ? <Check size={16} className="inline mr-2" /> : <Copy size={16} className="inline mr-2" />}{compareCopiedLink ? 'Copied!' : 'Copy Link'}</button>
+              <button onClick={() => { const items = getCompareItems(); const compareUrl = `${typeof window !== 'undefined' ? window.location.origin : 'https://hardware.benjob.me'}?compare=${items.map(i => i.id).join(',')}`; const shareText = items.length <= 3 ? items.map(i => i.name).join(' vs ') : `${items.length} hardware products`; navigator.clipboard.writeText(shareText + '\n' + compareUrl); setCompareCopiedShare(true); setTimeout(() => setCompareCopiedShare(false), 2000); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{compareCopiedShare ? <Check size={16} className="inline mr-2" /> : <Share2 size={16} className="inline mr-2" />}{compareCopiedShare ? 'Copied!' : 'Share'}</button>
             </div>
           </motion.div>
         </div>
