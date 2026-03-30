@@ -448,7 +448,7 @@ const staticReleases: Release[] = [
       { label: 'Pimax Store', url: 'https://pimax.com/products/pimax-dream-air', type: 'official' },
       { label: 'Pimax FAQ', url: 'https://pimax.com/blogs/blogs/faq-about-the-pimax-dream-air', type: 'official' },
     ],
-    specs: { 'Type': 'PCVR (Wired)', 'Resolution': '3840x3552 per eye', 'PPD': '~35 PPD', 'FOV': '102°', 'Refresh': '72/90Hz', 'Panel': 'Sony Micro-OLED 2x 1.35"', 'Contrast': '100000:1', 'Color Gamut': 'DCI-P3 100%', 'MTP Latency': '15ms', 'Weight': '~170g', 'Tracking': 'SLAM (4 cameras) + Lighthouse', 'Eye Tracking': 'Yes (integrated)', 'Hand Tracking': 'Yes (integrated)', 'Audio': 'Integrated speakers', 'Microphones': '2x built-in', 'IPD': 'Auto 58-72mm', 'Eye Relief': '14mm', 'DisplayPort': 'DP 1.4', 'USB': 'USB-C', 'Cable': '5m', 'Diopter': '-300~900° (sold separately)', 'Controller Battery (hrs)': '4-5 hrs', 'Controller Battery (mAh)': '600', 'Controller Weight': '126g', 'Controller Charging': 'USB-C' }
+    specs: { 'Type': 'PCVR (Wired)', 'Resolution': '3840x3552 per eye', 'PPD': '~35 PPD', 'FOV': '102°', 'Refresh': '72/90Hz', 'Panel': 'Sony Micro-OLED 2x 1.35"', 'Contrast': '100000:1', 'Color Gamut': 'DCI-P3 100%', 'MTP Latency': '15ms', 'Weight': '~170g', 'Tracking': 'SLAM (4 cameras) + Lighthouse', 'Eye Tracking': 'Yes (integrated)', 'Hand Tracking': 'Yes (integrated)', 'Audio': 'Integrated speakers', 'Microphones': '2x built-in', 'IPD': 'Auto 58-72mm', 'Eye Relief': '14mm', 'DisplayPort': 'DP 1.4', 'USB': 'USB-C', 'Cable': '5m', 'Wi-Fi': 'N/A (Wired)', 'Bluetooth': 'N/A', 'Battery (hrs)': 'N/A (Wired)', 'Battery (Wh)': 'N/A', 'Diopter': '-300~900° (sold separately)', 'Controller Battery (hrs)': '4-5 hrs', 'Controller Battery (mAh)': '600', 'Controller Weight': '126g', 'Controller Charging': 'USB-C' }
   },
   { id: 'px4', name: 'Pimax Dream Air SE', description: 'Budget Micro-OLED with 105° ConcaveView, lightweight design', date: 'Dec 2025', dateObj: new Date('2025-12-01'), status: 'Upcoming', confirmationLevel: 'official', category: 'pimax', type: 'vr', priceRange: '€802-€1,070',
     sources: [
@@ -867,7 +867,7 @@ export default function Home() {
                           // Normalize values for comparison: strip ~, °, spaces, etc.
                           const normalizeForCompare = (v: string) => String(v).replace(/[~°\s]/g, '').toLowerCase();
                           const normalizedValues = values.map(v => normalizeForCompare(v));
-                          const uniqueNormalized = Array.from(new Set(normalizedValues.filter(v => v !== '—')));
+                          const uniqueNormalized = Array.from(new Set(normalizedValues.filter(v => v !== '—' && v !== 'N/A')));
                           const hasDiff = uniqueNormalized.length > 1;
                           // Extract numeric value - for ranges like "72-144Hz", take the MAX for comparison
                           // Also handles "8GB", "440g", "2160x2160" (takes first number)
@@ -1044,12 +1044,12 @@ export default function Home() {
                                 const isBest = rank === 1;
                                 const isTied = getTied(idx);
                                 const tiedBestWithWorse = isTiedBestWithWorse(idx);
-                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveStorageType || allHaveRAMSize || allHaveRAMSpeed) && val !== '—' && !skipRanking;
+                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveStorageType || allHaveRAMSize || allHaveRAMSpeed) && val !== '—' && val !== 'N/A' && !skipRanking;
                                 // Boolean specs: Yes=green, No=red
                                 const isYes = /yes/i.test(String(val));
                                 const isBooleanYesGood = isBooleanSpec && isYes;
-                                const isBooleanNoBad = isBooleanSpec && !isYes && val !== '—';
-                                const showColor = shouldColor && val !== '—';
+                                const isBooleanNoBad = isBooleanSpec && !isYes && val !== '—' && val !== 'N/A';
+                                const showColor = shouldColor && val !== '—' && val !== 'N/A';
                                 // Green if: best unique OR tied best with worse options existing
                                 const isGreen = (isComparable && isBest && !isTied) || tiedBestWithWorse;
                                 // Show pixel count for resolution
