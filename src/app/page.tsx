@@ -314,7 +314,7 @@ const staticReleases: Release[] = [
       { label: 'Meta Quest 3', url: 'https://www.meta.com/quest/quest-3/', type: 'official' },
       { label: 'Tom\'s Hardware Review', url: 'https://www.tomshardware.com/meta-quest-3', type: 'review' },
     ],
-    specs: { 'Chip': 'Snapdragon XR2 Gen 2', 'RAM': '8GB', 'Resolution': '2064x2208 per eye', 'PPD': '~25 PPD', 'FOV': '110°', 'Refresh': '90/120Hz', 'Storage': '128GB-512GB', 'Battery (hrs)': '2.2 hrs', 'Battery (mAh)': '5060', 'Weight': '515g', 'Tracking': 'Inside-Out 6DoF', 'Passthrough': 'Full-color RGB cameras', 'Eye Tracking': 'No', 'Audio': 'Spatial speakers, 3.5mm jack', 'IPD': 'Fixed 63.5mm (2 positions)', 'Controllers': 'Touch Plus (AA batteries)', 'Wi-Fi': 'Wi-Fi 6E', 'Bluetooth': 'BT 5.2', 'USB': 'USB-C' }
+    specs: { 'Type': 'Standalone VR/MR', 'Chip': 'Snapdragon XR2 Gen 2', 'RAM': '8GB LPDDR5', 'Resolution': '2064x2208 per eye', 'PPD': '~25 PPD', 'FOV': '110°', 'Refresh': '90/120Hz', 'Storage': '128GB-512GB', 'Battery (hrs)': '2.2 hrs', 'Battery (mAh)': '5060', 'Weight': '515g', 'Tracking': 'Inside-Out 6DoF', 'Passthrough': 'Full-color RGB cameras', 'Cameras': '2x RGB + 4x IR tracking + IR projector', 'Eye Tracking': 'No', 'Audio': 'Spatial speakers, 3.5mm jack', 'Microphones': 'Beamforming mic array', 'IPD': '53-75mm (scroll wheel)', 'Controllers': 'Touch Plus (AA batteries)', 'Wi-Fi': 'Wi-Fi 6E', 'Bluetooth': 'BT 5.2', 'USB': 'USB-C', 'OS': 'Meta Horizon OS (Android)', 'Display': 'LCD (pancake lenses)', 'Color Gamut': 'LCD RGB-stripe' }
   },
   { id: 'm2', name: 'Meta Quest 3S', description: 'Budget mixed reality, same chip as Quest 3', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr', price: '$299',
   },
@@ -423,7 +423,7 @@ const staticReleases: Release[] = [
       { label: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Steam_Frame', type: 'official' },
       { label: 'RoadToVR', url: 'https://www.roadtovr.com/steam-frame-hands-on-valve-vr-headset-index-2/', type: 'review' },
     ],
-    specs: { 'Chip': 'Snapdragon 8 Gen 3', 'RAM': '16GB LPDDR5X', 'Resolution': '2160x2160 per eye', 'PPD': '~25 PPD', 'FOV': '~110°', 'Refresh': '72-144Hz', 'Storage': '256GB/1TB UFS', 'Battery (hrs)': '2-3 hrs', 'Battery (Wh)': '21.6', 'Weight': '440g (with strap)', 'Weight (bare)': '185g', 'Tracking': 'Inside-Out 6DoF', 'Eye Tracking': 'Yes (foveated rendering)', 'Passthrough': 'Monochrome IR (1280x1024)', 'Cameras': '4x IR + 2x eye tracking', 'Audio': '4x speakers, dual-mic array', 'IPD': 'Physical wheel (58-72mm)', 'Wi-Fi': 'Wi-Fi 7', 'Bluetooth': 'BT 5.3', 'USB': 'USB-C 2.0', 'OS': 'SteamOS', 'Display': 'LCD (pancake lenses)', 'Micro-SD': 'Yes' }
+    specs: { 'Type': 'Standalone VR', 'Chip': 'Snapdragon 8 Gen 3', 'RAM': '16GB LPDDR5X', 'Resolution': '2160x2160 per eye', 'PPD': '~25 PPD', 'FOV': '~110°', 'Refresh': '72-144Hz', 'Storage': '256GB/1TB UFS', 'Battery (hrs)': '2-3 hrs', 'Battery (Wh)': '21.6', 'Weight': '440g (with strap)', 'Weight (bare)': '185g', 'Tracking': 'Inside-Out 6DoF', 'Eye Tracking': 'Yes (foveated rendering)', 'Passthrough': 'Monochrome IR (1280x1024)', 'Cameras': '4x IR + 2x eye tracking', 'Audio': '4x speakers, dual-mic array', 'Microphones': 'Dual-mic array', 'IPD': '58-72mm (physical wheel)', 'Controllers': 'Bundled ((Index 2?) TBD)', 'Wi-Fi': 'Wi-Fi 7', 'Bluetooth': 'BT 5.3', 'USB': 'USB-C 2.0', 'OS': 'SteamOS', 'Display': 'LCD (pancake lenses)', 'Micro-SD': 'Yes (expandable)' }
   },
   { id: 'v5', name: 'Steam Machine', description: 'Valve living room console PC', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'console', priceRange: '$500-$1,000',
   },
@@ -883,11 +883,12 @@ export default function Home() {
                           const allHaveNumbers = numericValues.every(n => n !== null);
                           // Specs where LOWER is better (weight, price)
                           const lowerIsBetter = ['Weight', 'weight', 'Price', 'price', 'Latency'].some(k => key.includes(k));
-                          // Skip ranking for text specs like Tracking, Passthrough, Connection, OS, Display, Panel, etc.
-                          const skipRanking = ['Tracking', 'Passthrough', 'Connection', 'OS', 'Display', 'Panel', 'Audio', 'Microphones', 'Chip', 'Controllers', 'Color Gamut', 'Technology'].some(k => key.includes(k));
-                          // Boolean specs like Eye Tracking, Hand Tracking - color Yes=green, No/red=less
-                          const isBooleanSpec = ['Eye Tracking', 'Hand Tracking'].some(k => key.includes(k));
+                          // Skip ranking and coloring for text specs
+                          const skipRanking = ['Tracking', 'Passthrough', 'Connection', 'OS', 'Display', 'Panel', 'Audio', 'Microphones', 'Chip', 'Controllers', 'Color Gamut', 'Technology', 'Type', 'Cable', 'Diopter', 'Eye Relief', 'Contrast', 'Cameras', 'Hand Tracking'].some(k => key.includes(k));
+                          // Boolean specs like Eye Tracking - color Yes=green, No=red
+                          const isBooleanSpec = ['Eye Tracking'].some(k => key.includes(k));
                           const hasNumericComparison = hasDiff && allHaveNumbers && !skipRanking;
+                          const shouldColor = hasDiff && !skipRanking;
                           // Sort items by numeric value to get rankings (same numeric = same rank)
                           const sortedItems = items.map((_, idx) => ({
                             idx,
@@ -925,13 +926,14 @@ export default function Home() {
                                 const rank = rankMap[idx];
                                 const isBest = rank === 1;
                                 const isTied = getTied(idx);
-                                const isComparable = hasDiff && allHaveNumbers && val !== '—';
-                                // Boolean specs: Yes=green, No=less
+                                const isComparable = hasDiff && allHaveNumbers && val !== '—' && !skipRanking;
+                                // Boolean specs: Yes=green, No=red
                                 const isYes = /yes/i.test(String(val));
                                 const isBooleanYesGood = isBooleanSpec && isYes;
                                 const isBooleanNoBad = isBooleanSpec && !isYes && val !== '—';
+                                const showColor = shouldColor && val !== '—';
                                 return (
-                                  <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest && !isTied ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isBooleanYesGood ? (isDark ? "text-green-400" : "text-green-700") : (isBooleanNoBad ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))))}`}>
+                                  <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest && !isTied ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isBooleanYesGood ? (isDark ? "text-green-400" : "text-green-700") : (isBooleanNoBad ? (isDark ? "text-red-400" : "text-red-700") : (showColor ? (isDark ? "text-gray-300" : "text-gray-700") : (isDark ? "text-gray-300" : "text-gray-700")))))}`}>
                                     {val}
                                     {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}{isTied ? '=' : ''}</span>}
                                   </td>
