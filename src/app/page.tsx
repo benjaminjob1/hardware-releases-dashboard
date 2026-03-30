@@ -314,7 +314,7 @@ const staticReleases: Release[] = [
       { label: 'Meta Quest 3', url: 'https://www.meta.com/quest/quest-3/', type: 'official' },
       { label: 'Tom\'s Hardware Review', url: 'https://www.tomshardware.com/meta-quest-3', type: 'review' },
     ],
-    specs: { 'Type': 'Standalone VR/MR', 'Chip': 'Snapdragon XR2 Gen 2', 'RAM Capacity': '8GB', 'RAM Speed': 'LPDDR5', 'Resolution': '2064x2208 per eye', 'PPD': '~25 PPD', 'FOV': '110°', 'Refresh': '90/120Hz', 'Storage': '128GB-512GB', 'Battery (hrs)': '2.2 hrs', 'Battery (mAh)': '5060', 'Weight': '515g', 'Tracking': 'Inside-Out 6DoF', 'Passthrough': 'Full-color RGB cameras', 'Cameras': '2x RGB + 4x IR tracking + IR projector', 'Eye Tracking': 'No', 'Audio': 'Spatial speakers, 3.5mm jack', 'Microphones': 'Beamforming mic array', 'IPD': '53-75mm (scroll wheel)', 'Controllers': 'Touch Plus (AA batteries)', 'Wi-Fi': 'Wi-Fi 6E', 'Bluetooth': 'BT 5.2', 'USB': 'USB-C', 'OS': 'Meta Horizon OS (Android)', 'Display': 'LCD (pancake lenses)', 'Color Gamut': 'LCD RGB-stripe' }
+    specs: { 'Type': 'Standalone VR/MR', 'Chip': 'Snapdragon XR2 Gen 2', 'RAM Capacity': '8GB', 'RAM Speed': 'LPDDR5', 'Resolution': '2064x2208 per eye', 'PPD': '~25 PPD', 'FOV': '110°', 'Refresh': '90/120Hz', 'Storage Capacity': '128GB-512GB', 'Storage Type': 'UFS', 'Battery (hrs)': '2.2 hrs', 'Battery (mAh)': '5060', 'Weight': '515g', 'Tracking': 'Inside-Out 6DoF', 'Passthrough': 'Full-color RGB cameras', 'Cameras': '2x RGB + 4x IR tracking + IR projector', 'Eye Tracking': 'No', 'Audio': 'Spatial speakers, 3.5mm jack', 'Microphones': 'Beamforming mic array', 'IPD': '53-75mm (scroll wheel)', 'Controllers': 'Touch Plus (AA batteries)', 'Wi-Fi': 'Wi-Fi 6E', 'Bluetooth': 'BT 5.2', 'USB': 'USB-C', 'OS': 'Meta Horizon OS (Android)', 'Display': 'LCD (pancake lenses)', 'Color Gamut': 'LCD RGB-stripe' }
   },
   { id: 'm2', name: 'Meta Quest 3S', description: 'Budget mixed reality, same chip as Quest 3', date: 'Oct 2024', dateObj: new Date('2024-10-01'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'vr', price: '$299',
   },
@@ -423,7 +423,7 @@ const staticReleases: Release[] = [
       { label: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Steam_Frame', type: 'official' },
       { label: 'RoadToVR', url: 'https://www.roadtovr.com/steam-frame-hands-on-valve-vr-headset-index-2/', type: 'review' },
     ],
-    specs: { 'Type': 'Standalone VR', 'Chip': 'Snapdragon 8 Gen 3', 'RAM Capacity': '16GB', 'RAM Speed': 'LPDDR5X', 'Resolution': '2160x2160 per eye', 'PPD': '~25 PPD', 'FOV': '~110°', 'Refresh': '72-144Hz', 'Storage': '256GB/1TB UFS', 'Battery (hrs)': '2-3 hrs', 'Battery (Wh)': '21.6', 'Weight': '440g (with strap)', 'Weight (bare)': '185g', 'Tracking': 'Inside-Out 6DoF', 'Eye Tracking': 'Yes (foveated rendering)', 'Passthrough': 'Monochrome IR (1280x1024)', 'Cameras': '4x IR + 2x eye tracking', 'Audio': '4x speakers, dual-mic array', 'Microphones': 'Dual-mic array', 'IPD': '58-72mm (physical wheel)', 'Controllers': 'Bundled ((Index 2?) TBD)', 'Wi-Fi': 'Wi-Fi 7', 'Bluetooth': 'BT 5.3', 'USB': 'USB-C 2.0', 'OS': 'SteamOS', 'Display': 'LCD (pancake lenses)', 'Micro-SD': 'Yes (expandable)' }
+    specs: { 'Type': 'Standalone VR', 'Chip': 'Snapdragon 8 Gen 3', 'RAM Capacity': '16GB', 'RAM Speed': 'LPDDR5X', 'Resolution': '2160x2160 per eye', 'PPD': '~25 PPD', 'FOV': '~110°', 'Refresh': '72-144Hz', 'Storage Capacity': '256GB/1TB', 'Storage Type': 'UFS', 'Battery (hrs)': '2-3 hrs', 'Battery (Wh)': '21.6', 'Weight': '440g (with strap)', 'Weight (bare)': '185g', 'Tracking': 'Inside-Out 6DoF', 'Eye Tracking': 'Yes (foveated rendering)', 'Passthrough': 'Monochrome IR (1280x1024)', 'Cameras': '4x IR + 2x eye tracking', 'Audio': '4x speakers, dual-mic array', 'Microphones': 'Dual-mic array', 'IPD': '58-72mm (physical wheel)', 'Controllers': 'Bundled ((Index 2?) TBD)', 'Wi-Fi': 'Wi-Fi 7', 'Bluetooth': 'BT 5.3', 'USB': 'USB-C 2.0', 'OS': 'SteamOS', 'Display': 'LCD (pancake lenses)', 'Micro-SD': 'Yes (expandable)' }
   },
   { id: 'v5', name: 'Steam Machine', description: 'Valve living room console PC', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'speculative', category: 'valve', type: 'console', priceRange: '$500-$1,000',
   },
@@ -914,6 +914,31 @@ export default function Home() {
                             return maxGB > 0 ? maxGB : null;
                           });
                           const allHaveStorage = storageGB.every(n => n !== null);
+                          // Storage Type: UFS 3.x > UFS 2.x > eMMC (higher version = better)
+                          const isStorageType = key === 'Storage Type';
+                          const storageTypeScore = values.map(v => {
+                            const str = String(v);
+                            // UFS 3.x = 30, UFS 2.x = 20, eMMC = 5, none = 0
+                            const ufs3Match = str.match(/UFS\s*3\.?(\d*)/i);
+                            const ufs2Match = str.match(/UFS\s*2\.?(\d*)/i);
+                            const emmcMatch = str.match(/eMMC/i);
+                            if (ufs3Match) return 30 + (parseInt(ufs3Match[1]) || 0);
+                            if (ufs2Match) return 20 + (parseInt(ufs2Match[1]) || 0);
+                            if (emmcMatch) return 5;
+                            // If no type specified but has storage, give minimal score
+                            if (storageGB[values.indexOf(v)] !== null) return 1;
+                            return null;
+                          });
+                          const allHaveStorageType = storageTypeScore.every(n => n !== null);
+                          const storageTypeLabel = values.map(v => {
+                            const str = String(v);
+                            // Extract type label
+                            const ufsMatch = str.match(/(UFS\s*[\d.]*)/i);
+                            const emmcMatch = str.match(/(eMMC)/i);
+                            if (ufsMatch) return ufsMatch[0].trim();
+                            if (emmcMatch) return emmcMatch[0];
+                            return str.includes('/') || /^\d/.test(str) ? 'Basic' : null;
+                          });
                           // RAM Size: extract GB
                           const isRAMSize = key === 'RAM Capacity';
                           const ramSizeGB = values.map(v => {
@@ -947,7 +972,7 @@ export default function Home() {
                           const allHaveConnectivity = connectivityValues.every(n => n !== null);
                           // Boolean specs like Eye Tracking - color Yes=green, No=red
                           const isBooleanSpec = ['Eye Tracking'].some(k => key.includes(k));
-                          const hasNumericComparison = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveRAMSize || allHaveRAMSpeed) && !skipRanking;
+                          const hasNumericComparison = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveStorageType || allHaveRAMSize || allHaveRAMSpeed) && !skipRanking;
                           const shouldColor = hasDiff && !skipRanking;
                           // Sort items by numeric value to get rankings (same numeric = same rank)
                           // Use connectivity values for Wi-Fi/Bluetooth/USB specs
@@ -957,6 +982,9 @@ export default function Home() {
                             }
                             if (isStorage && allHaveStorage) {
                               return storageGB[idx];
+                            }
+                            if (isStorageType && allHaveStorageType) {
+                              return storageTypeScore[idx];
                             }
                             if (isRAMSize && allHaveRAMSize) {
                               return ramSizeGB[idx];
@@ -1016,7 +1044,7 @@ export default function Home() {
                                 const isBest = rank === 1;
                                 const isTied = getTied(idx);
                                 const tiedBestWithWorse = isTiedBestWithWorse(idx);
-                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveRAMSize || allHaveRAMSpeed) && val !== '—' && !skipRanking;
+                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveStorageType || allHaveRAMSize || allHaveRAMSpeed) && val !== '—' && !skipRanking;
                                 // Boolean specs: Yes=green, No=red
                                 const isYes = /yes/i.test(String(val));
                                 const isBooleanYesGood = isBooleanSpec && isYes;
@@ -1028,13 +1056,15 @@ export default function Home() {
                                 const pixelInfo = isResolution && resolutionPixels[idx] ? ` [${(resolutionPixels[idx] / 1000000).toFixed(1)}MP]` : '';
                                 // Show max storage for storage
                                 const storageInfo = isStorage && storageGB[idx] ? ` [${storageGB[idx] >= 1000 ? (storageGB[idx]/1000).toFixed(0)+'TB' : storageGB[idx]+'GB'} max]` : '';
+                                // Show storage type label
+                                const storageTypeInfo = isStorageType && storageTypeLabel[idx] ? ` [${storageTypeLabel[idx]}]` : '';
                                 // Show RAM capacity
                                 const ramSizeInfo = isRAMSize && ramSizeGB[idx] ? ` [${ramSizeGB[idx]}GB]` : '';
                                 // Show RAM speed type label
                                 const ramSpeedInfo = isRAMSpeed && ramSpeedLabel[idx] ? ` [${ramSpeedLabel[idx]}]` : '';
                                 return (
                                   <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isBooleanYesGood ? (isDark ? "text-green-400" : "text-green-700") : (isBooleanNoBad ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))))}`}>
-                                    {val}{pixelInfo}{storageInfo}{ramSizeInfo}{ramSpeedInfo}
+                                    {val}{pixelInfo}{storageInfo}{storageTypeInfo}{ramSizeInfo}{ramSpeedInfo}
                                     {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}{isTied && !tiedBestWithWorse ? '=' : ''}</span>}
                                   </td>
                                 );
