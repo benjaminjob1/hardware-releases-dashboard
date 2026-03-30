@@ -887,6 +887,14 @@ export default function Home() {
                           const skipRanking = ['Tracking', 'Passthrough', 'Connection', 'OS', 'Display', 'Panel', 'Audio', 'Microphones', 'Chip', 'Controllers', 'Color Gamut', 'Technology', 'Type', 'Cable', 'Diopter', 'Eye Relief', 'Contrast', 'Cameras', 'Hand Tracking', 'IPD'].some(k => key.includes(k));
                           // Numeric ranking for connectivity specs (Wi-Fi, Bluetooth, USB versions)
                           const numericConnectivity = ['Wi-Fi', 'WiFi', 'Bluetooth', 'USB'].some(k => key.includes(k));
+                          // Resolution: calculate total pixels (width × height)
+                          const isResolution = key === 'Resolution';
+                          const resolutionPixels = values.map(v => {
+                            const match = String(v).match(/(\d+)[x×](\d+)/i);
+                            if (match) return parseInt(match[1]) * parseInt(match[2]);
+                            return null;
+                          });
+                          const allHavePixels = resolutionPixels.every(n => n !== null);
                           // Extract numeric version for connectivity
                           const connectivityValues = values.map(v => {
                             const match = String(v).match(/[\d.]+/);
@@ -895,11 +903,14 @@ export default function Home() {
                           const allHaveConnectivity = connectivityValues.every(n => n !== null);
                           // Boolean specs like Eye Tracking - color Yes=green, No=red
                           const isBooleanSpec = ['Eye Tracking'].some(k => key.includes(k));
-                          const hasNumericComparison = hasDiff && (allHaveNumbers || allHaveConnectivity) && !skipRanking;
+                          const hasNumericComparison = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels) && !skipRanking;
                           const shouldColor = hasDiff && !skipRanking;
                           // Sort items by numeric value to get rankings (same numeric = same rank)
                           // Use connectivity values for Wi-Fi/Bluetooth/USB specs
                           const getNumericValue = (idx: number) => {
+                            if (isResolution && allHavePixels) {
+                              return resolutionPixels[idx];
+                            }
                             if (numericConnectivity && allHaveConnectivity) {
                               return connectivityValues[idx];
                             }
@@ -952,7 +963,7 @@ export default function Home() {
                                 const isBest = rank === 1;
                                 const isTied = getTied(idx);
                                 const tiedBestWithWorse = isTiedBestWithWorse(idx);
-                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity) && val !== '—' && !skipRanking;
+                                const isComparable = hasDiff && (allHaveNumbers || allHaveConnectivity || allHavePixels) && val !== '—' && !skipRanking;
                                 // Boolean specs: Yes=green, No=red
                                 const isYes = /yes/i.test(String(val));
                                 const isBooleanYesGood = isBooleanSpec && isYes;
@@ -960,9 +971,11 @@ export default function Home() {
                                 const showColor = shouldColor && val !== '—';
                                 // Green if: best unique OR tied best with worse options existing
                                 const isGreen = (isComparable && isBest && !isTied) || tiedBestWithWorse;
+                                // Show pixel count for resolution
+                                const pixelInfo = isResolution && resolutionPixels[idx] ? ` [${(resolutionPixels[idx] / 1000000).toFixed(1)}MP]` : '';
                                 return (
                                   <td key={item.id} className={`p-3 text-sm min-w-[140px] ${isComparable && isBest ? (isDark ? "text-green-400" : "text-green-700") : (isComparable && !isBest ? (isDark ? "text-red-400" : "text-red-700") : (isBooleanYesGood ? (isDark ? "text-green-400" : "text-green-700") : (isBooleanNoBad ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))))}`}>
-                                    {val}
+                                    {val}{pixelInfo}
                                     {isComparable && <span className="ml-2 text-xs opacity-60 font-medium">#{rank}{isTied && !tiedBestWithWorse ? '=' : ''}</span>}
                                   </td>
                                 );
