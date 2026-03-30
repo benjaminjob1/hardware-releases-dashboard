@@ -818,12 +818,12 @@ export default function Home() {
 
             {/* Product Overview Row */}
             <div className="mb-6 overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[600px] table-fixed">
                 <thead>
                   <tr className={`border-b ${isDark ? "border-gray-700" : "border-gray-200"}`}>
-                    <th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"} w-32`}>Product</th>
+                    <th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"} w-36`}>Product</th>
                     {getCompareItems().map(item => (
-                      <th key={item.id} className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"}`}>{item.name}</th>
+                      <th key={item.id} className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"} w-40`}>{item.name}</th>
                     ))}
                   </tr>
                 </thead>
@@ -859,28 +859,35 @@ export default function Home() {
                 <div className="mb-4">
                   <h3 className={`text-lg font-semibold mb-3 ${isDark ? "text-white" : "text-gray-900"}`}>Specifications Comparison</h3>
                   <div className="overflow-x-auto">
-                    <table className="w-full">
+                    <table className="w-full min-w-[600px] table-fixed">
                       <tbody>
                         {allSpecKeys.map(key => {
                           const values = items.map(i => i.specs?.[key] || '—');
                           const uniqueValues = Array.from(new Set(values.filter(v => v !== '—')));
                           const hasDiff = uniqueValues.length > 1;
-                          // Only rank numeric specs - extract numbers from values for comparison
+                          // Extract numeric values from specs (e.g., "8GB" -> 8, "440g" -> 440)
                           const numericValues = values.map(v => {
                             const match = String(v).match(/[\d.]+/);
                             return match ? parseFloat(match[0]) : null;
                           });
-                          const hasNumericComparison = hasDiff && numericValues.every(n => n !== null);
-                          // For numeric specs, find max; for text, no ranking
-                          const maxNumeric = hasNumericComparison ? Math.max(...numericValues.filter(n => n !== null)) : null;
+                          const allHaveNumbers = numericValues.every(n => n !== null);
+                          // Specs where LOWER is better (weight, price, battery hours if same capacity)
+                          const lowerIsBetter = ['Weight', 'weight', 'Battery', 'Price', 'price'].some(k => key.includes(k));
+                          const hasNumericComparison = hasDiff && allHaveNumbers;
+                          // For numeric specs, find best (min or max depending on spec type)
+                          const numericNonNull = numericValues.filter(n => n !== null);
+                          const bestValue = hasNumericComparison
+                            ? (lowerIsBetter ? Math.min(...numericNonNull) : Math.max(...numericNonNull))
+                            : null;
                           return (
                             <tr key={key} className={`border-b ${hasDiff ? (isDark ? "bg-yellow-900/20" : "bg-yellow-50") : ""} ${isDark ? "border-gray-800" : "border-gray-100"}`}>
-                              <td className={`p-3 w-32 ${isDark ? "text-gray-400" : "text-gray-500"} text-sm font-medium`}>{key}</td>
+                              <td className={`p-3 w-32 ${isDark ? "text-gray-400" : "text-gray-500"} text-sm font-medium`}>{key}{lowerIsBetter && hasNumericComparison && <span className="ml-1 text-xs opacity-60">(↓)</span>}</td>
                               {items.map((item, idx) => {
                                 const val = values[idx];
-                                const isBest = hasNumericComparison && numericValues[idx] === maxNumeric;
+                                const isBest = hasNumericComparison && numericValues[idx] === bestValue;
+                                const canCompare = hasDiff && (allHaveNumbers || !hasDiff);
                                 return (
-                                  <td key={item.id} className={`p-3 text-sm ${hasDiff ? (isBest ? (isDark ? "text-green-400" : "text-green-700") : (isDark ? "text-red-400" : "text-red-700")) : (isDark ? "text-gray-300" : "text-gray-700")}`}>
+                                  <td key={item.id} className={`p-3 text-sm min-w-[120px] ${canCompare && isBest ? (isDark ? "text-green-400" : "text-green-700") : (canCompare && !isBest && allHaveNumbers ? (isDark ? "text-red-400" : "text-red-700") : (isDark ? "text-gray-300" : "text-gray-700"))}`}>
                                     {val}
                                     {hasNumericComparison && hasDiff && val !== '—' && isBest && <span className="ml-2 text-xs opacity-60">(best)</span>}
                                   </td>
