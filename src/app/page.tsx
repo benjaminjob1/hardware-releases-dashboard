@@ -865,15 +865,27 @@ export default function Home() {
                           const values = items.map(i => i.specs?.[key] || '—');
                           const uniqueValues = Array.from(new Set(values.filter(v => v !== '—')));
                           const hasDiff = uniqueValues.length > 1;
+                          // Only rank numeric specs - extract numbers from values for comparison
+                          const numericValues = values.map(v => {
+                            const match = String(v).match(/[\d.]+/);
+                            return match ? parseFloat(match[0]) : null;
+                          });
+                          const hasNumericComparison = hasDiff && numericValues.every(n => n !== null);
+                          // For numeric specs, find max; for text, no ranking
+                          const maxNumeric = hasNumericComparison ? Math.max(...numericValues.filter(n => n !== null)) : null;
                           return (
                             <tr key={key} className={`border-b ${hasDiff ? (isDark ? "bg-yellow-900/20" : "bg-yellow-50") : ""} ${isDark ? "border-gray-800" : "border-gray-100"}`}>
                               <td className={`p-3 w-32 ${isDark ? "text-gray-400" : "text-gray-500"} text-sm font-medium`}>{key}</td>
-                              {items.map((item, idx) => (
-                                <td key={item.id} className={`p-3 text-sm ${hasDiff ? (values[idx] === uniqueValues[0] ? (isDark ? "text-green-400" : "text-green-700") : (isDark ? "text-red-400" : "text-red-700")) : (isDark ? "text-gray-300" : "text-gray-700")}`}>
-                                  {values[idx]}
-                                  {hasDiff && values[idx] !== '—' && <span className="ml-2 text-xs opacity-60">({idx === 0 ? "best" : idx === 1 ? "2nd" : idx === 2 ? "3rd" : idx + 1 + "th"})</span>}
-                                </td>
-                              ))}
+                              {items.map((item, idx) => {
+                                const val = values[idx];
+                                const isBest = hasNumericComparison && numericValues[idx] === maxNumeric;
+                                return (
+                                  <td key={item.id} className={`p-3 text-sm ${hasDiff ? (isBest ? (isDark ? "text-green-400" : "text-green-700") : (isDark ? "text-red-400" : "text-red-700")) : (isDark ? "text-gray-300" : "text-gray-700")}`}>
+                                    {val}
+                                    {hasNumericComparison && hasDiff && val !== '—' && isBest && <span className="ml-2 text-xs opacity-60">(best)</span>}
+                                  </td>
+                                );
+                              })}
                             </tr>
                           );
                         })}
