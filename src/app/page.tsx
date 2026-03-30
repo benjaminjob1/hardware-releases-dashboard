@@ -436,6 +436,8 @@ export default function Home() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copiedModalLink, setCopiedModalLink] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
+  const [compareCopiedLink, setCompareCopiedLink] = useState(false);
+  const [compareCopiedShare, setCompareCopiedShare] = useState(false);
 
   // Currency conversion
   const currencyRates: Record<string, number> = { USD: 1, GBP: 0.79, EUR: 0.92, JPY: 149, CAD: 1.36, AUD: 1.53 };
@@ -710,8 +712,8 @@ export default function Home() {
               </table>
             </div>
             <div className="mt-4 flex gap-2">
-              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; navigator.clipboard.writeText(compareUrl); setCopiedModalLink(true); setTimeout(() => setCopiedModalLink(false), 2000); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{copiedModalLink ? <><Check size={16} className="inline mr-2" />Copied!</> : <><Copy size={16} className="inline mr-2" />Copy Link</>}</button>
-              <button onClick={async () => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; const shareText = items.length <= 3 ? items.map(i => i.name).join(' vs ') : `${items.length} hardware products`; if (navigator.share) { await navigator.share({ title: 'Hardware Compare', text: shareText, url: compareUrl }); } else { await navigator.clipboard.writeText(`${shareText}\n${compareUrl}`); setCopiedShare(true); setTimeout(() => setCopiedShare(false), 2000); } }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{copiedShare ? <><Check size={16} className="inline mr-2" />Copied!</> : <><Share2 size={16} className="inline mr-2" />Share</>}</button>
+              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; navigator.clipboard.writeText(compareUrl); setCompareCopiedLink(true); setTimeout(() => setCompareCopiedLink(false), 2000); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{compareCopiedLink ? <Check size={16} className="inline mr-2" /> : <Copy size={16} className="inline mr-2" />}{compareCopiedLink ? 'Copied!' : 'Copy Link'}</button>
+              <button onClick={() => { const items = getCompareItems(); const compareUrl = `https://hardware.benjob.me?compare=${items.map(i => i.id).join(',')}`; const shareText = items.length <= 3 ? items.map(i => i.name).join(' vs ') : `${items.length} hardware products`; if (navigator.share) { navigator.share({ title: 'Hardware Compare', text: shareText, url: compareUrl }).catch(() => { navigator.clipboard.writeText(shareText + '\n' + compareUrl); }); } else { navigator.clipboard.writeText(shareText + '\n' + compareUrl); } setCompareCopiedShare(true); setTimeout(() => setCompareCopiedShare(false), 2000); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{compareCopiedShare ? <Check size={16} className="inline mr-2" /> : <Share2 size={16} className="inline mr-2" />}{compareCopiedShare ? 'Copied!' : 'Share'}</button>
             </div>
           </motion.div>
         </div>
