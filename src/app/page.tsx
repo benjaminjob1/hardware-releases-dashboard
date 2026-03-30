@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Layout from "../components/Layout";
 import { useTheme } from "../components/Layout";
-import { Clock, Cpu, Smartphone, Watch, Laptop, Monitor, Tablet, Headphones, Car, Tv, Glasses, X, ExternalLink, Info, Share2, GitCompare, Copy, Check, Twitter } from "lucide-react";
+import { Clock, Cpu, Smartphone, Watch, Laptop, Monitor, Tablet, Headphones, Car, Tv, Glasses, X, ExternalLink, Info, Share2, GitCompare, Copy, Check, Twitter, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Source {
   label: string;
@@ -666,6 +666,20 @@ export default function Home() {
 
   const getCompareItems = () => releases.filter(r => compareList.includes(r.id));
 
+  // Move item left/right in compare list
+  const moveCompareItem = (id: string, direction: 'left' | 'right') => {
+    const idx = compareList.indexOf(id);
+    if (direction === 'left' && idx > 0) {
+      const newList = [...compareList];
+      [newList[idx - 1], newList[idx]] = [newList[idx], newList[idx - 1]];
+      setCompareList(newList);
+    } else if (direction === 'right' && idx < compareList.length - 1) {
+      const newList = [...compareList];
+      [newList[idx], newList[idx + 1]] = [newList[idx + 1], newList[idx]];
+      setCompareList(newList);
+    }
+  };
+
   const getTimeSince = (dateObj: Date): string => {
     const diff = now - dateObj.getTime();
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -832,7 +846,10 @@ export default function Home() {
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowCompare(false)}>
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className={`max-w-6xl w-full max-h-[90vh] overflow-y-auto rounded-2xl p-6 ${isDark ? "bg-gray-900" : "bg-white"} shadow-2xl`} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6">
-              <h2 className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>Compare ({compareList.length})</h2>
+              <div className="flex items-center gap-3">
+                <h2 className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>Compare ({compareList.length})</h2>
+                <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>← → to reorder</span>
+              </div>
               <button onClick={() => setShowCompare(false)} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`}><X size={24} /></button>
             </div>
 
@@ -840,6 +857,17 @@ export default function Home() {
             <div className="mb-6 overflow-x-auto">
               <table className="w-full min-w-[600px] table-fixed">
                 <thead>
+                  <tr className={`border-b ${isDark ? "border-gray-700" : "border-gray-200"}`}>
+                    <th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"} w-36`}></th>
+                    {getCompareItems().map((item, idx) => (
+                      <th key={item.id} className={`text-center p-1 ${isDark ? "text-gray-400" : "text-gray-500"} w-40`}>
+                        <div className="flex items-center justify-center gap-1">
+                          <button onClick={() => moveCompareItem(item.id, 'left')} disabled={idx === 0} className={`p-1.5 rounded ${isDark ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-200 text-gray-500'} ${idx === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}><ChevronLeft size={18} /></button>
+                          <button onClick={() => moveCompareItem(item.id, 'right')} disabled={idx === compareList.length - 1} className={`p-1.5 rounded ${isDark ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-200 text-gray-500'} ${idx === compareList.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}`}><ChevronRight size={18} /></button>
+                        </div>
+                      </th>
+                    ))}
+                  </tr>
                   <tr className={`border-b ${isDark ? "border-gray-700" : "border-gray-200"}`}>
                     <th className={`text-left p-3 ${isDark ? "text-gray-400" : "text-gray-500"} w-36`}>Product</th>
                     {getCompareItems().map(item => (
