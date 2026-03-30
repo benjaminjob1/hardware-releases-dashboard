@@ -510,12 +510,6 @@ const staticReleases: Release[] = [
     ],
     specs: { 'Feedback Points': '40', 'Technology': 'EMS', 'Compatibility': 'PCVR, Quest', 'Wireless': 'Yes' }
   },
-  { id: 'tg3', name: 'TrueGear StrikeArm', description: 'Haptic arm bands for strike feedback', date: '2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'truegear', type: 'haptic', priceRange: '$99-149',
-    sources: [
-      { label: 'TrueGear', url: 'https://truegearhaptic.com/', type: 'official' },
-    ],
-    specs: { 'Haptic Points': 'Arm coverage', 'Technology': 'EMS', 'Compatibility': 'PCVR' }
-  },
 ];
 
 export default function Home() {
