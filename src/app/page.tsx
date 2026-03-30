@@ -49,6 +49,8 @@ const allCategories = [
   { id: 'snap', label: 'Snap' },
   { id: 'magic-leap', label: 'Magic Leap' },
   { id: 'pimax', label: 'Pimax' },
+  { id: 'bhaptics', label: 'bHaptics' },
+  { id: 'truegear', label: 'TrueGear' },
 ];
 
 const allTypes = [
@@ -68,6 +70,7 @@ const allTypes = [
   { id: 'console', label: 'Consoles' },
   { id: 'handheld', label: 'Handhelds' },
   { id: 'controller', label: 'Controllers' },
+  { id: 'haptic', label: 'Haptic Vests' },
 ];
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -88,6 +91,8 @@ const categoryIcons: Record<string, React.ReactNode> = {
   snap: <Glasses size={14} />,
   'magic-leap': <Glasses size={14} />,
   pimax: <Glasses size={14} />,
+  bhaptics: <Glasses size={14} />,
+  truegear: <Glasses size={14} />,
 };
 
 const typeIcons: Record<string, React.ReactNode> = {
@@ -458,6 +463,58 @@ const staticReleases: Release[] = [
       { label: 'Pimax Store', url: 'https://pimax.com/products/pimax-crystal', type: 'official' },
     ],
     specs: { 'Resolution': '2880x2880 per eye', 'FOV': '105° HFOV', 'PPD': '35 PPD', 'Refresh': '72/90/120Hz', 'Panel': 'QLED', 'Eye Tracking': 'Tobii', 'Tracking': 'Lighthouse or Inside-Out' }
+  },
+
+  // bHaptics Haptic Vests
+  { id: 'bh1', name: 'bHaptics TactSuit X40', description: 'Flagship full-body haptic vest with 40 motors', date: '2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'bhaptics', type: 'haptic', priceRange: '$1,299-1,499',
+    sources: [
+      { label: 'bHaptics', url: 'https://www.bhaptics.com/', type: 'official' },
+    ],
+    specs: { 'Motors': '40', 'Compatibility': 'PCVR, Meta Quest', 'Wireless': 'Yes', 'Weight': '~2.5kg', 'Games': '250+' }
+  },
+  { id: 'bh2', name: 'bHaptics TactSuit X16', description: 'Lightweight haptic vest with 16 motors', date: '2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'bhaptics', type: 'haptic', priceRange: '$499-699',
+    sources: [
+      { label: 'bHaptics', url: 'https://www.bhaptics.com/', type: 'official' },
+    ],
+    specs: { 'Motors': '16', 'Compatibility': 'PCVR, Meta Quest', 'Wireless': 'Yes', 'Weight': '~1.1kg', 'Games': '250+' }
+  },
+  { id: 'bh3', name: 'bHaptics TactSuit Pro', description: 'Pro haptic vest with 32 motors, adjustable fit', date: '2023', dateObj: new Date('2023-03-01'), status: 'Released', confirmationLevel: 'official', category: 'bhaptics', type: 'haptic', priceRange: '$799-999',
+    sources: [
+      { label: 'bHaptics', url: 'https://www.bhaptics.com/', type: 'official' },
+    ],
+    specs: { 'Motors': '32', 'Compatibility': 'PCVR, Meta Quest', 'Wireless': 'Yes', 'Fit': 'Adjustable', 'Games': '250+' }
+  },
+  { id: 'bh4', name: 'bHaptics TactSuit Air', description: 'Ultra-light haptic vest for casual use', date: '2023', dateObj: new Date('2023-03-01'), status: 'Released', confirmationLevel: 'official', category: 'bhaptics', type: 'haptic', priceRange: '$399-499',
+    sources: [
+      { label: 'bHaptics', url: 'https://www.bhaptics.com/', type: 'official' },
+    ],
+    specs: { 'Motors': '16', 'Compatibility': 'PCVR, Meta Quest', 'Wireless': 'Yes', 'Weight': '~1kg', 'Games': '250+' }
+  },
+  { id: 'bh5', name: 'bHaptics TactGlove', description: 'Haptic gloves for hand feedback', date: '2026', dateObj: new Date('2026-01-01'), status: 'Upcoming', confirmationLevel: 'official', category: 'bhaptics', type: 'haptic', priceRange: '$299-399',
+    sources: [
+      { label: 'bHaptics CES 2026', url: 'https://www.newsdirectory3.com/bhaptics-tactsuit-tactglove-ces-2026-innovation/', type: 'rumor' },
+    ],
+    specs: { 'Haptic Points': 'Per finger', 'Compatibility': 'PCVR, Meta Quest', 'Wireless': 'Yes' }
+  },
+
+  // TrueGear Haptic Vests
+  { id: 'tg1', name: 'TrueGear ME02', description: 'Budget haptic suit with 40 feedback points, EMS technology', date: 'Nov 2024', dateObj: new Date('2024-11-01'), status: 'Released', confirmationLevel: 'official', category: 'truegear', type: 'haptic', priceRange: '$299-399',
+    sources: [
+      { label: 'TrueGear', url: 'https://truegearhaptic.com/', type: 'official' },
+    ],
+    specs: { 'Feedback Points': '40', 'Technology': 'EMS', 'Compatibility': 'Quest 3, SteamVR', 'Wireless': 'Yes' }
+  },
+  { id: 'tg2', name: 'TrueGear ME01', description: 'Entry-level haptic vest with 40 feedback points', date: '2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'truegear', type: 'haptic', priceRange: '$199-299',
+    sources: [
+      { label: 'TrueGear', url: 'https://vrtruegear.com/', type: 'official' },
+    ],
+    specs: { 'Feedback Points': '40', 'Technology': 'EMS', 'Compatibility': 'PCVR, Quest', 'Wireless': 'Yes' }
+  },
+  { id: 'tg3', name: 'TrueGear StrikeArm', description: 'Haptic arm bands for strike feedback', date: '2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'truegear', type: 'haptic', priceRange: '$99-149',
+    sources: [
+      { label: 'TrueGear', url: 'https://truegearhaptic.com/', type: 'official' },
+    ],
+    specs: { 'Haptic Points': 'Arm coverage', 'Technology': 'EMS', 'Compatibility': 'PCVR' }
   },
 ];
 
