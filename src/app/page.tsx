@@ -1075,8 +1075,8 @@ export default function Home() {
                                 const pixelInfo = isResolution && resolutionPixels[idx] ? ` [${(resolutionPixels[idx] / 1000000).toFixed(1)}MP]` : '';
                                 // Show max storage for storage
                                 const storageInfo = isStorage && storageGB[idx] ? ` [${storageGB[idx] >= 1000 ? (storageGB[idx]/1000).toFixed(0)+'TB' : storageGB[idx]+'GB'} max]` : '';
-                                // Show storage type label
-                                const storageTypeInfo = isStorageType && storageTypeLabel[idx] ? ` [${storageTypeLabel[idx]}]` : '';
+                                // Show storage type label (only if not already clear from value)
+                                const storageTypeInfo = isStorageType && storageTypeLabel[idx] && !String(val).toLowerCase().includes('ufs') && !String(val).toLowerCase().includes('emmc') ? ` [${storageTypeLabel[idx]}]` : '';
                                 // RAM capacity and speed don't need extra brackets (value is clear enough)
                                 // Show RAM speed type label
                                 const ramSpeedInfo = isRAMSpeed && ramSpeedLabel[idx] ? ` [${ramSpeedLabel[idx]}]` : '';
