@@ -183,12 +183,12 @@ const staticReleases: Release[] = [
   },
   { id: '10', name: 'iPad Air M3', description: 'iPad Air with M3 chip, expected March 2025', date: 'Mar 2025', dateObj: new Date('2025-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'tablet', price: '$599',
   },
-  { id: '10b', name: 'MacBook Neo', description: 'Budget MacBook, A18 chip, 13.6 inch display', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$599',
+  { id: '10b', name: 'MacBook Neo', description: 'Budget MacBook with A18 Pro chip, 13-inch Liquid Retina display, up to 16hr battery', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$799',
     sources: [
       { label: 'Apple Newsroom', url: 'https://www.apple.com/newsroom/2026/03/say-hello-to-macbook-neo/', type: 'official' },
-      { label: 'CNN Business', url: 'https://www.cnn.com/2026/03/04/tech/apple-event-macbook-neo-release', type: 'review' },
+      { label: 'Apple Specs', url: 'https://www.apple.com/macbook-neo/specs/', type: 'specs' },
     ],
-    specs: { 'Chip': 'A18 Pro', 'CPU': '6-core', 'GPU': '5-core', 'Memory': '8GB', 'Storage': '256GB-512GB' }
+    specs: { 'Chip': 'A18 Pro', 'CPU': '6-core', 'GPU': '5-core', 'RAM Capacity': '8GB', 'RAM Speed': 'Unified', 'Resolution': '2408x1506', 'Display': '13" Liquid Retina IPS', 'Refresh': '60Hz', 'Storage Capacity': '256GB-512GB', 'Storage Type': 'NVMe SSD', 'Battery (hrs)': '16 hrs', 'Battery (mAh)': '4900', 'Weight': '1.23 kg', 'Wi-Fi': 'Wi-Fi 6E', 'Bluetooth': 'BT 5.3', 'USB': 'USB-C (USB 3, DisplayPort)', 'Camera': '1080p FaceTime HD', 'Audio': 'Dual speakers, Spatial Audio', 'Microphones': 'Dual-mic array', 'OS': 'macOS', 'Colors': 'Silver, Blush, Citrus, Indigo', 'Brightness': '500 nits', 'Ports': '2x USB-C' }
   },
   { id: '10c', name: 'MacBook Air M3', description: 'MacBook Air with M3 chip, fanless design', date: 'Mar 2024', dateObj: new Date('2024-03-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$1,099',
   },
@@ -217,6 +217,13 @@ const staticReleases: Release[] = [
   { id: '10lmax', name: 'MacBook Pro M5 Max 16"', description: 'M5 Max chip, 16-inch, up to 40-core GPU, 8x AI performance', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$3,899',
   },
   { id: '10lmba', name: 'MacBook Air M5', description: 'M5 chip, 13/15 inch, Wi-Fi 7, Bluetooth 6, 18hr battery, 512GB start storage', date: 'Mar 2026', dateObj: new Date('2026-03-11'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$1,099',
+  },
+  { id: 'mbp2012', name: 'MacBook Pro 15" (Mid 2012)', description: 'Classic MacBook Pro with Ivy Bridge CPU, Retina display, NVIDIA graphics', date: 'Jun 2012', dateObj: new Date('2012-06-01'), status: 'Released', confirmationLevel: 'official', category: 'apple', type: 'laptop', price: '$1,799',
+    sources: [
+      { label: 'Apple Support', url: 'https://support.apple.com/kb/SP694', type: 'specs' },
+      { label: 'AnandTech Review', url: 'https://www.anandtech.com/show/6037/the-2012-macbook-pro-review', type: 'review' },
+    ],
+    specs: { 'Chip': 'Intel Core i7-3615QM', 'CPU': '4-core 2.3GHz', 'GPU': 'NVIDIA GT 650M 1GB GDDR5', 'RAM Capacity': '8GB', 'RAM Speed': 'DDR3 1600MHz', 'Resolution': '2880x1800', 'Display': '15.4" Retina IPS', 'Refresh': '60Hz', 'Storage Capacity': '256GB-512GB', 'Storage Type': 'SSD', 'Battery (hrs)': '7 hrs', 'Battery (mAh)': '8770', 'Weight': '2.02 kg', 'Wi-Fi': '802.11n', 'Bluetooth': 'BT 4.0', 'USB': 'USB 3.0 (2x)', 'Camera': '720p FaceTime HD', 'Audio': 'Stereo speakers', 'Microphones': 'Dual-microphone', 'OS': 'macOS', 'Graphics': 'NVIDIA GT 650M + Intel HD 4000', 'VRAM': '1GB GDDR5', 'Ports': '2x USB 3, HDMI, Thunderbolt, SDXC', 'Optical': 'No (Retina)' }
   },
   { id: '10m', name: 'Mac Studio M5 Max', description: 'Mac Studio with M5 Max chip, expected at WWDC 2026', date: 'Jun 2026', dateObj: new Date('2026-06-01'), status: 'Upcoming', confirmationLevel: 'likely', category: 'apple', type: 'laptop', priceRange: '$2,000-$4,000',
   },
@@ -371,16 +378,25 @@ const staticReleases: Release[] = [
   { id: 'in1', name: 'INMO Go', description: 'Original lightweight AR glasses, monocular display', date: 'Mar 2024', dateObj: new Date('2024-03-01'), status: 'Released', confirmationLevel: 'official', category: 'inmo', type: 'ar', price: '$399',
   },
   { id: 'in2', name: 'INMO Air 3', description: 'Binocular AR glasses, Android apps, camera - Kickstarter', date: 'Jun 2024', dateObj: new Date('2024-06-01'), status: 'Released', confirmationLevel: 'official', category: 'inmo', type: 'ar' },
-  { id: 'in3', name: 'INMO Go 3', description: 'New gen with camera privacy cover, Kickstarter mid-April 2026', date: 'Apr 2026', dateObj: new Date('2026-04-15'), status: 'Upcoming', confirmationLevel: 'official', category: 'inmo', type: 'ar', priceRange: '$399-$499',
+  { id: 'in3', name: 'INMO Go 3', description: 'Lightweight binocular AR glasses with privacy cover, AI-enabled', date: 'Apr 2026', dateObj: new Date('2026-04-15'), status: 'Released', confirmationLevel: 'official', category: 'inmo', type: 'ar', price: '$420',
     sources: [
-      { label: 'INMO Kickstarter', url: 'https://www.inmoxr.com/pages/go3-crowdfunding', type: 'official' },
+      { label: 'INMO Store', url: 'https://www.inmoxr.com/pages/inmo-go', type: 'official' },
       { label: 'PetaPixel Review', url: 'https://petapixel.com/2026/03/24/these-smart-glasses-come-with-a-cover-for-the-camera-inmo-go-3/', type: 'review' },
     ],
-    specs: { 'Display': 'Waveguide', 'Camera': 'With privacy cover', 'Platform': 'AI-enabled' }
+    specs: { 'Display': 'Binocular Waveguide', 'Resolution': '640x480 per eye', 'FOV': '40°', 'Refresh': '30Hz', 'Technology': 'Micro-LED', 'Camera': '12MP with privacy cover', 'Weight': '52g', 'Battery (hrs)': '2-3 hrs', 'Battery (mAh)': '490', 'Storage Capacity': '32GB', 'Storage Type': 'eMMC', 'RAM Capacity': '2GB', 'OS': 'Android/iOS', 'Wi-Fi': 'Wi-Fi 5', 'Bluetooth': 'BT 5.1', 'Audio': 'Open-ear speakers', 'Microphones': '4-mic array', 'Platform': 'AI-enabled', 'IPD': 'Fixed' }
   },
   { id: 'in4', name: 'INMO Air 4', description: 'Latest gen, improved display, longer battery', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'inmo', type: 'ar', priceRange: '$699-$999',
   },
   { id: 'in5', name: 'INMO X', description: 'Premium AR glasses with enhanced FOV', date: 'TBD 2026', dateObj: new Date('2026-12-01'), status: 'Upcoming', confirmationLevel: 'rumored', category: 'inmo', type: 'ar', priceRange: '$999-$1,499',
+  },
+
+  // Meta AR
+  { id: 'meta1', name: 'Meta Ray-Ban Display', description: 'AI-powered smart glasses with in-lens display, includes Neural Band EMG controller', date: 'Sep 2025', dateObj: new Date('2025-09-30'), status: 'Released', confirmationLevel: 'official', category: 'meta', type: 'ar', price: '$799',
+    sources: [
+      { label: 'Meta Store', url: 'https://www.meta.com/ai-glasses/meta-ray-ban-display/', type: 'official' },
+      { label: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Ray-Ban_Meta', type: 'specs' },
+    ],
+    specs: { 'Display': 'Binocular Waveguide', 'Resolution': '600x600 per eye', 'FOV': '50°', 'Refresh': '30-90Hz', 'Technology': 'Micro-LED', 'Camera': '12MP with 3x zoom', 'Weight': '49g', 'Battery (hrs)': '4 hrs (glasses), 18 hrs (Neural Band)', 'Battery (mAh)': '248 (glasses), 134 (Neural Band)', 'Storage Capacity': '32GB', 'Storage Type': 'eMMC', 'RAM Capacity': '2GB', 'OS': 'Meta AI', 'Wi-Fi': 'Wi-Fi 6', 'Bluetooth': 'BT 5.3', 'USB': 'USB-C', 'Audio': 'Open-ear speakers', 'Microphones': '5-mic array', 'Eye Tracking': 'No', 'Hand Tracking': 'Yes (Neural Band EMG)', 'IPD': 'Fixed' }
   },
 
   // AR/MR
@@ -664,7 +680,48 @@ export default function Home() {
     }
   };
 
-  const getCompareItems = () => releases.filter(r => compareList.includes(r.id));
+  const shareCompare = async () => {
+    const items = getCompareItems();
+    const url = `${typeof window !== 'undefined' ? window.location.origin : 'https://hardware.benjob.me'}?compare=${items.map(i => i.id).join(',')}`;
+    let shareText: string;
+    if (items.length <= 3) {
+      shareText = items.map(i => i.name).join(' vs ');
+    } else {
+      // Check if all items are same type (product category)
+      const types = items.map(i => i.type).filter(Boolean);
+      const allSameType = types.length > 0 && types.every(t => t === types[0]);
+      if (allSameType) {
+        const t = types[0].toLowerCase();
+        // Map type to human-readable plural form
+        const typeLabels: Record<string, string> = {
+          'vr': 'VR/XR headset products',
+          'ar': 'AR glasses products',
+          'smartphone': 'smartphone products',
+          'laptop': 'laptop products',
+          'gpu': 'GPU products',
+          'cpu': 'CPU products',
+          'tablet': 'tablet products',
+          'smartwatch': 'smartwatch products',
+          'headphone': 'headphone products',
+          'audio': 'audio products',
+          'haptic': 'haptic device products',
+          'controller': 'controller products',
+        };
+        shareText = `${items.length} ${typeLabels[t] || `${t} products`}`;
+      } else {
+        shareText = `${items.length} hardware products`;
+      }
+    }
+    if (navigator.share) {
+      await navigator.share({ title: shareText, text: shareText, url });
+    } else {
+      navigator.clipboard.writeText(`${shareText}\n${url}`);
+      setCompareCopiedShare(true);
+      setTimeout(() => setCompareCopiedShare(false), 2000);
+    }
+  };
+
+  const getCompareItems = () => compareList.map(id => releases.find(r => r.id === id)).filter(Boolean) as Release[];
 
   // Move item left/right in compare list
   const moveCompareItem = (id: string, direction: 'left' | 'right') => {
@@ -761,12 +818,15 @@ export default function Home() {
   return (
     <>
       {selectedRelease && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedRelease(null)}>
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 pt-96 pb-72" onClick={() => setSelectedRelease(null)}>
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} 
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
             className={`max-w-2xl w-full max-h-[85vh] overflow-y-auto rounded-2xl p-6 ${isDark ? "bg-gray-900" : "bg-white"} shadow-2xl`}
             onClick={(e) => e.stopPropagation()}
           >
+            <div className={`mb-3 p-2 rounded-lg text-xs text-center ${isDark ? "bg-yellow-900/30 text-yellow-400 border border-yellow-700" : "bg-yellow-50 text-yellow-700 border border-yellow-200"}`}>
+              ⚠️ AI-generated — verify specs independently
+            </div>
             <div className="flex items-start justify-between gap-4 mb-4">
               <div>
                 <h2 className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>{selectedRelease.name}</h2>
@@ -843,14 +903,49 @@ export default function Home() {
       )}
 
       {showCompare && compareList.length > 0 && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowCompare(false)}>
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 pt-96 pb-72" onClick={() => setShowCompare(false)}>
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className={`max-w-6xl w-full max-h-[90vh] overflow-y-auto rounded-2xl p-6 ${isDark ? "bg-gray-900" : "bg-white"} shadow-2xl`} onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-6">
+            <div className={`mb-3 p-2 rounded-lg text-xs text-center ${isDark ? "bg-yellow-900/30 text-yellow-400 border border-yellow-700" : "bg-yellow-50 text-yellow-700 border border-yellow-200"}`}>
+              ⚠️ AI-generated — verify specs independently
+            </div>
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <h2 className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>Compare ({compareList.length})</h2>
                 <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>← → to reorder</span>
               </div>
               <button onClick={() => setShowCompare(false)} className={`p-2 rounded-lg hover:bg-gray-700 ${isDark ? "text-gray-400" : "text-gray-500"}`}><X size={24} /></button>
+            </div>
+            <div className={`mb-4 p-3 rounded-lg ${isDark ? "bg-gray-800" : "bg-gray-100"}`}>
+              <span className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"} mb-2 block`}>Currency:</span>
+              <div className="flex flex-wrap gap-2">
+                {[{ id: 'USD', label: '$' }, { id: 'GBP', label: '£' }, { id: 'EUR', label: '€' }, { id: 'JPY', label: '¥' }, { id: 'CAD', label: 'C$' }, { id: 'AUD', label: 'A$' }].map(c => (
+                  <button key={c.id} onClick={() => toggleCurrency(c.id)}
+                    className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
+                      selectedCurrencies.includes(c.id) ? 'bg-purple-500 text-white' : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                    }`}>
+                    {c.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Color Key */}
+            <div className={`mb-4 p-3 rounded-lg text-xs ${isDark ? "bg-gray-800" : "bg-gray-100"}`}>
+              <span className={`font-medium mb-2 block ${isDark ? "text-gray-300" : "text-gray-700"}`}>Key:</span>
+              <div className="flex flex-wrap gap-4">
+                <div className="flex items-center gap-1.5">
+                  <span className={`px-2 py-0.5 rounded ${isDark ? "bg-green-900/50 text-green-400" : "bg-green-100 text-green-700"}`}>Best</span>
+                  <span className={isDark ? "text-gray-400" : "text-gray-500"}>= rank #1</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className={`px-2 py-0.5 rounded ${isDark ? "bg-red-900/50 text-red-400" : "bg-red-100 text-red-700"}`}>Worst</span>
+                  <span className={isDark ? "text-gray-400" : "text-gray-500"}>= last place</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className={`px-2 py-0.5 rounded ${isDark ? "bg-yellow-900/50 text-yellow-400" : "bg-yellow-100 text-yellow-700"}`}>Diff</span>
+                  <span className={isDark ? "text-gray-400" : "text-gray-500"}>= row has differences</span>
+                </div>
+              </div>
             </div>
 
             {/* Product Overview Row */}
@@ -965,7 +1060,23 @@ export default function Home() {
                           // Specs where LOWER is better (weight, price)
                           const lowerIsBetter = ['Weight', 'weight', 'Price', 'price', 'Latency'].some(k => key.includes(k));
                           // Skip ranking and coloring for text specs
-                          const skipRanking = ['Tracking', 'Passthrough', 'Connection', 'OS', 'Display', 'Panel', 'Audio', 'Microphones', 'Chip', 'Controllers', 'Color Gamut', 'Technology', 'Type', 'Cable', 'Diopter', 'Eye Relief', 'Contrast', 'Cameras', 'Hand Tracking', 'IPD'].some(k => key.includes(k));
+                          const skipRanking = ['Tracking', 'Passthrough', 'Connection', 'OS', 'Display', 'Panel', 'Audio', 'Chip', 'Controllers', 'Color Gamut', 'Technology', 'Type', 'Cable', 'Diopter', 'Eye Relief', 'Contrast', 'Cameras', 'Hand Tracking', 'IPD'].some(k => key.includes(k));
+                          // Microphones: extract mic count for ranking
+                          const isMicrophones = key === 'Microphones';
+                          const micCountValues = values.map(v => {
+                            const str = String(v).toLowerCase();
+                            if (str.includes('dual') || str.includes('2x') || str.includes('2-')) return 2;
+                            if (str.includes('triple') || str.includes('3x')) return 3;
+                            if (str.includes('quad') || str.includes('4x') || str.includes('4-')) return 4;
+                            if (str.includes('5x') || str.includes('5-') || str.includes('5 mic')) return 5;
+                            if (str.includes('6x') || str.includes('6 mic')) return 6;
+                            if (str.includes('8x') || str.includes('8 mic')) return 8;
+                            if (str.includes('9 mic')) return 9;
+                            // Generic number extraction
+                            const match = str.match(/(\d+)[- ]?mic/i);
+                            if (match) return parseInt(match[1]);
+                            return null;
+                          });
                           // Numeric ranking for connectivity specs (Wi-Fi, Bluetooth, USB versions)
                           const numericConnectivity = ['Wi-Fi', 'WiFi', 'Bluetooth', 'USB'].some(k => key.includes(k));
                           // Resolution: calculate total pixels (width × height)
@@ -1053,7 +1164,7 @@ export default function Home() {
                           const allHaveConnectivity = connectivityValues.filter(n => n !== null).length >= 2;
                           // Boolean specs like Eye Tracking - color Yes=green, No=red
                           const isBooleanSpec = ['Eye Tracking'].some(k => key.includes(k));
-                          const hasNumericComparison = hasDiff && (hasNumericValues || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveStorageType || allHaveRAMSize || allHaveRAMSpeed) && !skipRanking;
+                          const hasNumericComparison = hasDiff && (hasNumericValues || allHaveConnectivity || allHavePixels || allHaveStorage || allHaveStorageType || allHaveRAMSize || allHaveRAMSpeed || (isMicrophones && micCountValues.filter(n => n !== null).length >= 2)) && !skipRanking;
                           const shouldColor = hasDiff && !skipRanking;
                           // Sort items by numeric value to get rankings (same numeric = same rank)
                           // Use connectivity values for Wi-Fi/Bluetooth/USB specs
@@ -1076,17 +1187,21 @@ export default function Home() {
                             if (numericConnectivity && allHaveConnectivity) {
                               return connectivityValues[idx];
                             }
+                            if (isMicrophones) {
+                              return micCountValues[idx];
+                            }
                             return numericValues[idx];
                           };
                           const sortedItems = items.map((_, idx) => ({
                             idx,
                             numericValue: getNumericValue(idx),
                             value: values[idx]
-                          })).sort((a, b) => {
-                            if (a.numericValue === null || b.numericValue === null) return 0;
+                          })).filter(item => item.numericValue !== null).sort((a, b) => {
+                            const aVal = a.numericValue as number;
+                            const bVal = b.numericValue as number;
                             // For connectivity, higher number is always better (Wi-Fi 7 > Wi-Fi 6E)
-                            if (numericConnectivity) return b.numericValue - a.numericValue;
-                            return lowerIsBetter ? a.numericValue - b.numericValue : b.numericValue - a.numericValue;
+                            if (numericConnectivity) return bVal - aVal;
+                            return lowerIsBetter ? aVal - bVal : bVal - aVal;
                           });
                           // Create rank map with ties: same numeric value = same rank
                           const rankMap: Record<number, number> = {};
@@ -1094,7 +1209,7 @@ export default function Home() {
                           for (let i = 0; i < sortedItems.length; i++) {
                             const item = sortedItems[i];
                             if (i > 0 && sortedItems[i-1].numericValue !== item.numericValue) {
-                              currentRank = i + 1;
+                              currentRank = currentRank + 1;
                             }
                             rankMap[item.idx] = currentRank;
                           }
@@ -1162,13 +1277,16 @@ export default function Home() {
 
             <div className="mt-4 flex gap-2">
               <button onClick={() => { const items = getCompareItems(); const compareUrl = `${typeof window !== 'undefined' ? window.location.origin : 'https://hardware.benjob.me'}?compare=${items.map(i => i.id).join(',')}`; navigator.clipboard.writeText(compareUrl); setCompareCopiedLink(true); setTimeout(() => setCompareCopiedLink(false), 2000); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{compareCopiedLink ? <Check size={16} className="inline mr-2" /> : <Copy size={16} className="inline mr-2" />}{compareCopiedLink ? 'Copied!' : 'Copy Link'}</button>
-              <button onClick={() => { const items = getCompareItems(); const compareUrl = `${typeof window !== 'undefined' ? window.location.origin : 'https://hardware.benjob.me'}?compare=${items.map(i => i.id).join(',')}`; const shareText = items.length <= 3 ? items.map(i => i.name).join(' vs ') : `${items.length} hardware products`; navigator.clipboard.writeText(shareText + '\n' + compareUrl); setCompareCopiedShare(true); setTimeout(() => setCompareCopiedShare(false), 2000); }} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{compareCopiedShare ? <Check size={16} className="inline mr-2" /> : <Share2 size={16} className="inline mr-2" />}{compareCopiedShare ? 'Copied!' : 'Share'}</button>
+              <button onClick={shareCompare} className={`px-4 py-2 rounded-lg ${isDark ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>{compareCopiedShare ? <Check size={16} className="inline mr-2" /> : <Share2 size={16} className="inline mr-2" />}{compareCopiedShare ? 'Copied!' : 'Share'}</button>
             </div>
           </motion.div>
         </div>
       )}
 
       <Layout title="Hardware Releases" subtitle={`${releases.length} releases • ${recentCount} recent (last 90d)`}>
+      <div className={`mb-3 p-2 rounded-lg text-xs text-center ${isDark ? "bg-yellow-900/30 text-yellow-400 border border-yellow-700" : "bg-yellow-50 text-yellow-700 border border-yellow-200"}`}>
+        ⚠️ AI-generated data — specs may be inaccurate, verify independently
+      </div>
       <div className={`mb-4 p-4 rounded-xl ${isDark ? "glass-card glass-card-dark" : "glass-card glass-card-light"}`}>
         <div className="flex items-center justify-between mb-2">
           <span className={`text-sm ${isDark ? "text-gray-300" : "text-gray-500"}`}>Company:</span>
